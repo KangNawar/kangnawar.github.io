@@ -1,0 +1,13 @@
+---
+import Base from '../layouts/Base.astro';
+import { REPO_URL } from '../lib/site';
+---
+<Base title="Tentang" description="Tentang Kang Nawar, pencatat harga dan pemeriksa diskon.">
+  <article class="mt-10 max-w-prose">
+    <h1 class="text-[2.25rem] font-extrabold tracking-tight leading-tight">Tentang Kang Nawar</h1>
+    <p class="mt-4 text-[1.125rem]">Kang Nawar berawal dari satu pertanyaan: beli pelembap yang lagi diskon di drugstore, lebih murah nggak daripada beli online? Ternyata jawabannya sering "nggak". Banyak label diskon yang angkanya lebih besar dari hematnya.</p>
+    <p class="mt-4">Kami mencatat harga barang sehari-hari dari katalog promo, rak toko, dan aplikasi belanja, lalu menghitung ulang per satuan. Tujuannya sederhana: sebelum percaya label diskon, cek dulu angkanya.</p>
+    <p class="mt-4">Kang Nawar dikerjakan oleh komunitas dan tidak berafiliasi dengan toko atau merek mana pun. Tidak ada iklan dan tidak ada akun. Semua data dan kodenya terbuka di <a class="underline" href={REPO_URL}>GitHub</a>.</p>
+    <p class="mt-4">Nama "Kang Nawar" diambil dari kebiasaan menawar harga: bukan untuk pelit, tapi supaya tidak tertipu.</p>
+  </article>
+</Base>

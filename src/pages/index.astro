@@ -1,0 +1,80 @@
+---
+import Base from '../layouts/Base.astro';
+import Coret from '../components/Coret.astro';
+import PromoList from '../components/PromoList.astro';
+import PriceRow from '../components/PriceRow.astro';
+import { activePromos, db } from '../lib/data';
+import { rupiah, pct, rentang, productName, tanggal } from '../lib/format';
+
+const promos = activePromos();
+const lebay = promos
+  .filter((s) => s.badge_overstated_pct)
+  .sort((a, b) => b.badge_overstated_pct! - a.badge_overstated_pct!);
+const hero = lebay[0];
+const stores = new Set(promos.map((s) => s.store));
+const { generatedOn, products } = db();
+const basis = hero?.raw.price_basis ? ` per ${hero.raw.price_basis.amount} g` : '';
+---
+<Base wide>
+  <section class="pt-10 pb-12 sm:pt-16 sm:pb-16 grid gap-x-10 gap-y-6 md:grid-cols-[1.1fr_1fr]">
+    {hero ? (
+      <>
+        <h1 class="md:col-start-2 md:row-start-1 self-end text-[2.25rem] sm:text-[3rem] font-extrabold leading-[1.05] tracking-tight text-balance">
+          Cek dulu diskonnya.
+        </h1>
+        <figure class="md:col-start-1 md:row-start-1 md:row-span-2" aria-label={`Label diskon ${hero.badge_pct}%, hitungan sebenarnya ${pct(hero.claimed_discount_pct!)}`}>
+          <div class="relative inline-block rounded-2xl bg-tag px-6 py-5 sm:px-8 sm:py-7 -rotate-1 shadow-[6px_6px_0_var(--color-ink)]">
+            <p class="text-[1.125rem] sm:text-[1.375rem] font-semibold">Diskon</p>
+            <p class="text-[5.5rem] sm:text-[8.5rem] font-extrabold leading-[0.85] tracking-tight">
+              <Coret draw weight={9}>{hero.badge_pct}%</Coret>
+            </p>
+          </div>
+          <p class="tulis-draw font-hand text-coret text-[2.25rem] sm:text-[3rem] leading-none mt-4 ml-24 sm:ml-40">
+            aslinya {pct(hero.claimed_discount_pct!)}
+          </p>
+        </figure>
+        <div class="md:col-start-2 md:row-start-2 self-start">
+          <p class="text-[1.125rem] max-w-[36ch]">
+            Label promo {productName(hero.productData).toLowerCase()} di {hero.storeData.name} bilang {hero.badge_pct}%.
+            Harga coretnya {rupiah(hero.raw.claimed_normal_price!)}, harga promonya {rupiah(hero.raw.price)}{basis}.
+            Itu hemat {pct(hero.claimed_discount_pct!)}.
+          </p>
+          <p class="mt-4 text-slate max-w-[42ch]">
+            Kang Nawar mencatat harga barang sehari-hari di toko dan aplikasi, lalu menghitung ulang:
+            promonya benar-benar lebih murah, atau cuma tulisan di label?
+          </p>
+        </div>
+      </>
+    ) : (
+      <div>
+        <h1 class="text-[2.75rem] font-extrabold leading-[1.05] tracking-tight">Cek dulu diskonnya.</h1>
+        <p class="mt-4 text-[1.125rem] max-w-[40ch]">Kang Nawar mencatat harga barang sehari-hari dan menghitung ulang apakah promonya benar-benar lebih murah.</p>
+      </div>
+    )}
+  </section>
+
+  {lebay.length > 0 && (
+    <section aria-labelledby="lebay" class="mb-14 lg:pl-[15.5rem]">
+      <h2 id="lebay" class="text-[1.5rem] font-bold tracking-tight">Label diskon yang kebesaran</h2>
+      <p class="text-slate mt-1 max-w-prose">Persen di label lebih besar dari selisih harga coret dan harga promonya sendiri.</p>
+      <ul class="mt-2">
+        {lebay.slice(0, 5).map((s) => <PriceRow s={s} />)}
+      </ul>
+    </section>
+  )}
+
+  <section aria-labelledby="promo">
+    <div class="flex flex-wrap items-baseline justify-between gap-2">
+      <h2 id="promo" class="text-[1.5rem] font-bold tracking-tight">Promo yang sedang berlaku</h2>
+      <p class="text-slate text-[0.9375rem]">
+        {promos.length} promo dari {stores.size} toko, diperbarui {tanggal(generatedOn, true)}
+      </p>
+    </div>
+    <p class="text-slate mt-1 mb-4 max-w-prose">
+      Penilaian "hemat beneran" muncul setelah ada minimal 3 catatan harga untuk produk yang sama.
+      Sekarang baru ada {products.size} produk dari katalog pertama, jadi kebanyakan masih <em>belum cukup data</em>.{" "}
+      <a href="/kirim/" class="underline">Bantu tambah catatan harga</a>.
+    </p>
+    <PromoList items={promos} />
+  </section>
+</Base>

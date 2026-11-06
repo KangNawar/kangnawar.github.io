@@ -1,0 +1,22 @@
+---
+import Base from '../../layouts/Base.astro';
+import PromoList from '../../components/PromoList.astro';
+import { db, activePromos } from '../../lib/data';
+
+export function getStaticPaths() {
+  return db().activeCategories.map((c) => ({ params: { cat: c.id }, props: { cat: c } }));
+}
+const { cat } = Astro.props;
+const items = activePromos().filter((s) => s.productData.category === cat.id);
+const allProducts = [...db().products.values()].filter((p) => p.category === cat.id);
+---
+<Base title={cat.name} description={`Promo ${cat.name.toLowerCase()} yang sedang berlaku, dihitung ulang per satuan.`} wide>
+  <nav aria-label="Jejak" class="mt-8 text-[0.9375rem] text-slate"><a href="/kategori/" class="hover:underline">Kategori</a></nav>
+  <h1 class="text-[2.25rem] font-extrabold tracking-tight leading-tight mt-1">{cat.name}</h1>
+  <p class="text-slate mt-1 mb-6">{items.length} promo berlaku, {allProducts.length} produk tercatat.</p>
+  {items.length > 0 ? (
+    <PromoList items={items} filter="subcategory" />
+  ) : (
+    <p class="py-8 max-w-prose">Belum ada promo yang tercatat di kategori ini. Lihat harga {cat.name.toLowerCase()} di toko? <a href="/kirim/" class="underline">Kirim harganya</a>.</p>
+  )}
+</Base>

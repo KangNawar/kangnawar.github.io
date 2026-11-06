@@ -1,0 +1,45 @@
+---
+import Base from '../layouts/Base.astro';
+import Coret from '../components/Coret.astro';
+import { db } from '../lib/data';
+const r = db().generatedOn && JSON.parse((await import('node:fs')).readFileSync('data/rules.json', 'utf-8'));
+const verdicts = [
+  ['Belum cukup data', `Kurang dari ${r.min_observations} catatan harga dalam ${r.reference_window_days} hari. Harganya ditampilkan, tapi belum dinilai.`, 'text-slate'],
+  ['Diskon palsu', `Harga normal yang diklaim toko lebih dari ${r.fake_markup_pct}% di atas harga tertinggi yang pernah tercatat dalam ${r.reference_window_days} hari. Harganya dinaikkan dulu supaya diskonnya terlihat besar.`, 'bg-coret text-white'],
+  ['Lebih murah di tempat lain', `Toko lain, atau versi online/offline, lebih murah lebih dari ${r.elsewhere_margin_pct}% per satuan dalam ${r.elsewhere_window_days} hari.`, 'bg-ink text-white'],
+  ['Hemat beneran', `Setidaknya ${r.real_deal_pct}% di bawah harga acuan.`, 'bg-hemat text-white'],
+  ['Lebih mahal dari biasanya', `Dilabeli promo, tapi ${r.pricier_pct}% atau lebih di atas harga acuan.`, 'border border-coret text-coret'],
+  ['Biasa aja', `Selisihnya kurang dari ${r.real_deal_pct}% dari harga acuan.`, 'border border-line text-slate'],
+];
+---
+<Base title="Cara menilai" description="Bagaimana Kang Nawar menghitung harga per satuan dan menilai sebuah promo.">
+  <article class="mt-10 max-w-prose">
+    <h1 class="text-[2.25rem] font-extrabold tracking-tight leading-tight">Cara Kang Nawar menilai promo</h1>
+    <p class="mt-4 text-[1.125rem]">Penilaian tidak dipilih manual. Semuanya dihitung dari catatan harga yang bisa dicek siapa saja, dengan aturan yang sama untuk semua toko.</p>
+
+    <h2 class="text-[1.5rem] font-bold tracking-tight mt-10">Semua dibandingkan per satuan</h2>
+    <p class="mt-2">Ukuran kemasan beda-beda, jadi setiap harga diubah ke <strong>Rp per 100 ml</strong>, <strong>per 100 g</strong>, atau <strong>per buah/lembar</strong>.</p>
+    <p class="mt-2">Contoh: "Beli 2 Gratis 1" untuk tube 50 ml seharga Rp100.000 berarti 3 tube, jadi Rp33.333 per tube, atau <span class="harga font-semibold">Rp66.667 per 100 ml</span>. Cashback hanya dihitung kalau pasti didapat.</p>
+
+    <h2 class="text-[1.5rem] font-bold tracking-tight mt-10">Harga acuan</h2>
+    <p class="mt-2">Untuk setiap promo, kami melihat semua catatan lain dari produk yang sama, di toko mana pun, online maupun offline, dari {r.reference_window_days} hari sebelum sampai {r.elsewhere_window_days} hari sesudahnya. <strong>Harga acuan</strong> adalah nilai tengah (median) dari harga per satuannya.</p>
+    <p class="mt-2">Catatan harga biasa, tanpa promo, sama pentingnya dengan catatan diskon. Justru itu yang membongkar diskon palsu.</p>
+
+    <h2 class="text-[1.5rem] font-bold tracking-tight mt-10">Enam penilaian</h2>
+    <p class="mt-2">Dicek berurutan; yang pertama cocok dipakai.</p>
+    <dl class="mt-4 border-t-2 border-ink">
+      {verdicts.map(([name, text, tone]) => (
+        <div class="py-4 border-b border-line grid gap-2 sm:grid-cols-[13rem_1fr]">
+          <dt><span class:list={['inline-flex rounded-full text-[0.875rem] font-semibold', tone.includes('text-slate') && !tone.includes('border') ? 'py-1' : 'px-2.5 py-1', tone]}>{name}</span></dt>
+          <dd>{text}</dd>
+        </div>
+      ))}
+    </dl>
+
+    <h2 class="text-[1.5rem] font-bold tracking-tight mt-10">Cek label diskon</h2>
+    <p class="mt-2">Tanpa riwayat harga pun, satu hal bisa langsung dicek: apakah persen di label cocok dengan harga coret dan harga promonya sendiri. Kalau labelnya bilang <Coret weight={3}>25%</Coret> tapi Rp2.790 jadi Rp2.390, hematnya cuma 14%. Selisih lebih dari {r.badge_tolerance_pct} poin kami tandai dengan coretan merah.</p>
+
+    <h2 class="text-[1.5rem] font-bold tracking-tight mt-10">Kalau datanya salah</h2>
+    <p class="mt-2">Setiap penilaian menunjukkan catatan yang dipakai, lengkap dengan tanggal, toko, dan foto atau halaman katalognya. Bahasanya "menurut data kami", bukan tuduhan. Kalau ada catatan yang keliru, <a href="/kirim/" class="underline">kirim koreksinya</a>; penilaian ikut berubah di pembaruan harian berikutnya.</p>
+  </article>
+</Base>

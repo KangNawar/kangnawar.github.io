@@ -1,0 +1,37 @@
+---
+// Unit price over time, one dot per sighting. Drawn at build time, no JS.
+import type { Sighting } from '../lib/data';
+import { rupiah, tanggal, satuan } from '../lib/format';
+interface Props { items: Sighting[] }
+const items = [...Astro.props.items].sort((a, b) => a.seen_on.localeCompare(b.seen_on));
+const W = 640, H = 220, L = 64, R = 16, T = 16, B = 36;
+const t = (d: string) => Date.parse(d) / 864e5;
+const t0 = t(items[0].seen_on), t1 = t(items.at(-1)!.seen_on);
+const vals = items.map((s) => s.unit_price);
+const lo = Math.min(...vals) * 0.9, hi = Math.max(...vals) * 1.05;
+const x = (d: string) => L + (t1 === t0 ? 0.5 : (t(d) - t0) / (t1 - t0)) * (W - L - R);
+const y = (v: number) => T + (1 - (v - lo) / (hi - lo)) * (H - T - B);
+const ticks = [lo, (lo + hi) / 2, hi];
+const unit = satuan(items[0].unit_label);
+---
+<figure class="mt-4">
+  <svg viewBox={`0 0 ${W} ${H}`} class="w-full h-auto" role="img" aria-label={`Harga ${unit} dari ${tanggal(items[0].seen_on)} sampai ${tanggal(items.at(-1)!.seen_on)}`}>
+    {ticks.map((v) => (
+      <g>
+        <line x1={L} x2={W - R} y1={y(v)} y2={y(v)} stroke="var(--color-line)" />
+        <text x={L - 8} y={y(v) + 4} text-anchor="end" font-size="12" fill="var(--color-slate)">{rupiah(v)}</text>
+      </g>
+    ))}
+    {items.map((s) => (
+      <g>
+        <circle cx={x(s.seen_on)} cy={y(s.unit_price)} r="6"
+          fill={s.is_promo ? 'var(--color-tag)' : 'var(--color-paper)'} stroke="var(--color-ink)" stroke-width="2">
+          <title>{`${tanggal(s.seen_on)}, ${s.storeData.name}: ${rupiah(s.unit_price)}${unit}${s.is_promo ? ' (promo)' : ''}`}</title>
+        </circle>
+      </g>
+    ))}
+    <text x={L} y={H - 10} font-size="12" fill="var(--color-slate)">{tanggal(items[0].seen_on, true)}</text>
+    <text x={W - R} y={H - 10} font-size="12" text-anchor="end" fill="var(--color-slate)">{tanggal(items.at(-1)!.seen_on, true)}</text>
+  </svg>
+  <figcaption class="text-[0.875rem] text-slate">Harga {unit}. Titik kuning = promo, titik putih = harga biasa.</figcaption>
+</figure>

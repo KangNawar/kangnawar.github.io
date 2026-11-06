@@ -1,0 +1,124 @@
+---
+// A list of shelf-tag rows with client-side sorting and filtering.
+import type { Sighting } from '../lib/data';
+import { db } from '../lib/data';
+import PriceRow from './PriceRow.astro';
+
+interface Props {
+  items: Sighting[];
+  filter?: 'category' | 'subcategory' | 'none';
+  showStore?: boolean;
+  defaultSort?: string;
+  id?: string;
+}
+const { items, filter = 'category', showStore = true, defaultSort = 'klaim', id = 'daftar' } = Astro.props;
+const { categories } = db();
+
+let chips: { value: string; label: string; count: number }[] = [];
+if (filter === 'category') {
+  chips = categories
+    .map((c) => ({ value: c.id, label: c.name, count: items.filter((s) => s.productData.category === c.id).length }))
+    .filter((c) => c.count > 0);
+} else if (filter === 'subcategory' && items.length) {
+  const cat = categories.find((c) => c.id === items[0].productData.category)!;
+  chips = cat.subcategories
+    .map((sc) => ({ value: sc.id, label: sc.name, count: items.filter((s) => s.productData.subcategory === sc.id).length }))
+    .filter((c) => c.count > 0);
+}
+const sorts = [
+  { value: 'klaim', label: 'Klaim hemat terbesar' },
+  { value: 'hemat', label: 'Hemat beneran' },
+  { value: 'lebay', label: 'Label paling lebay' },
+  { value: 'satuan', label: 'Termurah per satuan' },
+  { value: 'berakhir', label: 'Segera berakhir' },
+];
+const key = filter === 'subcategory' ? 'sub' : 'cat';
+---
+<div class:list={['promo-list', { 'lg:grid lg:grid-cols-[13rem_1fr] lg:gap-10': chips.length > 1 }]} data-key={key} data-default={defaultSort}>
+  {chips.length > 1 && (
+    <aside class="lg:pt-1">
+      <fieldset class="lg:sticky lg:top-4">
+        <legend class="sr-only">Saring {filter === 'subcategory' ? 'jenis produk' : 'kategori'}</legend>
+        <div class="flex gap-2 overflow-x-auto pb-3 -mx-4 px-4 lg:mx-0 lg:px-0 lg:flex-col lg:items-start lg:overflow-visible" role="group">
+          <button type="button" class="chip" data-filter="" aria-pressed="true">Semua <span class="text-slate">{items.length}</span></button>
+          {chips.map((c) => (
+            <button type="button" class="chip" data-filter={c.value} aria-pressed="false">{c.label} <span class="text-slate">{c.count}</span></button>
+          ))}
+        </div>
+      </fieldset>
+    </aside>
+  )}
+  <div class="min-w-0">
+    <div class="flex items-center justify-between gap-3 pb-3 border-b-2 border-ink">
+      <p class="count text-[0.9375rem] text-slate" aria-live="polite"></p>
+      <label class="text-[0.9375rem] flex items-center gap-2">
+        Urutkan
+        <select class="sort rounded-lg border border-line bg-paper px-2 py-1.5 text-[0.9375rem]">
+          {sorts.map((s) => <option value={s.value} selected={s.value === defaultSort}>{s.label}</option>)}
+        </select>
+      </label>
+    </div>
+    <p class="note text-[0.875rem] text-slate mt-3 hidden"></p>
+    <ul class="rows" id={id}>
+      {items.map((s) => <PriceRow s={s} showStore={showStore} />)}
+    </ul>
+    <p class="empty hidden py-8 text-slate">Tidak ada promo di sini.</p>
+  </div>
+</div>
+
+<style>
+  .chip { white-space: nowrap; text-align: left; border: 1px solid var(--color-line); border-radius: 999px; padding: 0.3rem 0.75rem; font-size: 0.9375rem; }
+  .chip:hover { border-color: var(--color-ink); }
+  .chip[aria-pressed='true'] { background: var(--color-ink); color: white; border-color: var(--color-ink); }
+  .chip[aria-pressed='true'] span { color: #c9d0dc; }
+</style>
+
+<script>
+  const NOTES: Record<string, string> = {
+    hemat: 'Hemat beneran butuh minimal 3 catatan harga per produk. Produk yang datanya belum cukup ada di bawah.',
+    satuan: 'Harga per satuan paling berguna dibandingkan dalam satu jenis produk. Pilih kategori dulu.',
+    lebay: 'Label lebay = persen di label lebih besar dari selisih harga coret dan harga promo.',
+  };
+  for (const root of document.querySelectorAll<HTMLElement>('.promo-list')) {
+    const list = root.querySelector<HTMLUListElement>('.rows')!;
+    const rows = Array.from(list.children) as HTMLElement[];
+    const select = root.querySelector<HTMLSelectElement>('.sort')!;
+    const note = root.querySelector<HTMLElement>('.note')!;
+    const empty = root.querySelector<HTMLElement>('.empty')!;
+    const count = root.querySelector<HTMLElement>('.count')!;
+    const key = root.dataset.key!;
+    let filter = '';
+    const num = (el: HTMLElement, k: string) => Number(el.dataset[k]);
+    const compare: Record<string, (a: HTMLElement, b: HTMLElement) => number> = {
+      klaim: (a, b) => num(b, 'claimed') - num(a, 'claimed'),
+      hemat: (a, b) => num(b, 'saving') - num(a, 'saving') || num(b, 'claimed') - num(a, 'claimed'),
+      lebay: (a, b) => num(b, 'gap') - num(a, 'gap') || num(b, 'claimed') - num(a, 'claimed'),
+      satuan: (a, b) => (a.dataset.unitlabel!).localeCompare(b.dataset.unitlabel!) || num(a, 'unit') - num(b, 'unit'),
+      berakhir: (a, b) => a.dataset.expires!.localeCompare(b.dataset.expires!),
+    };
+    function apply() {
+      const sorted = [...rows].sort(compare[select.value] ?? compare.klaim);
+      let shown = 0;
+      for (const r of sorted) {
+        const visible = !filter || r.dataset[key] === filter;
+        r.hidden = !visible;
+        if (visible) shown++;
+        list.appendChild(r);
+      }
+      empty.classList.toggle('hidden', shown > 0);
+      count.textContent = `${shown} promo`;
+      const text = select.value === 'satuan' && filter ? '' : NOTES[select.value] ?? '';
+      note.textContent = text;
+      note.classList.toggle('hidden', !text);
+    }
+    select.addEventListener('change', apply);
+    root.querySelectorAll<HTMLButtonElement>('[data-filter]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        filter = btn.dataset.filter!;
+        root.querySelectorAll('[data-filter]').forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+        apply();
+      });
+    });
+    apply();
+  }
+</script>

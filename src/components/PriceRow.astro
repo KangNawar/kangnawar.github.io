@@ -1,0 +1,67 @@
+---
+import type { Sighting } from '../lib/data';
+import { categoryOf } from '../lib/data';
+import { rupiah, pct, rentang, ukuran, satuan, productName } from '../lib/format';
+import Coret from './Coret.astro';
+import Verdict from './Verdict.astro';
+
+interface Props { s: Sighting; showStore?: boolean }
+const { s, showStore = true } = Astro.props;
+const p = s.productData;
+const raw = s.raw;
+const qty = raw.quantity ?? 1;
+const conditions: string[] = [];
+if (raw.promo?.member_only) conditions.push('Khusus member');
+if (raw.promo?.min_purchase) conditions.push(`Min. belanja ${rupiah(raw.promo.min_purchase)}`);
+if (raw.promo?.type === 'hadiah' && raw.promo.label) conditions.push(raw.promo.label);
+const basis = raw.price_basis ? `per ${raw.price_basis.amount} ${raw.price_basis.unit === 'g' ? 'g' : raw.price_basis.unit}` : qty > 1 ? `untuk ${qty}` : '';
+const { sub } = categoryOf(p);
+const sortSaving = s.real_saving_pct ?? -999;
+---
+<li
+  class="grid grid-cols-[1fr_auto] gap-x-4 gap-y-1 py-5 border-b border-line"
+  data-cat={p.category}
+  data-sub={p.subcategory}
+  data-saving={sortSaving}
+  data-claimed={s.claimed_discount_pct ?? -999}
+  data-gap={s.badge_overstated_pct ?? s.deception_gap_pct ?? -999}
+  data-unit={s.unit_price}
+  data-unitlabel={s.unit_label}
+  data-expires={s.expires_on ?? '9999'}
+  data-seen={s.seen_on}
+>
+  <div class="min-w-0">
+    <a href={`/produk/${p.id}/`} class="font-semibold text-[1.0625rem] leading-snug hover:underline">
+      {productName(p)}
+    </a>
+    <p class="text-slate text-[0.9375rem] mt-0.5">
+      {ukuran(p)}{p.variant && <span>, {p.variant.toLowerCase().startsWith('semua') ? p.variant.toLowerCase() : p.variant}</span>}
+    </p>
+    <p class="text-[0.9375rem] mt-1">
+      {showStore && <a href={`/toko/${s.store}/`} class="hover:underline">{s.storeData.name}</a>}
+      {showStore && raw.channel === 'online' && <span> (online)</span>}
+      {raw.valid_until && <span class="text-slate">{showStore ? ', ' : ''}{rentang(raw.valid_from, raw.valid_until)}</span>}
+    </p>
+    {conditions.length > 0 && <p class="text-[0.875rem] text-slate mt-1">{conditions.join('. ')}</p>}
+    {s.badge_overstated_pct && s.badge_pct && (
+      <p class="mt-2 text-[0.9375rem]">
+        Label:{" "}<Coret weight={3}>Diskon {s.badge_pct}%</Coret>
+        <span class="font-hand text-coret text-[1.125rem] ml-2 inline-block -rotate-3">aslinya {pct(s.claimed_discount_pct!)}</span>
+      </p>
+    )}
+    {!['belum-cukup-data', 'harga-reguler'].includes(s.verdict) && (
+      <p class="mt-2"><Verdict verdict={s.verdict} label={s.verdict_label} /></p>
+    )}
+  </div>
+  <div class="text-right angka">
+    <p class="text-[1.375rem] font-bold leading-tight"><span class="harga">{rupiah(raw.price)}</span></p>
+    {basis && <p class="text-[0.8125rem] text-slate">{basis}</p>}
+    {raw.claimed_normal_price && (
+      <p class="text-[0.9375rem] text-slate line-through decoration-slate/70">{rupiah(raw.claimed_normal_price * (raw.price_basis ? 1 : qty))}</p>
+    )}
+    {s.claimed_discount_pct !== null && s.claimed_discount_pct > 0 && (
+      <p class="text-[0.875rem]">klaim hemat {pct(s.claimed_discount_pct)}</p>
+    )}
+    {!p.loose && <p class="text-[0.8125rem] text-slate mt-1">{rupiah(s.unit_price)}{satuan(s.unit_label)}</p>}
+  </div>
+</li>

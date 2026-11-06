@@ -1,0 +1,20 @@
+---
+import Base from '../../layouts/Base.astro';
+import PromoList from '../../components/PromoList.astro';
+import { db, activePromos } from '../../lib/data';
+
+export function getStaticPaths() {
+  const used = new Set(db().sightings.map((s) => s.store));
+  return db().stores.filter((s) => used.has(s.id)).map((s) => ({ params: { store: s.id }, props: { store: s } }));
+}
+const { store } = Astro.props;
+const items = activePromos().filter((s) => s.store === store.id);
+const lebay = items.filter((s) => s.badge_overstated_pct).length;
+---
+<Base title={`Promo ${store.name}`} description={`Promo ${store.name} yang sedang berlaku, dihitung ulang oleh Kang Nawar.`} wide>
+  <h1 class="text-[2.25rem] font-extrabold tracking-tight leading-tight mt-10">{store.name}</h1>
+  <p class="text-slate mt-1 mb-6">
+    {items.length} promo berlaku{lebay > 0 && `, ${lebay} dengan label diskon lebih besar dari hitungan harganya`}.
+  </p>
+  <PromoList items={items} showStore={false} />
+</Base>

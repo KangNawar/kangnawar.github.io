@@ -1,0 +1,64 @@
+---
+import '../styles/global.css';
+interface Props { title?: string; description?: string; wide?: boolean }
+const { title, description = 'Kang Nawar menghitung ulang diskon di katalog dan rak toko: apakah promonya benar-benar lebih murah?', wide = false } = Astro.props;
+const fullTitle = title ? `${title} | Kang Nawar` : 'Kang Nawar: cek dulu diskonnya';
+const path = Astro.url.pathname;
+const nav = [
+  { href: '/kategori/', label: 'Kategori' },
+  { href: '/cara-kerja/', label: 'Cara menilai' },
+  { href: '/kirim/', label: 'Kirim harga' },
+];
+---
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={new URL(path, Astro.site)} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:locale" content="id_ID" />
+    <meta name="theme-color" content="#17233b" />
+  </head>
+  <body class="min-h-dvh flex flex-col">
+    <a href="#isi" class="sr-only focus:not-sr-only focus:absolute focus:m-2 focus:p-2 focus:bg-tag">Langsung ke isi</a>
+    <header class="border-b border-line">
+      <div class="mx-auto max-w-5xl px-4 flex flex-wrap items-center gap-x-6 gap-y-2 py-3">
+        <a href="/" class="text-[1.25rem] font-extrabold tracking-tight mr-auto" aria-label="Kang Nawar, beranda">
+          Kang <span class="harga">Nawar</span>
+        </a>
+        <nav aria-label="Utama" class="order-3 w-full sm:order-none sm:w-auto">
+          <ul class="flex gap-5 text-[0.9375rem]">
+            {nav.map((n) => (
+              <li><a href={n.href} class:list={['hover:underline', { 'font-semibold underline': path.startsWith(n.href) }]} aria-current={path.startsWith(n.href) ? 'page' : undefined}>{n.label}</a></li>
+            ))}
+          </ul>
+        </nav>
+        <a href="/cari/" class="inline-flex items-center gap-1.5 rounded-full border border-line px-3 py-1.5 text-[0.9375rem] hover:border-ink">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          Cari produk
+        </a>
+      </div>
+    </header>
+    <main id="isi" class:list={['mx-auto w-full px-4 flex-1', wide ? 'max-w-5xl' : 'max-w-3xl']}>
+      <slot />
+    </main>
+    <footer class="mt-16 border-t border-line">
+      <div class="mx-auto max-w-5xl px-4 py-8 text-[0.875rem] text-slate grid gap-3 sm:grid-cols-[1fr_auto]">
+        <p class="max-w-prose">
+          Kang Nawar tidak berafiliasi dengan toko atau merek mana pun. Harga dicatat dari katalog, rak toko dan aplikasi belanja,
+          dan bisa berbeda di cabang tertentu. Data terbuka di <a class="underline" href="https://github.com/KangNawar/kangnawar.github.io">GitHub</a>.
+        </p>
+        <ul class="flex gap-4 sm:justify-end">
+          <li><a class="hover:underline" href="/tentang/">Tentang</a></li>
+          <li><a class="hover:underline" href="/cara-kerja/">Cara menilai</a></li>
+          <li><a class="hover:underline" href="/kirim/">Kirim harga</a></li>
+        </ul>
+      </div>
+    </footer>
+  </body>
+</html>

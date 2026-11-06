@@ -20,6 +20,22 @@ Live site: https://kangnawar.github.io (static, hosted on GitHub Pages)
 Verdict rules are explained in [docs/VERDICTS.md](docs/VERDICTS.md).
 How to submit and review data: [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md).
 
+## Running the site locally
+
+Needs Python 3.10+ and Node 22.
+
+```bash
+pip install -r tools/requirements.txt
+npm install
+npm run dev        # computes verdicts, then serves http://localhost:4321
+npm run build      # static site in dist/
+```
+
+The site is Astro + Tailwind (`src/`). Pages read `data/` and `build/computed.json`
+at build time; the browser only downloads HTML, one CSS file, two fonts and a small
+search index. GitHub Actions (`.github/workflows/deploy.yml`) rebuilds on every push
+to `main` and once a day.
+
 ## Local checks
 
 ```bash

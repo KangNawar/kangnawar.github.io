@@ -1,0 +1,39 @@
+---
+import Base from '../layouts/Base.astro';
+import { SUBMIT_FORM_URL, REPO_URL } from '../lib/site';
+---
+<Base title="Kirim harga" description="Bantu Kang Nawar dengan mengirim foto label harga atau katalog promo.">
+  <article class="mt-10 max-w-prose">
+    <h1 class="text-[2.25rem] font-extrabold tracking-tight leading-tight">Kirim harga</h1>
+    <p class="mt-4 text-[1.125rem]">Setiap catatan harga membuat penilaian lebih akurat. Harga biasa tanpa promo sama berharganya dengan harga diskon.</p>
+
+    <h2 class="text-[1.5rem] font-bold tracking-tight mt-10">Yang kami butuhkan</h2>
+    <ol class="mt-3 list-decimal pl-5 space-y-2">
+      <li><strong>Produk</strong>: merek, nama, varian, dan ukuran (misalnya 50 ml).</li>
+      <li><strong>Toko</strong>, dan apakah di rak toko atau di aplikasi. Kalau online, nama penjualnya.</li>
+      <li><strong>Harga yang dibayar</strong>, dan berapa barang yang didapat dengan harga itu.</li>
+      <li><strong>Harga coret</strong> dan tulisan promonya, kalau ada.</li>
+      <li><strong>Foto label harga</strong> atau tangkapan layar, sebagai bukti.</li>
+    </ol>
+
+    <div class="mt-8 rounded-2xl bg-mist p-5">
+      {SUBMIT_FORM_URL ? (
+        <>
+          <p class="font-semibold text-[1.125rem]">Isi formulirnya, tidak perlu daftar akun.</p>
+          <a href={SUBMIT_FORM_URL} class="mt-3 inline-block rounded-full bg-ink text-white px-5 py-2.5 font-semibold hover:bg-slate">Buka formulir kiriman</a>
+        </>
+      ) : (
+        <>
+          <p class="font-semibold text-[1.125rem]">Formulir kiriman belum dibuka.</p>
+          <p class="mt-1">Sementara ini, kalau punya akun GitHub, kirim foto dan keterangannya lewat <a class="underline" href={`${REPO_URL}/issues/new`}>issue baru</a>.</p>
+        </>
+      )}
+    </div>
+
+    <h2 class="text-[1.5rem] font-bold tracking-tight mt-10">Privasi</h2>
+    <p class="mt-2">Nama yang dicantumkan cukup nama panggilan. Jangan kirim foto yang memperlihatkan wajah orang, nomor kartu di struk, atau alamat rumah. Lokasi GPS di foto otomatis dihapus.</p>
+
+    <h2 class="text-[1.5rem] font-bold tracking-tight mt-10">Setelah dikirim</h2>
+    <p class="mt-2">Kiriman diperiksa dulu: apakah foto memperlihatkan produk, ukuran, dan harganya. Setelah disetujui, harga muncul di situs pada pembaruan harian berikutnya.</p>
+  </article>
+</Base>

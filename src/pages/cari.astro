@@ -1,0 +1,55 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Cari produk" description="Cari harga produk yang dicatat Kang Nawar.">
+  <h1 class="text-[2.25rem] font-extrabold tracking-tight leading-tight mt-10">Cari produk</h1>
+  <form role="search" class="mt-4" onsubmit="return false">
+    <label for="q" class="sr-only">Nama produk atau merek</label>
+    <input id="q" type="search" autocomplete="off" placeholder="Contoh: kental manis, Rinso, kentang"
+      class="w-full rounded-xl border-2 border-ink px-4 py-3 text-[1.125rem] placeholder:text-slate" />
+  </form>
+  <p id="status" class="text-slate text-[0.9375rem] mt-3" aria-live="polite">Memuat daftar produk…</p>
+  <ul id="hasil" class="mt-2"></ul>
+</Base>
+
+<script>
+  type Item = { id: string; n: string; s: string; v: string; c: string; t: string; p: number | null };
+  const input = document.getElementById('q') as HTMLInputElement;
+  const out = document.getElementById('hasil')!;
+  const status = document.getElementById('status')!;
+  const fmt = new Intl.NumberFormat('id-ID');
+  const norm = (s: string) => s.toLowerCase().normalize('NFKD').replace(/[^a-z0-9 ]/g, ' ');
+  let items: Item[] = [];
+
+  function render() {
+    const words = norm(input.value).split(/\s+/).filter(Boolean);
+    out.replaceChildren();
+    if (!words.length) { status.textContent = `${items.length} produk tercatat. Ketik nama produk atau merek.`; return; }
+    const hits = items.filter((it) => { const hay = norm(`${it.n} ${it.v} ${it.c} ${it.s}`); return words.every((w) => hay.includes(w)); });
+    status.textContent = hits.length ? `${hits.length} produk cocok.` : 'Tidak ada yang cocok. Coba kata lain, misalnya merek saja.';
+    for (const it of hits.slice(0, 50)) {
+      const li = document.createElement('li');
+      li.className = 'border-b border-line';
+      const a = document.createElement('a');
+      a.href = `/produk/${it.id}/`;
+      a.className = 'flex justify-between gap-4 py-3 group';
+      const left = document.createElement('span');
+      const name = document.createElement('span'); name.className = 'font-semibold group-hover:underline'; name.textContent = it.n;
+      const meta = document.createElement('span'); meta.className = 'block text-slate text-[0.9375rem]'; meta.textContent = `${it.s}, ${it.c}`;
+      left.append(name, meta);
+      const right = document.createElement('span'); right.className = 'text-right whitespace-nowrap';
+      right.textContent = it.p ? `Rp${fmt.format(it.p)}` : '';
+      const store = document.createElement('span'); store.className = 'block text-slate text-[0.875rem]'; store.textContent = it.t;
+      right.append(store);
+      a.append(left, right); li.append(a); out.append(li);
+    }
+  }
+  fetch('/search.json').then((r) => r.json()).then((data: Item[]) => {
+    items = data;
+    const q = new URLSearchParams(location.search).get('q');
+    if (q) input.value = q;
+    render();
+    input.focus();
+  }).catch(() => { status.textContent = 'Daftar produk gagal dimuat. Muat ulang halaman ini.'; });
+  input.addEventListener('input', render);
+</script>

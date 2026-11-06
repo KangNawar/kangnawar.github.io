@@ -1,0 +1,16 @@
+---
+interface Props { verdict: string; label: string }
+const { verdict, label } = Astro.props;
+const tone: Record<string, string> = {
+  'diskon-palsu': 'bg-coret text-white',
+  'lebih-murah-di-tempat-lain': 'bg-ink text-white',
+  'hemat-beneran': 'bg-hemat text-white',
+  'lebih-mahal': 'border border-coret text-coret',
+  'biasa-aja': 'border border-line text-slate',
+  'belum-cukup-data': 'text-slate',
+  'harga-reguler': 'text-slate',
+};
+---
+<span class:list={['inline-flex items-center rounded-full text-[0.8125rem] leading-none whitespace-nowrap', tone[verdict], verdict === 'belum-cukup-data' || verdict === 'harga-reguler' ? 'px-0 py-1' : 'px-2.5 py-1.5 font-semibold']}>
+  {label}
+</span>

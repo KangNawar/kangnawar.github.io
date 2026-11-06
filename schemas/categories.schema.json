@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "categories.schema.json",
+  "title": "Categories (what a product IS; stores, channels and halal are filters, not categories)",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["id", "name", "subcategories"],
+    "properties": {
+      "id": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" },
+      "name": { "type": "string" },
+      "active": { "description": "false = defined but hidden until it has data", "type": "boolean", "default": true },
+      "subcategories": {
+        "type": "array", "minItems": 1,
+        "items": {
+          "type": "object", "additionalProperties": false, "required": ["id", "name"],
+          "properties": {
+            "id": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" },
+            "name": { "type": "string" },
+            "unit": { "description": "Preferred unit for comparison in this subcategory", "enum": ["ml", "g", "pcs", "sheet"] }
+          }
+        }
+      }
+    }
+  }
+}

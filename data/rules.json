@@ -1,0 +1,11 @@
+{
+  "reference_window_days": 90,
+  "elsewhere_window_days": 14,
+  "min_observations": 3,
+  "real_deal_pct": 10,
+  "pricier_pct": 10,
+  "fake_markup_pct": 15,
+  "elsewhere_margin_pct": 3,
+  "default_expiry_days": 14,
+  "max_image_kb": 60
+}

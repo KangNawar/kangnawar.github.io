@@ -1,0 +1,34 @@
+# --- Claude / Claude Code files ---
+.claude/
+CLAUDE.md
+CLAUDE.local.md
+**/CLAUDE.local.md
+.mcp.json
+.claude.json
+*.claude.json
+
+# --- Build output and generated data ---
+dist/
+.astro/
+build/
+node_modules/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# --- Secrets and local env ---
+.env
+.env.*
+!.env.example
+
+# --- Work-in-progress batches (raw photos never get committed) ---
+inbox/
+*.orig.jpg
+*.orig.png
+
+# --- OS / editor ---
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/

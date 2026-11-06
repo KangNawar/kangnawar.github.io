@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "store.schema.json",
+  "title": "Stores list",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["id", "name", "type", "channels"],
+    "properties": {
+      "id": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" },
+      "name": { "type": "string" },
+      "type": { "enum": ["minimarket", "supermarket", "hypermarket", "drugstore", "pharmacy", "beauty-store", "marketplace", "brand-store", "other"] },
+      "channels": { "type": "array", "items": { "enum": ["offline", "online"] }, "minItems": 1, "uniqueItems": true },
+      "website": { "type": "string", "format": "uri" }
+    }
+  }
+}

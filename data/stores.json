@@ -1,0 +1,21 @@
+[
+  { "id": "indomaret", "name": "Indomaret", "type": "minimarket", "channels": ["offline", "online"] },
+  { "id": "alfamart", "name": "Alfamart", "type": "minimarket", "channels": ["offline", "online"] },
+  { "id": "alfamidi", "name": "Alfamidi", "type": "minimarket", "channels": ["offline", "online"] },
+  { "id": "superindo", "name": "Superindo", "type": "supermarket", "channels": ["offline", "online"] },
+  { "id": "hypermart", "name": "Hypermart", "type": "hypermarket", "channels": ["offline", "online"] },
+  { "id": "transmart", "name": "Transmart", "type": "hypermarket", "channels": ["offline", "online"] },
+  { "id": "lotte-mart", "name": "Lotte Mart", "type": "hypermarket", "channels": ["offline", "online"] },
+  { "id": "guardian", "name": "Guardian", "type": "drugstore", "channels": ["offline", "online"] },
+  { "id": "watsons", "name": "Watsons", "type": "drugstore", "channels": ["offline", "online"] },
+  { "id": "century", "name": "Century", "type": "pharmacy", "channels": ["offline", "online"] },
+  { "id": "kimia-farma", "name": "Kimia Farma", "type": "pharmacy", "channels": ["offline", "online"] },
+  { "id": "apotek-k24", "name": "Apotek K-24", "type": "pharmacy", "channels": ["offline", "online"] },
+  { "id": "sociolla", "name": "Sociolla", "type": "beauty-store", "channels": ["offline", "online"] },
+  { "id": "shopee", "name": "Shopee", "type": "marketplace", "channels": ["online"], "website": "https://shopee.co.id" },
+  { "id": "tokopedia", "name": "Tokopedia", "type": "marketplace", "channels": ["online"], "website": "https://www.tokopedia.com" },
+  { "id": "tiktok-shop", "name": "TikTok Shop", "type": "marketplace", "channels": ["online"] },
+  { "id": "lazada", "name": "Lazada", "type": "marketplace", "channels": ["online"], "website": "https://www.lazada.co.id" },
+  { "id": "blibli", "name": "Blibli", "type": "marketplace", "channels": ["online"], "website": "https://www.blibli.com" },
+  { "id": "lainnya", "name": "Toko lainnya", "type": "other", "channels": ["offline", "online"] }
+]

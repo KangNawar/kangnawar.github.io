@@ -1,0 +1,66 @@
+[
+  { "id": "perawatan-wajah", "name": "Perawatan Wajah", "subcategories": [
+    { "id": "pelembap", "name": "Pelembap", "unit": "ml" },
+    { "id": "sabun-cuci-muka", "name": "Sabun Cuci Muka", "unit": "ml" },
+    { "id": "sunscreen", "name": "Sunscreen", "unit": "ml" },
+    { "id": "serum", "name": "Serum", "unit": "ml" },
+    { "id": "toner", "name": "Toner", "unit": "ml" },
+    { "id": "masker-wajah", "name": "Masker Wajah", "unit": "sheet" },
+    { "id": "pembersih-makeup", "name": "Pembersih Makeup", "unit": "ml" }
+  ]},
+  { "id": "perawatan-tubuh-rambut", "name": "Perawatan Tubuh & Rambut", "subcategories": [
+    { "id": "sabun-mandi", "name": "Sabun Mandi", "unit": "ml" },
+    { "id": "sampo", "name": "Sampo", "unit": "ml" },
+    { "id": "kondisioner", "name": "Kondisioner", "unit": "ml" },
+    { "id": "losion", "name": "Losion", "unit": "ml" },
+    { "id": "deodoran", "name": "Deodoran", "unit": "ml" },
+    { "id": "pasta-gigi", "name": "Pasta Gigi", "unit": "g" }
+  ]},
+  { "id": "kosmetik", "name": "Kosmetik", "subcategories": [
+    { "id": "bedak", "name": "Bedak", "unit": "g" },
+    { "id": "lipstik", "name": "Lipstik", "unit": "pcs" },
+    { "id": "foundation", "name": "Foundation & Cushion", "unit": "ml" },
+    { "id": "maskara-eyeliner", "name": "Maskara & Eyeliner", "unit": "pcs" }
+  ]},
+  { "id": "kesehatan", "name": "Kesehatan", "subcategories": [
+    { "id": "vitamin-suplemen", "name": "Vitamin & Suplemen", "unit": "pcs" },
+    { "id": "obat-bebas", "name": "Obat Bebas", "unit": "pcs" },
+    { "id": "p3k", "name": "P3K", "unit": "pcs" }
+  ]},
+  { "id": "ibu-bayi", "name": "Ibu & Bayi", "subcategories": [
+    { "id": "popok", "name": "Popok", "unit": "pcs" },
+    { "id": "susu-formula", "name": "Susu Formula", "unit": "g" },
+    { "id": "tisu-basah", "name": "Tisu Basah", "unit": "sheet" },
+    { "id": "perawatan-bayi", "name": "Perawatan Bayi", "unit": "ml" }
+  ]},
+  { "id": "makanan-minuman", "name": "Makanan & Minuman", "subcategories": [
+    { "id": "susu", "name": "Susu", "unit": "ml" },
+    { "id": "kopi-teh", "name": "Kopi & Teh", "unit": "g" },
+    { "id": "mi-instan", "name": "Mi Instan", "unit": "pcs" },
+    { "id": "camilan", "name": "Camilan", "unit": "g" },
+    { "id": "minuman", "name": "Minuman", "unit": "ml" }
+  ]},
+  { "id": "sembako", "name": "Sembako", "subcategories": [
+    { "id": "beras", "name": "Beras", "unit": "g" },
+    { "id": "minyak-goreng", "name": "Minyak Goreng", "unit": "ml" },
+    { "id": "gula", "name": "Gula", "unit": "g" },
+    { "id": "telur", "name": "Telur", "unit": "pcs" },
+    { "id": "tepung", "name": "Tepung", "unit": "g" }
+  ]},
+  { "id": "kebutuhan-rumah", "name": "Kebutuhan Rumah", "subcategories": [
+    { "id": "deterjen", "name": "Deterjen", "unit": "g" },
+    { "id": "sabun-cuci-piring", "name": "Sabun Cuci Piring", "unit": "ml" },
+    { "id": "tisu", "name": "Tisu", "unit": "sheet" },
+    { "id": "pembersih-lantai", "name": "Pembersih Lantai", "unit": "ml" }
+  ]},
+  { "id": "elektronik", "name": "Elektronik", "active": false, "subcategories": [
+    { "id": "ponsel", "name": "Ponsel", "unit": "pcs" },
+    { "id": "komputer", "name": "Komputer & Komponen", "unit": "pcs" },
+    { "id": "gaming", "name": "Gaming", "unit": "pcs" },
+    { "id": "aksesoris", "name": "Aksesoris", "unit": "pcs" }
+  ]},
+  { "id": "hewan-peliharaan", "name": "Hewan Peliharaan", "active": false, "subcategories": [
+    { "id": "makanan-hewan", "name": "Makanan Hewan", "unit": "g" },
+    { "id": "pasir-kucing", "name": "Pasir Kucing", "unit": "g" }
+  ]}
+]

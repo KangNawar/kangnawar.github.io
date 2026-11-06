@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "rules.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["reference_window_days", "elsewhere_window_days", "min_observations", "real_deal_pct", "pricier_pct", "fake_markup_pct", "elsewhere_margin_pct", "default_expiry_days", "max_image_kb"],
+  "properties": {
+    "reference_window_days": { "type": "integer", "minimum": 7 },
+    "elsewhere_window_days": { "type": "integer", "minimum": 1 },
+    "min_observations": { "type": "integer", "minimum": 2 },
+    "real_deal_pct": { "type": "number", "exclusiveMinimum": 0 },
+    "pricier_pct": { "type": "number", "exclusiveMinimum": 0 },
+    "fake_markup_pct": { "type": "number", "exclusiveMinimum": 0 },
+    "elsewhere_margin_pct": { "type": "number", "minimum": 0 },
+    "default_expiry_days": { "type": "integer", "minimum": 1 },
+    "max_image_kb": { "type": "integer", "minimum": 10 }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "promo-types.schema.json",
+  "type": "array",
+  "items": {
+    "type": "object", "additionalProperties": false, "required": ["id", "name", "description"],
+    "properties": {
+      "id": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" },
+      "name": { "type": "string" },
+      "description": { "type": "string" }
+    }
+  }
+}

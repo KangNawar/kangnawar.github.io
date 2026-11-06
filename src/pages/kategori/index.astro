@@ -4,11 +4,23 @@ import { db, activePromos } from '../../lib/data';
 const { activeCategories } = db();
 const promos = activePromos();
 const productsIn = (id: string) => [...db().products.values()].filter((p) => p.category === id).length;
+// Categories with data first; empty ones are placeholders listed compactly underneath.
+const withData = activeCategories.filter((c) => productsIn(c.id) > 0);
+const empty = activeCategories.filter((c) => productsIn(c.id) === 0);
 ---
 <Base title="Kategori" description="Semua kategori produk yang dicatat Kang Nawar.">
   <h1 class="text-[2.25rem] font-extrabold tracking-tight leading-tight mt-10">Kategori</h1>
   <ul class="mt-6 border-t-2 border-ink">
-    {activeCategories.map((c) => {
+    <li class="border-b border-line">
+      <a href="/promo/" class="flex items-baseline justify-between gap-4 py-4 group">
+        <span>
+          <span class="text-[1.25rem] font-semibold group-hover:underline">Lihat semua promo</span>
+          <span class="block text-slate text-[0.9375rem]">Semua kategori dalam satu daftar, bisa diurutkan dan disaring</span>
+        </span>
+        <span class="text-right text-[0.9375rem] whitespace-nowrap font-semibold">{promos.length} promo &rarr;</span>
+      </a>
+    </li>
+    {withData.map((c) => {
       const n = promos.filter((s) => s.productData.category === c.id).length;
       const p = productsIn(c.id);
       return (
@@ -24,4 +36,15 @@ const productsIn = (id: string) => [...db().products.values()].filter((p) => p.c
       );
     })}
   </ul>
+  {empty.length > 0 && (
+    <section aria-labelledby="menyusul" class="mt-10">
+      <h2 id="menyusul" class="text-[1.25rem] font-bold tracking-tight">Belum ada data</h2>
+      <p class="text-slate mt-1 max-w-prose">Kategori ini sudah disiapkan, tapi belum ada harga yang tercatat. <a href="/panduan/" class="underline">Kirim harga</a> kalau lihat promonya.</p>
+      <ul class="mt-4 flex flex-wrap gap-2">
+        {empty.map((c) => (
+          <li><a href={`/kategori/${c.id}/`} class="inline-block rounded-full border border-line px-3 py-1.5 text-[0.9375rem] hover:border-ink">{c.name}</a></li>
+        ))}
+      </ul>
+    </section>
+  )}
 </Base>

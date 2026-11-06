@@ -63,7 +63,8 @@ def guess_store(url: str) -> tuple[str, str]:
     """(store id, channel) from a product link, TODO if unknown."""
     hosts = {"shopee": "shopee", "tokopedia": "tokopedia", "tiktok": "tiktok-shop", "lazada": "lazada",
              "blibli": "blibli", "astronauts": "astro", "klikindomaret": "indomaret", "alfagift": "alfamart",
-             "sociolla": "sociolla", "watsons": "watsons", "guardian": "guardian", "superindo": "superindo"}
+             "sociolla": "sociolla", "watsons": "watsons", "guardian": "guardian", "superindo": "superindo",
+             "ikea": "ikea", "informa": "informa", "azko": "azko"}
     for key, store in hosts.items():
         if key in url.lower():
             return store, "online"

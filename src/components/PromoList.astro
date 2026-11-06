@@ -49,10 +49,10 @@ const key = filter === 'subcategory' ? 'sub' : 'cat';
   )}
   <div class="min-w-0">
     <div class="flex items-center justify-between gap-3 pb-3 border-b-2 border-ink">
-      <p class="count text-[0.9375rem] text-slate" aria-live="polite"></p>
-      <label class="text-[0.9375rem] flex items-center gap-2">
+      <p class="count text-[0.9375rem] text-slate whitespace-nowrap" aria-live="polite"></p>
+      <label class="text-[0.9375rem] flex items-center gap-2 min-w-0">
         Urutkan
-        <select class="sort rounded-lg border border-line bg-paper px-2 py-1.5 text-[0.9375rem]">
+        <select class="sort min-w-0 max-w-[60vw] sm:max-w-none rounded-lg border border-line bg-paper px-2 py-1.5 text-[0.9375rem]">
           {sorts.map((s) => <option value={s.value} selected={s.value === defaultSort}>{s.label}</option>)}
         </select>
       </label>
@@ -62,6 +62,9 @@ const key = filter === 'subcategory' ? 'sub' : 'cat';
       {items.map((s) => <PriceRow s={s} showStore={showStore} />)}
     </ul>
     <p class="empty hidden py-8 text-slate">Tidak ada promo di sini.</p>
+    <p class="more-wrap hidden mt-6 text-center">
+      <button type="button" class="more rounded-full border-2 border-ink px-5 py-2 font-semibold hover:bg-ink hover:text-paper"></button>
+    </p>
   </div>
 </div>
 
@@ -76,7 +79,6 @@ const key = filter === 'subcategory' ? 'sub' : 'cat';
   const NOTES: Record<string, string> = {
     hemat: 'Hemat beneran butuh minimal 3 catatan harga per produk. Produk yang datanya belum cukup ada di bawah.',
     satuan: 'Harga per satuan paling berguna dibandingkan dalam satu jenis produk. Pilih kategori dulu.',
-    lebay: 'Label lebay = persen di label lebih besar dari selisih harga coret dan harga promo.',
   };
   for (const root of document.querySelectorAll<HTMLElement>('.promo-list')) {
     const list = root.querySelector<HTMLUListElement>('.rows')!;
@@ -85,6 +87,10 @@ const key = filter === 'subcategory' ? 'sub' : 'cat';
     const note = root.querySelector<HTMLElement>('.note')!;
     const empty = root.querySelector<HTMLElement>('.empty')!;
     const count = root.querySelector<HTMLElement>('.count')!;
+    const more = root.querySelector<HTMLButtonElement>('.more')!;
+    const moreWrap = root.querySelector<HTMLElement>('.more-wrap')!;
+    const PAGE = 30;
+    let limit = PAGE;
     const key = root.dataset.key!;
     let filter = '';
     const num = (el: HTMLElement, k: string) => Number(el.dataset[k]);
@@ -100,23 +106,28 @@ const key = filter === 'subcategory' ? 'sub' : 'cat';
     const live = (r: HTMLElement) => r.dataset.expires! >= today;
     function apply() {
       const sorted = [...rows].sort(compare[select.value] ?? compare.pasar);
-      let shown = 0;
+      let matching = 0;
       for (const r of sorted) {
-        const visible = live(r) && (!filter || r.dataset[key] === filter);
-        r.hidden = !visible;
-        if (visible) shown++;
+        const match = live(r) && (!filter || r.dataset[key] === filter);
+        r.hidden = !match || matching >= limit;
+        if (match) matching++;
         list.appendChild(r);
       }
-      empty.classList.toggle('hidden', shown > 0);
-      count.textContent = `${shown} promo`;
+      empty.classList.toggle('hidden', matching > 0);
+      count.textContent = matching > limit ? `${limit} dari ${matching}` : `${matching} promo`;
+      const rest = matching - limit;
+      moreWrap.classList.toggle('hidden', rest <= 0);
+      more.textContent = `Tampilkan ${Math.min(rest, PAGE)} lagi`;
       const text = select.value === 'satuan' && filter ? '' : NOTES[select.value] ?? '';
       note.textContent = text;
       note.classList.toggle('hidden', !text);
     }
-    select.addEventListener('change', apply);
+    select.addEventListener('change', () => { limit = PAGE; apply(); });
+    more.addEventListener('click', () => { limit += PAGE; apply(); });
     root.querySelectorAll<HTMLButtonElement>('[data-filter]').forEach((btn) => {
       btn.addEventListener('click', () => {
         filter = btn.dataset.filter!;
+        limit = PAGE;
         root.querySelectorAll('[data-filter]').forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
         apply();
       });

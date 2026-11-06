@@ -169,6 +169,44 @@
     "website": "https://www.blibli.com"
   },
   {
+    "id": "ikea",
+    "name": "IKEA",
+    "type": "other",
+    "channels": [
+      "offline",
+      "online"
+    ],
+    "website": "https://www.ikea.co.id"
+  },
+  {
+    "id": "informa",
+    "name": "Informa",
+    "type": "other",
+    "channels": [
+      "offline",
+      "online"
+    ],
+    "website": "https://www.informa.co.id"
+  },
+  {
+    "id": "azko",
+    "name": "AZKO",
+    "type": "other",
+    "channels": [
+      "offline",
+      "online"
+    ],
+    "website": "https://www.azko.id"
+  },
+  {
+    "id": "mr-diy",
+    "name": "MR.DIY",
+    "type": "other",
+    "channels": [
+      "offline"
+    ]
+  },
+  {
     "id": "lainnya",
     "name": "Toko lainnya",
     "type": "other",

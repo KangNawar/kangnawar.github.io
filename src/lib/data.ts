@@ -99,3 +99,17 @@ export function categoryOf(p: Product) {
   const c = db().categories.find((c) => c.id === p.category)!;
   return { category: c, sub: c.subcategories.find((s) => s.id === p.subcategory)! };
 }
+
+// Home page ranking. "Hemat beneran" first (biggest saving against other stores),
+// then promos at market price, then promos nobody has compared yet (biggest store
+// discount first). Promos that are cheaper elsewhere or above market are not deals.
+const DEAL_TIER: Record<string, number> = { 'hemat-beneran': 0, 'sesuai-harga-pasar': 1, 'belum-ada-pembanding': 2 };
+export function rankedDeals(promos: Sighting[] = activePromos()) {
+  return promos
+    .filter((s) => s.verdict in DEAL_TIER)
+    .sort((a, b) =>
+      DEAL_TIER[a.verdict] - DEAL_TIER[b.verdict] ||
+      (b.vs_market_pct ?? -999) - (a.vs_market_pct ?? -999) ||
+      (b.claimed_discount_pct ?? -999) - (a.claimed_discount_pct ?? -999) ||
+      (a.expires_on ?? '9999').localeCompare(b.expires_on ?? '9999'));
+}

@@ -1,9 +1,10 @@
 ---
 import Base from '../layouts/Base.astro';
-import PromoList from '../components/PromoList.astro';
-import Thumb from '../components/Thumb.astro';
-import { activePromos, db } from '../lib/data';
-import { rupiah, pct, rentang, productName, tanggal, satuan, ukuran } from '../lib/format';
+import PriceRow from '../components/PriceRow.astro';
+import { activePromos, db, rankedDeals } from '../lib/data';
+import { rupiah, pct, rentang, productName, tanggal, satuan } from '../lib/format';
+import { TOP_DEALS } from '../lib/site';
+import fs from 'node:fs';
 
 const promos = activePromos();
 const { generatedOn, products, storeMap } = db();
@@ -14,7 +15,10 @@ const hero = cheaper[0];
 const heroOther = hero ? storeMap.get(hero.cheaper_elsewhere!.store)! : null;
 const heroUnit = hero ? satuan(hero.unit_label) : '';
 const stores = new Set(promos.map((s) => s.store));
-const compared = promos.filter((s) => s.market_count > 0).length;
+const rules = JSON.parse(fs.readFileSync('data/rules.json', 'utf-8'));
+// A few spare rows so the list still shows TOP_DEALS after some promos expire between rebuilds.
+const deals = rankedDeals(promos).slice(0, TOP_DEALS * 2);
+const realDeals = deals.filter((s) => s.verdict === 'hemat-beneran').length;
 ---
 <Base wide>
   <section class="pt-10 pb-12 sm:pt-16 sm:pb-16 grid gap-x-10 gap-y-6 md:grid-cols-[1.1fr_1fr]">
@@ -54,42 +58,47 @@ const compared = promos.filter((s) => s.market_count > 0).length;
     </div>
   </section>
 
-  {cheaper.length > 1 && (
-    <section aria-labelledby="lebih-murah" class="mb-14">
-      <h2 id="lebih-murah" class="text-[1.5rem] font-bold tracking-tight">Ada yang lebih murah di toko lain</h2>
-      <p class="text-slate mt-1 max-w-prose">Promo yang sedang berlaku, tapi produk yang sama tercatat lebih murah di toko lain dalam 2 minggu terakhir.</p>
-      <ul class="mt-5 grid gap-4 grid-cols-[repeat(auto-fit,minmax(min(100%,20rem),1fr))]">
-        {cheaper.slice(0, 6).map((s) => {
-          const other = storeMap.get(s.cheaper_elsewhere!.store)!;
-          const unit = satuan(s.unit_label);
-          return (
-            <li class="rounded-2xl border border-line p-4 flex gap-3">
-              <Thumb p={s.productData} />
-              <div class="min-w-0">
-                <a href={`/produk/${s.product}/`} class="font-semibold leading-snug hover:underline">{productName(s.productData)}</a>
-                <p class="text-slate text-[0.9375rem]">{ukuran(s.productData)}</p>
-                <p class="mt-2 text-[0.9375rem] angka">{s.storeData.name}, promo: <span class="harga font-semibold">{rupiah(s.unit_price)}{unit}</span></p>
-                <p class="catatan text-[1.25rem] mt-1">di {other.name} {rupiah(s.cheaper_elsewhere!.unit_price)}{unit}</p>
-              </div>
-            </li>
-          );
-        })}
-      </ul>
-    </section>
-  )}
-
-  <section aria-labelledby="promo">
-    <div class="flex flex-wrap items-baseline justify-between gap-2">
-      <h2 id="promo" class="text-[1.5rem] font-bold tracking-tight">Promo yang sedang berlaku</h2>
-      <p class="text-slate text-[0.9375rem]">
-        {promos.length} promo dari {stores.size} toko, diperbarui {tanggal(generatedOn, true)}
-      </p>
+  <section aria-labelledby="teratas">
+    <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+      <h2 id="teratas" class="text-[1.5rem] font-bold tracking-tight">{TOP_DEALS} promo teratas</h2>
+      <p class="text-slate text-[0.9375rem]">diperbarui {tanggal(generatedOn, true)}</p>
     </div>
-    <p class="text-slate mt-1 mb-4 max-w-prose">
-      {compared} dari {promos.length} promo sudah punya harga pembanding dari toko lain.
-      Sisanya baru dari satu katalog, jadi belum bisa dibandingkan.{" "}
-      <a href="/panduan/" class="underline">Bantu tambah harga dari toko lain</a>.
+    <p class="text-slate mt-1 max-w-prose">
+      {realDeals > 0
+        ? `Yang hemat beneran duluan: minimal ${rules.real_deal_pct}% di bawah harga produk yang sama di toko lain. Setelah itu promo dengan diskon terbesar.`
+        : `Belum ada promo yang terbukti hemat beneran (minimal ${rules.real_deal_pct}% di bawah harga toko lain), jadi ini promo dengan diskon toko terbesar. Perbandingannya menyusul begitu ada harga dari toko lain.`}
     </p>
-    <PromoList items={promos} />
+    <ul class="mt-3 border-t-2 border-ink" id="teratas-daftar" data-max={TOP_DEALS}>
+      {deals.map((s) => <PriceRow s={s} />)}
+    </ul>
+    <style is:inline set:html={`#teratas-daftar:not(.siap)>li:nth-child(n+${TOP_DEALS + 1}){display:none}`}></style>
+    <p class="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3">
+      <a href="/promo/" class="inline-flex items-center gap-2 rounded-full bg-ink text-paper px-5 py-2.5 font-semibold hover:opacity-90">
+        Lihat semua {promos.length} promo
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <a href="/kategori/" class="underline">Pilih per kategori</a>
+    </p>
+    <p class="text-slate mt-6 max-w-prose text-[0.9375rem]">
+      {promos.length} promo dari {stores.size} toko.
+      Harga dari toko lain membuat perbandingannya jalan. <a href="/panduan/" class="underline">Bantu tambah harga</a>.
+    </p>
   </section>
 </Base>
+
+<script>
+  // Show the first N promos that haven't ended yet (the site is only rebuilt by hand).
+  const list = document.getElementById('teratas-daftar');
+  if (list) {
+    const max = Number(list.dataset.max);
+    const d = new Date();
+    const today = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    let shown = 0;
+    for (const row of Array.from(list.children) as HTMLElement[]) {
+      const live = (row.dataset.expires ?? '9999') >= today;
+      row.hidden = !live || shown >= max;
+      if (!row.hidden) shown++;
+    }
+    list.classList.add('siap');
+  }
+</script>

@@ -1,14 +1,15 @@
 ---
 import '../styles/global.css';
-interface Props { title?: string; description?: string; wide?: boolean }
-const { title, description = 'Kang Nawar menghitung ulang diskon di katalog dan rak toko: apakah promonya benar-benar lebih murah?', wide = false } = Astro.props;
+import { DONATE_URL } from '../lib/site';
+interface Props { title?: string; description?: string; wide?: boolean; noindex?: boolean }
+const { title, description = 'Kang Nawar menghitung ulang diskon di katalog dan rak toko: apakah promonya benar-benar lebih murah?', wide = false, noindex = false } = Astro.props;
 const fullTitle = title ? `${title} | Kang Nawar` : 'Kang Nawar: cek dulu diskonnya';
 const path = Astro.url.pathname;
 const nav = [
   { href: '/kategori/', label: 'Kategori' },
-  { href: '/cara-kerja/', label: 'Cara menilai' },
   { href: '/panduan/', label: 'Tambah harga' },
 ];
+const onSearch = path.startsWith('/cari');
 ---
 <!doctype html>
 <html lang="id">
@@ -17,6 +18,7 @@ const nav = [
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <link rel="canonical" href={new URL(path, Astro.site)} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <meta property="og:title" content={fullTitle} />
@@ -31,41 +33,56 @@ const nav = [
   <body class="min-h-dvh flex flex-col">
     <a href="#isi" class="sr-only focus:not-sr-only focus:absolute focus:m-2 focus:p-2 focus:bg-tag">Langsung ke isi</a>
     <header class="border-b border-line">
-      <div class="mx-auto max-w-5xl px-4 flex flex-wrap items-center gap-x-6 gap-y-2 py-3">
-        <a href="/" class="text-[1.25rem] font-extrabold tracking-tight mr-auto" aria-label="Kang Nawar, beranda">
+      <div class="mx-auto max-w-5xl px-4 py-3 grid grid-cols-[1fr_auto] items-center gap-x-4 gap-y-3 md:grid-cols-[1fr_minmax(0,26rem)_1fr]">
+        <a href="/" class="justify-self-start whitespace-nowrap text-[1.25rem] font-extrabold tracking-tight" aria-label="Kang Nawar, beranda">
           Kang <span class="harga">Nawar</span>
         </a>
-        <nav aria-label="Utama" class="order-3 w-full sm:order-none sm:w-auto">
-          <ul class="flex gap-5 text-[0.9375rem]">
-            {nav.map((n) => (
-              <li><a href={n.href} class:list={['hover:underline', { 'font-semibold underline': path.startsWith(n.href) }]} aria-current={path.startsWith(n.href) ? 'page' : undefined}>{n.label}</a></li>
-            ))}
-          </ul>
-        </nav>
-        <button type="button" id="tema" class="order-2 sm:order-none inline-grid place-items-center size-9 rounded-full border border-line hover:border-ink" aria-label="Mode gelap" aria-pressed="false">
-          <svg class="tema-gelap" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
-          <svg class="tema-terang hidden" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
-        </button>
-        <a href="/cari/" class="inline-flex items-center gap-1.5 rounded-full border border-line px-3 py-1.5 text-[0.9375rem] hover:border-ink">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-          Cari produk
-        </a>
+        <form action="/cari/" method="get" role="search" class:list={['col-span-2 row-start-2 md:col-span-1 md:row-start-1 md:col-start-2', { 'max-md:hidden md:invisible': onSearch }]}>
+          <label for="cari-atas" class="sr-only">Cari produk atau merek</label>
+          <div class="relative">
+            <svg class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            <input id="cari-atas" name="q" type="search" autocomplete="off" placeholder="Cari produk, merek…"
+              class="w-full rounded-full border border-line bg-mist pl-10 pr-4 py-2 text-[0.9375rem] placeholder:text-slate hover:border-ink focus:border-ink focus:bg-paper" />
+          </div>
+        </form>
+        <div class="justify-self-end flex items-center gap-4 md:col-start-3">
+          <nav aria-label="Utama">
+            <ul class="flex gap-4 text-[0.9375rem]">
+              {nav.map((n) => (
+                <li><a href={n.href} class:list={['hover:underline whitespace-nowrap', { 'font-semibold underline': path.startsWith(n.href) }]} aria-current={path.startsWith(n.href) ? 'page' : undefined}>{n.label}</a></li>
+              ))}
+            </ul>
+          </nav>
+          <button type="button" id="tema" class="inline-grid place-items-center size-9 shrink-0 rounded-full border border-line hover:border-ink" aria-label="Mode gelap" aria-pressed="false">
+            <svg class="tema-gelap" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+            <svg class="tema-terang hidden" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+          </button>
+        </div>
       </div>
     </header>
     <main id="isi" class:list={['mx-auto w-full px-4 flex-1', wide ? 'max-w-5xl' : 'max-w-3xl']}>
       <slot />
     </main>
     <footer class="mt-16 border-t border-line">
-      <div class="mx-auto max-w-5xl px-4 py-8 text-[0.875rem] text-slate grid gap-3 sm:grid-cols-[1fr_auto]">
-        <p class="max-w-prose">
-          Kang Nawar tidak berafiliasi dengan toko atau merek mana pun. Harga dicatat dari katalog, rak toko dan aplikasi belanja,
-          dan bisa berbeda di cabang tertentu. Data terbuka di <a class="underline" href="https://github.com/KangNawar/kangnawar.github.io">GitHub</a>.
-        </p>
-        <ul class="flex gap-4 sm:justify-end">
-          <li><a class="hover:underline" href="/tentang/">Tentang</a></li>
-          <li><a class="hover:underline" href="/cara-kerja/">Cara menilai</a></li>
-          <li><a class="hover:underline" href="/panduan/">Tambah harga</a></li>
-        </ul>
+      <div class="mx-auto max-w-5xl px-4 py-8 text-[0.875rem] text-slate grid gap-6 sm:grid-cols-[1fr_auto] sm:items-start">
+        <div class="max-w-prose">
+          <p>
+            Kang Nawar tidak berafiliasi dengan toko atau merek mana pun. Harga dicatat dari katalog, rak toko dan aplikasi belanja,
+            dan bisa berbeda di cabang tertentu.
+          </p>
+          <ul class="mt-3 flex gap-4">
+            <li><a class="hover:underline" href="/tentang/">Tentang</a></li>
+            <li><a class="hover:underline" href="/promo/">Semua promo</a></li>
+            <li><a class="hover:underline" href="/panduan/">Tambah harga</a></li>
+          </ul>
+        </div>
+        <div class="sm:text-right">
+          <p class="text-ink">Kang Nawar membantu kamu hemat?</p>
+          <a href={DONATE_URL} target="_blank" rel="noopener" class="mt-2 inline-flex items-center gap-2 rounded-full bg-tag text-on-tag px-4 py-2 font-semibold hover:shadow-[3px_3px_0_var(--shadow)] transition-shadow">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 8h1a4 4 0 0 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4z"/><path d="M6 2v2M10 2v2M14 2v2"/></svg>
+            Traktir kopi di Saweria
+          </a>
+        </div>
       </div>
     </footer>
     <script>

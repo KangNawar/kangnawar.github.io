@@ -1,7 +1,12 @@
-# Adding and reviewing data
+# Adding and reviewing data (maintainer notes)
 
-The friendly version of this guide, in Bahasa Indonesia, is on the site at
-https://kangnawar.github.io/panduan/. The Google Form and how its responses are imported (by hand, with `tools/form_inbox.py`) is in `docs/GOOGLE-FORM.md`.
+Data only enters through the maintainer. The public way to send a price is the
+Google Form on https://kangnawar.github.io/panduan/; issues and pull requests on
+GitHub are not used for data. The Indonesian version of these notes is the unlinked
+page https://kangnawar.github.io/infoadmin/. The Google Form and how its responses
+are imported (by hand, with `tools/form_inbox.py`) is in `docs/GOOGLE-FORM.md`.
+Prices from shop websites (IKEA and others) come in through the "Ambil harga"
+bookmarklet and `tools/page_capture.py`.
 
 ## Recording a price sighting
 

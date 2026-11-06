@@ -14,11 +14,11 @@ Live site: https://kangnawar.github.io (static, hosted on GitHub Pages)
 - `data/categories.json`, `data/stores.json`, `data/promo-types.json`, `data/rules.json`:
   reference lists and the verdict thresholds.
 - `schemas/`: JSON Schemas for all of the above.
-- `tools/`: Python tools: `validate.py`, `pricing.py` (comparisons), `image_prep.py`, `batch_import.py`, `form_inbox.py`.
+- `tools/`: Python tools: `validate.py`, `pricing.py` (comparisons), `image_prep.py`, `batch_import.py`, `form_inbox.py`, `page_capture.py` (prices from shop websites).
 - `public/img/`: product images and evidence crops, WebP, max 60 KB each.
 
 Verdict rules are explained in [docs/VERDICTS.md](docs/VERDICTS.md).
-How to submit and review data: [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md).
+How data is entered and reviewed: [docs/DATA-ENTRY.md](docs/DATA-ENTRY.md).
 
 ## Running the site locally
 
@@ -48,5 +48,8 @@ python -m unittest discover -s tools/tests
 
 ## Updating
 
-Data changes arrive as commits or pull requests (catalogue batches, form responses
-via `tools/form_inbox.py`, GitHub edits), are checked by CI, and the site rebuilds on push.
+Only the maintainer changes data: catalogue batches, form responses via
+`tools/form_inbox.py` and shop-website captures via `tools/page_capture.py`, all
+committed from a local checkout. Pull requests and issues are not used for data;
+prices are sent through the form on the site. The deploy workflow runs the tests and
+`validate.py` before every build.

@@ -1,0 +1,123 @@
+---
+// Notes for the site owner. Not linked from anywhere and marked noindex,
+// but it is still a public page: nothing secret belongs here.
+import Base from '../layouts/Base.astro';
+import fs from 'node:fs';
+
+// The "Ambil harga" bookmarklet, built from tools/capture_bookmarklet.js.
+const src = fs.readFileSync('tools/capture_bookmarklet.js', 'utf-8')
+  .split('\n').filter((l) => !l.trim().startsWith('//')).join('\n').trim();
+const bookmarklet = 'javascript:' + encodeURIComponent(src);
+
+const toc = [
+  ['formulir', 'Memasukkan isi formulir'],
+  ['katalog', 'Memasukkan satu katalog promo'],
+  ['situs', 'Mengambil harga dari situs toko (IKEA dan lainnya)'],
+  ['foto-produk', 'Menambah foto produk'],
+  ['pasang', 'Memasang alat di komputer'],
+  ['periksa', 'Sebelum menerima kiriman'],
+];
+const code = 'block rounded-xl bg-mist px-4 py-3 text-[0.875rem] overflow-x-auto font-mono whitespace-pre mt-2';
+const h2 = 'text-[1.5rem] font-bold tracking-tight mt-12 scroll-mt-6';
+---
+<Base title="Info admin" description="Catatan kerja pengelola Kang Nawar." noindex>
+  <article class="mt-10 max-w-prose">
+    <p class="text-slate text-[0.9375rem]">Halaman ini tidak ditautkan dari mana pun.</p>
+    <h1 class="text-[2.25rem] font-extrabold tracking-tight leading-tight">Info admin</h1>
+    <p class="mt-4">Catatan kerja untuk memasukkan harga. Semua dijalankan dari folder repositori di komputer; tidak ada yang berjalan otomatis. Situs diperbarui setiap kali <code>main</code> di-push.</p>
+
+    <nav aria-label="Isi" class="mt-6 rounded-2xl border border-line p-5">
+      <ol class="list-decimal pl-5 space-y-1">
+        {toc.map(([id, label]) => <li><a href={`#${id}`} class="hover:underline">{label}</a></li>)}
+      </ol>
+    </nav>
+
+    <h2 id="formulir" class={h2}>Memasukkan isi formulir</h2>
+    <ol class="mt-3 list-decimal pl-5 space-y-4">
+      <li>Di Google Sheet jawaban: <em>File, Download, Comma-separated values (.csv)</em>.</li>
+      <li>Ubah jawaban baru menjadi draf:
+        <code class={code}>python tools/form_inbox.py "Kang Nawar kiriman.csv"</code>
+        <span class="block mt-2">Hanya baris yang belum pernah diambil. Hasilnya <code>inbox/form-&lt;tanggal&gt;/batch.json</code>.</span>
+      </li>
+      <li>Buka drafnya, lihat foto tiap baris, ganti semua <code>TODO</code> (merek, ukuran, kategori, toko), dan hapus kiriman yang tidak dipakai. <code>batch_import.py</code> menolak baris yang masih <code>TODO</code>.</li>
+      <li>Lanjutkan seperti <a href="#katalog" class="underline">memasukkan katalog</a>, mulai dari langkah <code>--dry-run</code>.</li>
+    </ol>
+
+    <h2 id="katalog" class={h2}>Memasukkan satu katalog promo</h2>
+    <ol class="mt-3 list-decimal pl-5 space-y-4">
+      <li>Simpan PDF atau gambar katalog di <code>inbox/&lt;toko&gt;-&lt;tahun&gt;-&lt;edisi&gt;/</code>, misalnya <code>inbox/superindo-2026-46/</code>. Folder <code>inbox</code> tidak pernah ikut diunggah.</li>
+      <li>Minta Claude: <em>"Baca katalog di inbox/superindo-2026-46 dan buat batch.json untuk Kang Nawar."</em> Hasilnya satu baris per produk, plus daftar <code>skipped</code> berisi barang yang dilewati dan alasannya.</li>
+      <li>Baca <code>batch.json</code> dan betulkan yang salah. Kolom yang penting:
+        <ul class="mt-2 list-disc pl-5 space-y-1 text-[0.9375rem]">
+          <li><code>brand</code>, <code>name</code>, <code>size</code> (misalnya <code>"1.45kg"</code>, <code>"6x100ml"</code>, <code>"10pcs"</code>), <code>cat</code> (kategori/subkategori)</li>
+          <li><code>price</code>: harga yang dibayar; <code>qty</code>: untuk berapa barang; <code>was</code>: harga coret per barang</li>
+          <li><code>loose: true</code> dan <code>per: "100g"</code> untuk barang curah yang dihargai per 100 g</li>
+          <li><code>pid</code>: pakai produk yang sudah ada, kalau sebenarnya produk yang sama</li>
+        </ul>
+      </li>
+      <li>Coba dulu tanpa menulis apa pun:
+        <code class={code}>python tools/batch_import.py inbox/superindo-2026-46/batch.json --dry-run</code>
+        <span class="block mt-2">Baris <code>CHECK</code> artinya ada produk baru yang mirip produk lama. Kalau memang sama, isi <code>pid</code>.</span>
+      </li>
+      <li>Jalankan sungguhan, lalu periksa:
+        <code class={code}>{`python tools/batch_import.py inbox/superindo-2026-46/batch.json
+python tools/validate.py
+python tools/pricing.py`}</code>
+        <span class="block mt-2"><code>pricing.py</code> menampilkan produk yang ternyata lebih murah di toko lain.</span>
+      </li>
+      <li>Lihat hasilnya: <code>npm run dev</code>, lalu buka <code>http://localhost:4321</code>.</li>
+      <li>Simpan dan unggah:
+        <code class={code}>{`git add data
+git commit -m "Katalog Super Indo Ed. 46"
+git push`}</code>
+      </li>
+    </ol>
+
+    <h2 id="situs" class={h2}>Mengambil harga dari situs toko</h2>
+    <p class="mt-2">Untuk toko yang promonya ada di situs, bukan di katalog cetak: IKEA, Informa, AZKO, toko resmi merek. Situs seperti IKEA memuat daftar produk dengan JavaScript, jadi <em>Save page as</em> biasa sering kosong. Pakai tombol ini:</p>
+    <p class="mt-4">
+      <a href={bookmarklet} class="inline-flex items-center gap-2 rounded-full bg-tag text-on-tag px-5 py-2.5 font-semibold cursor-move" title="Seret ke bilah bookmark">Ambil harga</a>
+      <span class="ml-2 text-slate text-[0.9375rem]">seret tombol ini ke bilah bookmark</span>
+    </p>
+    <ol class="mt-4 list-decimal pl-5 space-y-4">
+      <li>Buka halaman promo tokonya. Gulir sampai paling bawah supaya semua produk dimuat (klik <em>Muat lebih banyak</em> kalau ada).</li>
+      <li>Klik bookmark <strong>Ambil harga</strong>. Browser mengunduh <code>harga-&lt;situs&gt;-&lt;tanggal&gt;.json</code> berisi setiap kartu produk yang punya harga "Rp" dan link. Tidak ada yang dikirim ke mana pun.</li>
+      <li>Pindahkan filenya ke <code>inbox/&lt;toko&gt;-&lt;tahun&gt;-&lt;bulan&gt;/</code>, lalu buat draf:
+        <code class={code}>python tools/page_capture.py inbox/ikea-2026-11/harga-ikea.co.id-2026-11-07.json --store ikea --valid-until 2026-11-30</code>
+        <span class="block mt-2">Harga, harga coret, persen diskon dan link sudah terisi. Merek, ukuran dan kategori jadi <code>TODO</code> kalau tidak terbaca. Baris <code>check</code> menandai kartu dengan lebih dari satu harga.</span>
+      </li>
+      <li>Betulkan drafnya (atau minta Claude mencocokkan dengan halamannya), lalu lanjutkan seperti katalog dari langkah <code>--dry-run</code>. Barang non-konsumsi seperti rak atau kursi pakai <code>"size": "1pcs"</code>.</li>
+    </ol>
+    <p class="mt-3 text-slate"><strong>Cetak ke PDF</strong> juga bisa sebagai cadangan: simpan PDF-nya di <code>inbox/</code> dan perlakukan seperti katalog. Kekurangannya, link produk hilang dan hanya yang sudah dimuat di layar yang ikut tercetak. Halaman yang disimpan dengan Ctrl+S (<code>.html</code> atau <code>.mhtml</code>) juga bisa dibaca <code>page_capture.py</code>, tapi hanya data terstruktur di dalamnya, yang biasanya ada di halaman satu produk.</p>
+
+    <h2 id="foto-produk" class={h2}>Menambah foto produk</h2>
+    <p class="mt-2">Hanya foto buatan sendiri, bukan dari katalog atau situs merek. Kemasan dengan latar polos paling bagus.</p>
+    <ol class="mt-3 list-decimal pl-5 space-y-4">
+      <li>Kecilkan fotonya. Hasilnya WebP kecil tanpa data lokasi, namanya sama dengan file produk di <code>data/products/</code>:
+        <code class={code}>python tools/image_prep.py foto.jpg --out public/img/products --name rinso-detergen-bubuk-anti-noda-1295g --max-side 400 --max-kb 20</code>
+      </li>
+      <li>Tambahkan satu baris di file produknya:
+        <code class={code}>"image": "img/products/rinso-detergen-bubuk-anti-noda-1295g.webp"</code>
+      </li>
+      <li>Jalankan <code>python tools/validate.py</code>, lalu commit dan push.</li>
+    </ol>
+
+    <h2 id="pasang" class={h2}>Memasang alat di komputer</h2>
+    <p class="mt-2">Sekali saja. Butuh Python 3.10+, Node 22 dan Git.</p>
+    <code class={code}>{`pip install -r tools/requirements.txt
+npm install
+npm run dev`}</code>
+    <p class="mt-3">Di Windows, kalau <code>python</code> tidak dikenali, coba <code>py</code>. Pemeriksaan lengkap sebelum commit:</p>
+    <code class={code}>{`python -m unittest discover -s tools/tests
+python tools/validate.py`}</code>
+
+    <h2 id="periksa" class={h2}>Sebelum menerima kiriman</h2>
+    <ul class="mt-3 list-disc pl-5 space-y-1">
+      <li>Foto memperlihatkan produk, ukuran dan harga yang ditulis.</li>
+      <li>Bukan produk ganda dengan nama lain (cari merek + ukuran).</li>
+      <li>Tidak ada data pribadi di foto atau di nama pengirim: nama atau panggilan saja, tanpa email atau nomor telepon.</li>
+      <li><code>validate.py</code> bersih dan tes lulus.</li>
+    </ul>
+    <p class="mt-3 text-slate">Aturan penilaian ada di <code>docs/VERDICTS.md</code> dan <code>data/rules.json</code>.</p>
+  </article>
+</Base>

@@ -394,28 +394,273 @@
     ]
   },
   {
+    "id": "makan-di-luar",
+    "name": "Makan di Luar",
+    "subcategories": [
+      {
+        "id": "cepat-saji",
+        "name": "Restoran Cepat Saji",
+        "unit": "pcs"
+      },
+      {
+        "id": "kopi-kekinian",
+        "name": "Kopi & Minuman Kekinian",
+        "unit": "pcs"
+      },
+      {
+        "id": "restoran",
+        "name": "Restoran & Kafe",
+        "unit": "pcs"
+      },
+      {
+        "id": "roti-kue-toko",
+        "name": "Toko Roti & Kue",
+        "unit": "pcs"
+      },
+      {
+        "id": "pesan-antar",
+        "name": "Promo Pesan Antar",
+        "unit": "pcs"
+      }
+    ]
+  },
+  {
     "id": "elektronik",
-    "name": "Elektronik",
-    "active": false,
+    "name": "Komputer & Gadget",
     "subcategories": [
       {
         "id": "ponsel",
-        "name": "Ponsel",
+        "name": "Ponsel & Tablet",
         "unit": "pcs"
       },
       {
         "id": "komputer",
-        "name": "Komputer & Komponen",
+        "name": "Laptop & Komputer",
+        "unit": "pcs"
+      },
+      {
+        "id": "aksesoris",
+        "name": "Aksesoris Gadget",
+        "unit": "pcs"
+      },
+      {
+        "id": "audio",
+        "name": "Headphone & Speaker",
+        "unit": "pcs"
+      },
+      {
+        "id": "kamera",
+        "name": "Kamera",
+        "unit": "pcs"
+      },
+      {
+        "id": "penyimpanan-data",
+        "name": "Memori & Penyimpanan",
         "unit": "pcs"
       },
       {
         "id": "gaming",
         "name": "Gaming",
         "unit": "pcs"
+      }
+    ]
+  },
+  {
+    "id": "elektronik-rumah",
+    "name": "Elektronik Rumah",
+    "subcategories": [
+      {
+        "id": "dapur-elektronik",
+        "name": "Alat Dapur Elektrik",
+        "unit": "pcs"
       },
       {
-        "id": "aksesoris",
-        "name": "Aksesoris",
+        "id": "kipas-ac",
+        "name": "Kipas Angin & AC",
+        "unit": "pcs"
+      },
+      {
+        "id": "kulkas-mesin-cuci",
+        "name": "Kulkas & Mesin Cuci",
+        "unit": "pcs"
+      },
+      {
+        "id": "tv",
+        "name": "TV & Hiburan Rumah",
+        "unit": "pcs"
+      },
+      {
+        "id": "kebersihan-elektronik",
+        "name": "Vakum & Setrika",
+        "unit": "pcs"
+      },
+      {
+        "id": "lampu-listrik",
+        "name": "Lampu & Kelistrikan",
+        "unit": "pcs"
+      },
+      {
+        "id": "baterai",
+        "name": "Baterai",
+        "unit": "pcs"
+      }
+    ]
+  },
+  {
+    "id": "perabot-rumah",
+    "name": "Perabot & Dapur",
+    "subcategories": [
+      {
+        "id": "furnitur",
+        "name": "Furnitur",
+        "unit": "pcs"
+      },
+      {
+        "id": "kasur-sprei",
+        "name": "Kasur, Bantal & Sprei",
+        "unit": "pcs"
+      },
+      {
+        "id": "peralatan-masak",
+        "name": "Peralatan Masak",
+        "unit": "pcs"
+      },
+      {
+        "id": "peralatan-makan",
+        "name": "Peralatan Makan & Minum",
+        "unit": "pcs"
+      },
+      {
+        "id": "penyimpanan",
+        "name": "Kotak & Rak Penyimpanan",
+        "unit": "pcs"
+      },
+      {
+        "id": "dekorasi",
+        "name": "Dekorasi & Tirai",
+        "unit": "pcs"
+      },
+      {
+        "id": "kamar-mandi",
+        "name": "Perlengkapan Kamar Mandi",
+        "unit": "pcs"
+      },
+      {
+        "id": "perkakas",
+        "name": "Perkakas & Pertukangan",
+        "unit": "pcs"
+      },
+      {
+        "id": "taman",
+        "name": "Taman & Tanaman",
+        "unit": "pcs"
+      }
+    ]
+  },
+  {
+    "id": "fashion",
+    "name": "Fashion",
+    "subcategories": [
+      {
+        "id": "pakaian-pria",
+        "name": "Pakaian Pria",
+        "unit": "pcs"
+      },
+      {
+        "id": "pakaian-wanita",
+        "name": "Pakaian Wanita",
+        "unit": "pcs"
+      },
+      {
+        "id": "pakaian-muslim",
+        "name": "Busana Muslim",
+        "unit": "pcs"
+      },
+      {
+        "id": "pakaian-anak",
+        "name": "Pakaian Anak",
+        "unit": "pcs"
+      },
+      {
+        "id": "sepatu-sandal",
+        "name": "Sepatu & Sandal",
+        "unit": "pcs"
+      },
+      {
+        "id": "tas-dompet",
+        "name": "Tas & Dompet",
+        "unit": "pcs"
+      },
+      {
+        "id": "jam-aksesoris",
+        "name": "Jam & Aksesoris",
+        "unit": "pcs"
+      },
+      {
+        "id": "pakaian-dalam",
+        "name": "Pakaian Dalam",
+        "unit": "pcs"
+      }
+    ]
+  },
+  {
+    "id": "olahraga-outdoor",
+    "name": "Olahraga & Outdoor",
+    "subcategories": [
+      {
+        "id": "alat-olahraga",
+        "name": "Alat Olahraga & Fitness",
+        "unit": "pcs"
+      },
+      {
+        "id": "pakaian-olahraga",
+        "name": "Pakaian & Sepatu Olahraga",
+        "unit": "pcs"
+      },
+      {
+        "id": "sepeda",
+        "name": "Sepeda",
+        "unit": "pcs"
+      },
+      {
+        "id": "camping",
+        "name": "Camping & Hiking",
+        "unit": "pcs"
+      },
+      {
+        "id": "suplemen-olahraga",
+        "name": "Suplemen Olahraga",
+        "unit": "g"
+      }
+    ]
+  },
+  {
+    "id": "mainan-buku-hobi",
+    "name": "Mainan, Buku & Hobi",
+    "subcategories": [
+      {
+        "id": "mainan",
+        "name": "Mainan Anak",
+        "unit": "pcs"
+      },
+      {
+        "id": "buku",
+        "name": "Buku & Majalah",
+        "unit": "pcs"
+      },
+      {
+        "id": "alat-tulis",
+        "name": "Alat Tulis & Kantor",
+        "unit": "pcs"
+      },
+      {
+        "id": "hobi",
+        "name": "Hobi & Kerajinan",
+        "unit": "pcs"
+      },
+      {
+        "id": "alat-musik",
+        "name": "Alat Musik",
         "unit": "pcs"
       }
     ]
@@ -423,7 +668,6 @@
   {
     "id": "hewan-peliharaan",
     "name": "Hewan Peliharaan",
-    "active": false,
     "subcategories": [
       {
         "id": "makanan-hewan",
@@ -434,6 +678,130 @@
         "id": "pasir-kucing",
         "name": "Pasir Kucing",
         "unit": "g"
+      },
+      {
+        "id": "perawatan-hewan",
+        "name": "Perawatan Hewan",
+        "unit": "pcs"
+      },
+      {
+        "id": "aksesoris-hewan",
+        "name": "Kandang & Aksesoris",
+        "unit": "pcs"
+      }
+    ]
+  },
+  {
+    "id": "otomotif",
+    "name": "Otomotif",
+    "subcategories": [
+      {
+        "id": "oli",
+        "name": "Oli & Pelumas",
+        "unit": "ml"
+      },
+      {
+        "id": "perawatan-kendaraan",
+        "name": "Perawatan & Cuci Kendaraan",
+        "unit": "pcs"
+      },
+      {
+        "id": "aksesoris-mobil",
+        "name": "Aksesoris Mobil",
+        "unit": "pcs"
+      },
+      {
+        "id": "aksesoris-motor",
+        "name": "Aksesoris & Helm Motor",
+        "unit": "pcs"
+      },
+      {
+        "id": "ban-aki",
+        "name": "Ban & Aki",
+        "unit": "pcs"
+      }
+    ]
+  },
+  {
+    "id": "pulsa-digital",
+    "name": "Pulsa & Layanan Digital",
+    "subcategories": [
+      {
+        "id": "pulsa-data",
+        "name": "Pulsa & Paket Data",
+        "unit": "pcs"
+      },
+      {
+        "id": "internet-rumah",
+        "name": "Internet Rumah",
+        "unit": "pcs"
+      },
+      {
+        "id": "streaming",
+        "name": "Streaming & Langganan",
+        "unit": "pcs"
+      },
+      {
+        "id": "voucher-game",
+        "name": "Voucher Game",
+        "unit": "pcs"
+      },
+      {
+        "id": "aplikasi",
+        "name": "Aplikasi & Software",
+        "unit": "pcs"
+      }
+    ]
+  },
+  {
+    "id": "perjalanan",
+    "name": "Perjalanan",
+    "subcategories": [
+      {
+        "id": "tiket-pesawat",
+        "name": "Tiket Pesawat",
+        "unit": "pcs"
+      },
+      {
+        "id": "kereta-bus",
+        "name": "Kereta, Bus & Kapal",
+        "unit": "pcs"
+      },
+      {
+        "id": "hotel",
+        "name": "Hotel & Penginapan",
+        "unit": "pcs"
+      },
+      {
+        "id": "tempat-wisata",
+        "name": "Tiket Wisata & Hiburan",
+        "unit": "pcs"
+      },
+      {
+        "id": "koper",
+        "name": "Koper & Perlengkapan Jalan",
+        "unit": "pcs"
+      }
+    ]
+  },
+  {
+    "id": "voucher-cashback",
+    "name": "Voucher & Cashback",
+    "subcategories": [
+      {
+        "id": "voucher-belanja",
+        "name": "Voucher Belanja",
+        "unit": "pcs"
+      },
+      {
+        "id": "e-wallet",
+        "name": "Promo E-Wallet & Bank",
+        "unit": "pcs"
+      },
+      {
+        "id": "gratis-ongkir",
+        "name": "Gratis Ongkir",
+        "unit": "pcs"
       }
     ]
   }

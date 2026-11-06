@@ -198,6 +198,10 @@ def run(batch_path: Path, root: Path, dry_run: bool) -> int:
     observations = []
     problems = []
     for n, item in enumerate(batch["items"], 1):
+        todo = [k for k, v in item.items() if v == "TODO"] + [f"defaults.{k}" for k, v in d.items() if v == "TODO"]
+        if todo:
+            problems.append(f"item {n} ({item.get('name')}): still TODO: {', '.join(todo)}")
+            continue
         try:
             product = build_product(item)
         except (ValueError, KeyError) as exc:

@@ -1,0 +1,12 @@
+{
+  "id": "morin-topping-300g",
+  "brand": "Morin",
+  "name": "Topping",
+  "variant": "Caramel, Chocolate, Strawberry",
+  "size": {
+    "amount": 300,
+    "unit": "g"
+  },
+  "category": "makanan-minuman",
+  "subcategory": "selai-madu"
+}

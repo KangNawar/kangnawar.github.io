@@ -1,0 +1,12 @@
+{
+  "id": "naturally-fresh-sayur-shabu-shabu-450g",
+  "brand": "Naturally Fresh",
+  "name": "Sayur Shabu-Shabu",
+  "variant": "Shabu-Shabu, Tomyam, Sukiyaki",
+  "size": {
+    "amount": 450,
+    "unit": "g"
+  },
+  "category": "produk-segar",
+  "subcategory": "sayur"
+}

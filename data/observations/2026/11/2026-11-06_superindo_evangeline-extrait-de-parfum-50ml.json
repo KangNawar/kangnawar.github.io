@@ -1,0 +1,21 @@
+{
+  "id": "2026-11-06_superindo_evangeline-extrait-de-parfum-50ml",
+  "product": "evangeline-extrait-de-parfum-50ml",
+  "store": "superindo",
+  "channel": "offline",
+  "city": "Jabodetabek & Palembang",
+  "price": 45000,
+  "claimed_normal_price": 59990,
+  "promo": {
+    "type": "diskon",
+    "claimed_pct": 25
+  },
+  "seen_on": "2026-11-06",
+  "valid_from": "2026-11-05",
+  "valid_until": "2026-11-11",
+  "source": {
+    "type": "catalogue",
+    "image": "img/evidence/2026/superindo-2026-45-p06.webp",
+    "contributor": "Kang Nawar"
+  }
+}

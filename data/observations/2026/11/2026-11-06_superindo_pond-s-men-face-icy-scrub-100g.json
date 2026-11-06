@@ -1,0 +1,22 @@
+{
+  "id": "2026-11-06_superindo_pond-s-men-face-icy-scrub-100g",
+  "product": "pond-s-men-face-icy-scrub-100g",
+  "store": "superindo",
+  "channel": "offline",
+  "city": "Jabodetabek & Palembang",
+  "price": 30800,
+  "claimed_normal_price": 43990,
+  "promo": {
+    "type": "diskon",
+    "claimed_pct": 30
+  },
+  "seen_on": "2026-11-06",
+  "valid_from": "2026-11-05",
+  "valid_until": "2026-11-11",
+  "source": {
+    "type": "catalogue",
+    "image": "img/evidence/2026/superindo-2026-45-p06.webp",
+    "contributor": "Kang Nawar"
+  },
+  "notes": "Harga mulai"
+}

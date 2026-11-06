@@ -21,6 +21,19 @@ Contributor credit is a name or handle only. Never an email, phone number, or a
 photo that shows people, receipts with card numbers, or home addresses.
 `tools/validate.py` rejects anything that looks like an email or phone number.
 
+## Importing a catalogue, flyer or screenshots
+
+1. Put the files in `inbox/<store>-<year>-<edition>/` (inbox/ is never committed).
+2. Ask Claude to read them and write `inbox/<batch>/batch.json`: one entry per product,
+   plus a `skipped` list with a reason for anything left out (several sizes under one
+   "Harga Mulai" price, no size printed, outside our categories).
+3. Read through `batch.json` and fix anything wrong. It is plain JSON; the format is
+   described at the top of `tools/batch_import.py`.
+4. `python tools/batch_import.py inbox/<batch>/batch.json --dry-run`, then without `--dry-run`.
+5. `python tools/validate.py` and `python tools/pricing.py`. The pricing summary also lists
+   promos whose badge % is higher than the strikethrough price supports.
+6. Commit and push (or open a pull request).
+
 ## Images
 
 Always run `python tools/image_prep.py <files> --out <folder>` first:

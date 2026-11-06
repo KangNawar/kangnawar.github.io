@@ -1,0 +1,12 @@
+{
+  "id": "yun-yi-tahu-10pcs",
+  "brand": "Yun Yi",
+  "name": "Tahu",
+  "variant": "Putih, Kuning",
+  "size": {
+    "amount": 10,
+    "unit": "pcs"
+  },
+  "category": "produk-segar",
+  "subcategory": "tahu-tempe"
+}

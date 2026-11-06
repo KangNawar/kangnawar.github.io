@@ -1,0 +1,13 @@
+{
+  "id": "nutrive-benecol-yoghurt-6x100ml",
+  "brand": "Nutrive Benecol",
+  "name": "Yoghurt",
+  "variant": "Semua rasa",
+  "size": {
+    "amount": 100,
+    "unit": "ml"
+  },
+  "pack_count": 6,
+  "category": "makanan-minuman",
+  "subcategory": "yogurt-puding"
+}

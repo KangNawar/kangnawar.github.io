@@ -1,0 +1,11 @@
+{
+  "id": "sangobion-obat-tambah-darah-10pcs",
+  "brand": "Sangobion",
+  "name": "Obat Tambah Darah",
+  "size": {
+    "amount": 10,
+    "unit": "pcs"
+  },
+  "category": "kesehatan",
+  "subcategory": "obat-bebas"
+}

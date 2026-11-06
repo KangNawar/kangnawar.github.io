@@ -1,0 +1,21 @@
+{
+  "id": "2026-11-06_superindo_dove-body-wash-refill-750g",
+  "product": "dove-body-wash-refill-750g",
+  "store": "superindo",
+  "channel": "offline",
+  "city": "Jabodetabek & Palembang",
+  "price": 47500,
+  "claimed_normal_price": 63290,
+  "promo": {
+    "type": "diskon",
+    "claimed_pct": 25
+  },
+  "seen_on": "2026-11-06",
+  "valid_from": "2026-11-05",
+  "valid_until": "2026-11-11",
+  "source": {
+    "type": "catalogue",
+    "image": "img/evidence/2026/superindo-2026-45-p06.webp",
+    "contributor": "Kang Nawar"
+  }
+}

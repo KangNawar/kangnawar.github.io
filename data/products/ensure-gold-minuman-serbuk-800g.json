@@ -1,0 +1,12 @@
+{
+  "id": "ensure-gold-minuman-serbuk-800g",
+  "brand": "Ensure",
+  "name": "Gold Minuman Serbuk",
+  "variant": "Vanila, Cokelat",
+  "size": {
+    "amount": 800,
+    "unit": "g"
+  },
+  "category": "makanan-minuman",
+  "subcategory": "susu-bubuk"
+}

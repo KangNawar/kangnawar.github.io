@@ -1,0 +1,12 @@
+{
+  "id": "kaki-sapi-potong-curah",
+  "brand": "Tanpa Merek",
+  "name": "Kaki Sapi Potong",
+  "size": {
+    "amount": 1000,
+    "unit": "g"
+  },
+  "loose": true,
+  "category": "produk-segar",
+  "subcategory": "daging-sapi"
+}

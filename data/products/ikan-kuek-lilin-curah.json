@@ -1,0 +1,12 @@
+{
+  "id": "ikan-kuek-lilin-curah",
+  "brand": "Tanpa Merek",
+  "name": "Ikan Kuek Lilin",
+  "size": {
+    "amount": 1000,
+    "unit": "g"
+  },
+  "loose": true,
+  "category": "produk-segar",
+  "subcategory": "ikan-seafood"
+}

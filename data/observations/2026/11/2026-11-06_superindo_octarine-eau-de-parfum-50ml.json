@@ -1,0 +1,20 @@
+{
+  "id": "2026-11-06_superindo_octarine-eau-de-parfum-50ml",
+  "product": "octarine-eau-de-parfum-50ml",
+  "store": "superindo",
+  "channel": "offline",
+  "city": "Jabodetabek & Palembang",
+  "price": 78900,
+  "claimed_normal_price": 93890,
+  "promo": {
+    "type": "harga-spesial"
+  },
+  "seen_on": "2026-11-06",
+  "valid_from": "2026-11-05",
+  "valid_until": "2026-11-11",
+  "source": {
+    "type": "catalogue",
+    "image": "img/evidence/2026/superindo-2026-45-p06.webp",
+    "contributor": "Kang Nawar"
+  }
+}

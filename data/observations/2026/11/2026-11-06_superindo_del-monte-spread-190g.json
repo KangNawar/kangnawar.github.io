@@ -1,0 +1,22 @@
+{
+  "id": "2026-11-06_superindo_del-monte-spread-190g",
+  "product": "del-monte-spread-190g",
+  "store": "superindo",
+  "channel": "offline",
+  "city": "Jabodetabek & Palembang",
+  "price": 28490,
+  "claimed_normal_price": 34590,
+  "promo": {
+    "type": "diskon",
+    "claimed_pct": 15
+  },
+  "seen_on": "2026-11-06",
+  "valid_from": "2026-11-05",
+  "valid_until": "2026-11-11",
+  "source": {
+    "type": "catalogue",
+    "image": "img/evidence/2026/superindo-2026-45-p04.webp",
+    "contributor": "Kang Nawar"
+  },
+  "notes": "Harga mulai"
+}

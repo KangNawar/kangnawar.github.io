@@ -1,0 +1,12 @@
+{
+  "id": "salak-pondoh-curah",
+  "brand": "Tanpa Merek",
+  "name": "Salak Pondoh",
+  "size": {
+    "amount": 1000,
+    "unit": "g"
+  },
+  "loose": true,
+  "category": "produk-segar",
+  "subcategory": "buah"
+}

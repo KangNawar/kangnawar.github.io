@@ -1,0 +1,12 @@
+{
+  "id": "my-roti-roti-sobek-225g",
+  "brand": "My Roti",
+  "name": "Roti Sobek",
+  "variant": "Isi Cokelat, Cokelat Keju",
+  "size": {
+    "amount": 225,
+    "unit": "g"
+  },
+  "category": "makanan-minuman",
+  "subcategory": "roti-kue"
+}

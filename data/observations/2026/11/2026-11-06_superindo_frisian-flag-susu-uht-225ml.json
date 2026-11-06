@@ -1,0 +1,23 @@
+{
+  "id": "2026-11-06_superindo_frisian-flag-susu-uht-225ml",
+  "product": "frisian-flag-susu-uht-225ml",
+  "store": "superindo",
+  "channel": "offline",
+  "city": "Jabodetabek & Palembang",
+  "price": 10490,
+  "quantity": 2,
+  "claimed_normal_price": 6390,
+  "promo": {
+    "type": "bundling",
+    "label": "2 Seharga 10.490"
+  },
+  "seen_on": "2026-11-06",
+  "valid_from": "2026-11-05",
+  "valid_until": "2026-11-11",
+  "source": {
+    "type": "catalogue",
+    "image": "img/evidence/2026/superindo-2026-45-p05.webp",
+    "contributor": "Kang Nawar"
+  },
+  "notes": "Harga mulai"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "2026-11-06_superindo_ayam-dada-slice-300g",
+  "product": "ayam-dada-slice-300g",
+  "store": "superindo",
+  "channel": "offline",
+  "city": "Jabodetabek & Palembang",
+  "price": 45500,
+  "claimed_normal_price": 48500,
+  "promo": {
+    "type": "harga-spesial",
+    "label": "Fresh Deals"
+  },
+  "seen_on": "2026-11-06",
+  "valid_from": "2026-11-05",
+  "valid_until": "2026-11-11",
+  "source": {
+    "type": "catalogue",
+    "image": "img/evidence/2026/superindo-2026-45-p02.webp",
+    "contributor": "Kang Nawar"
+  }
+}

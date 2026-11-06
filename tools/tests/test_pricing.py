@@ -151,5 +151,40 @@ class UnitPriceTests(unittest.TestCase):
         self.assertFalse(res["expired"])
 
 
+class CatalogueTests(unittest.TestCase):
+    def setUp(self):
+        self.repo = TempRepo()
+
+    def tearDown(self):
+        self.repo.cleanup()
+
+    def res(self, oid):
+        out = pricing.compute(load(self.repo.root), TODAY)
+        return next(r for r in out["observations"] if r["id"] == oid)
+
+    def test_loose_price_per_100g(self):
+        self.repo.product("kentang-curah", amount=1000, unit="g", loose=True)
+        o = self.repo.obs("kentang-curah", "superindo", "2026-11-06", 2390, claimed_normal_price=2790,
+                          price_basis={"amount": 100, "unit": "g"},
+                          promo={"type": "diskon", "claimed_pct": 25})
+        r = self.res(o["id"])
+        self.assertEqual(r["unit_price"], 2390.0)
+        self.assertEqual(r["claimed_discount_pct"], 14.3)
+        self.assertEqual(r["badge_overstated_pct"], 10.7)  # badge says 25%, tag maths says 14.3%
+
+    def test_loose_matches_per_kg_store(self):
+        self.repo.product("kentang-curah", amount=1000, unit="g", loose=True)
+        a = self.repo.obs("kentang-curah", "superindo", "2026-11-06", 2390, price_basis={"amount": 100, "unit": "g"})
+        b = self.repo.obs("kentang-curah", "hypermart", "2026-11-06", 21900)  # per kg
+        self.assertEqual(self.res(a["id"])["unit_price"], 2390.0)
+        self.assertEqual(self.res(b["id"])["unit_price"], 2190.0)
+
+    def test_honest_badge_not_flagged(self):
+        self.repo.product("p-badge")
+        o = self.repo.obs("p-badge", "superindo", "2026-11-06", 17000, claimed_normal_price=20000,
+                          promo={"type": "diskon", "claimed_pct": 15})
+        self.assertIsNone(self.res(o["id"])["badge_overstated_pct"])
+
+
 if __name__ == "__main__":
     unittest.main()

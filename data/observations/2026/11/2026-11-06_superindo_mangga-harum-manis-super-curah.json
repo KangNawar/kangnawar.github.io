@@ -1,0 +1,25 @@
+{
+  "id": "2026-11-06_superindo_mangga-harum-manis-super-curah",
+  "product": "mangga-harum-manis-super-curah",
+  "store": "superindo",
+  "channel": "offline",
+  "city": "Jabodetabek & Palembang",
+  "price": 2380,
+  "claimed_normal_price": 3490,
+  "price_basis": {
+    "amount": 100,
+    "unit": "g"
+  },
+  "promo": {
+    "type": "diskon",
+    "claimed_pct": 30
+  },
+  "seen_on": "2026-11-06",
+  "valid_from": "2026-11-05",
+  "valid_until": "2026-11-11",
+  "source": {
+    "type": "catalogue",
+    "image": "img/evidence/2026/superindo-2026-45-p08.webp",
+    "contributor": "Kang Nawar"
+  }
+}

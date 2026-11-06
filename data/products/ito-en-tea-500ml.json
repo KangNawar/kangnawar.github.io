@@ -1,0 +1,12 @@
+{
+  "id": "ito-en-tea-500ml",
+  "brand": "Ito En",
+  "name": "Tea",
+  "variant": "Oolong Tea, Oi Ocha Hojicha",
+  "size": {
+    "amount": 500,
+    "unit": "ml"
+  },
+  "category": "makanan-minuman",
+  "subcategory": "minuman"
+}

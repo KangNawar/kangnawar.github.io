@@ -1,0 +1,12 @@
+{
+  "id": "barber-daily-pomade-compound-75ml",
+  "brand": "Barber Daily",
+  "name": "Pomade Compound",
+  "variant": "Medium, Strong",
+  "size": {
+    "amount": 75,
+    "unit": "ml"
+  },
+  "category": "perawatan-tubuh-rambut",
+  "subcategory": "penata-rambut"
+}

@@ -1,0 +1,11 @@
+{
+  "id": "rasa-masa-bumbu-nasi-goreng-kambing-20g",
+  "brand": "Rasa Masa",
+  "name": "Bumbu Nasi Goreng Kambing",
+  "size": {
+    "amount": 20,
+    "unit": "g"
+  },
+  "category": "sembako",
+  "subcategory": "bumbu-saus"
+}

@@ -1,0 +1,12 @@
+{
+  "id": "daging-oseng-curah",
+  "brand": "Tanpa Merek",
+  "name": "Daging Oseng",
+  "size": {
+    "amount": 1000,
+    "unit": "g"
+  },
+  "loose": true,
+  "category": "produk-segar",
+  "subcategory": "daging-sapi"
+}

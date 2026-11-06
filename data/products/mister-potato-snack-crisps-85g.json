@@ -1,0 +1,11 @@
+{
+  "id": "mister-potato-snack-crisps-85g",
+  "brand": "Mister Potato",
+  "name": "Snack Crisps",
+  "size": {
+    "amount": 85,
+    "unit": "g"
+  },
+  "category": "makanan-minuman",
+  "subcategory": "camilan"
+}

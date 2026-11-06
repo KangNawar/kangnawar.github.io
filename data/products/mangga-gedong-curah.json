@@ -1,0 +1,12 @@
+{
+  "id": "mangga-gedong-curah",
+  "brand": "Tanpa Merek",
+  "name": "Mangga Gedong",
+  "size": {
+    "amount": 1000,
+    "unit": "g"
+  },
+  "loose": true,
+  "category": "produk-segar",
+  "subcategory": "buah"
+}

@@ -1,0 +1,12 @@
+{
+  "id": "milo-3-in-1-minuman-serbuk-cokelat-18x34g",
+  "brand": "Milo",
+  "name": "3 in 1 Minuman Serbuk Cokelat",
+  "size": {
+    "amount": 34,
+    "unit": "g"
+  },
+  "pack_count": 18,
+  "category": "makanan-minuman",
+  "subcategory": "minuman-serbuk"
+}

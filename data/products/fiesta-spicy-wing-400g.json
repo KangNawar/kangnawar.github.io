@@ -1,0 +1,11 @@
+{
+  "id": "fiesta-spicy-wing-400g",
+  "brand": "Fiesta",
+  "name": "Spicy Wing",
+  "size": {
+    "amount": 400,
+    "unit": "g"
+  },
+  "category": "makanan-minuman",
+  "subcategory": "makanan-beku"
+}

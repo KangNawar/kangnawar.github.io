@@ -1,0 +1,12 @@
+{
+  "id": "iyes-kacang-oven-100g",
+  "brand": "Iyes",
+  "name": "Kacang Oven",
+  "variant": "Chili, Corn, Garlic",
+  "size": {
+    "amount": 100,
+    "unit": "g"
+  },
+  "category": "makanan-minuman",
+  "subcategory": "camilan"
+}

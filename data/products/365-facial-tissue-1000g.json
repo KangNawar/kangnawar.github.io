@@ -1,0 +1,11 @@
+{
+  "id": "365-facial-tissue-1000g",
+  "brand": "365",
+  "name": "Facial Tissue",
+  "size": {
+    "amount": 1000,
+    "unit": "g"
+  },
+  "category": "kebutuhan-rumah",
+  "subcategory": "tisu"
+}

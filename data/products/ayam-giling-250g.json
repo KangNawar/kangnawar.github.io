@@ -1,0 +1,11 @@
+{
+  "id": "ayam-giling-250g",
+  "brand": "Tanpa Merek",
+  "name": "Ayam Giling",
+  "size": {
+    "amount": 250,
+    "unit": "g"
+  },
+  "category": "produk-segar",
+  "subcategory": "ayam"
+}

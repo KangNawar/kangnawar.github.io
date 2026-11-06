@@ -1,0 +1,11 @@
+{
+  "id": "lifebuoy-body-wash-refill-800ml",
+  "brand": "Lifebuoy",
+  "name": "Body Wash Refill",
+  "size": {
+    "amount": 800,
+    "unit": "ml"
+  },
+  "category": "perawatan-tubuh-rambut",
+  "subcategory": "sabun-mandi"
+}

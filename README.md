@@ -14,7 +14,7 @@ Live site: https://kangnawar.github.io (static, hosted on GitHub Pages)
 - `data/categories.json`, `data/stores.json`, `data/promo-types.json`, `data/rules.json`:
   reference lists and the verdict thresholds.
 - `schemas/`: JSON Schemas for all of the above.
-- `tools/`: Python tools (validation, pricing and verdicts, image prep).
+- `tools/`: Python tools: `validate.py`, `pricing.py` (verdicts), `image_prep.py`, `batch_import.py`.
 - `public/img/`: product images and evidence crops, WebP, max 60 KB each.
 
 Verdict rules are explained in [docs/VERDICTS.md](docs/VERDICTS.md).

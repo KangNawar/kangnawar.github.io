@@ -1,0 +1,11 @@
+{
+  "id": "sunbay-soya-bean-drink-320ml",
+  "brand": "Sunbay",
+  "name": "Soya Bean Drink",
+  "size": {
+    "amount": 320,
+    "unit": "ml"
+  },
+  "category": "makanan-minuman",
+  "subcategory": "minuman"
+}

@@ -1,0 +1,11 @@
+{
+  "id": "sedaap-mi-instan-71g",
+  "brand": "Sedaap",
+  "name": "Mi Instan",
+  "size": {
+    "amount": 71,
+    "unit": "g"
+  },
+  "category": "makanan-minuman",
+  "subcategory": "mi-instan"
+}

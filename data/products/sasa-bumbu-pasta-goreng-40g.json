@@ -1,0 +1,12 @@
+{
+  "id": "sasa-bumbu-pasta-goreng-40g",
+  "brand": "Sasa",
+  "name": "Bumbu Pasta Goreng",
+  "variant": "Ayam Goreng, Ikan Goreng",
+  "size": {
+    "amount": 40,
+    "unit": "g"
+  },
+  "category": "sembako",
+  "subcategory": "bumbu-saus"
+}

@@ -1,0 +1,11 @@
+{
+  "id": "barco-minyak-goreng-kelapa-refill-1000ml",
+  "brand": "Barco",
+  "name": "Minyak Goreng Kelapa Refill",
+  "size": {
+    "amount": 1000,
+    "unit": "ml"
+  },
+  "category": "sembako",
+  "subcategory": "minyak-goreng"
+}

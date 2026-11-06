@@ -1,0 +1,12 @@
+{
+  "id": "hungry-but-busy-raisin-bar-100g",
+  "brand": "Hungry But Busy",
+  "name": "Raisin Bar",
+  "variant": "Crunchy Butter, Chewy",
+  "size": {
+    "amount": 100,
+    "unit": "g"
+  },
+  "category": "makanan-minuman",
+  "subcategory": "camilan"
+}

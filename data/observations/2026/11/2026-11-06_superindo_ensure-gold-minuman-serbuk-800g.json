@@ -1,0 +1,22 @@
+{
+  "id": "2026-11-06_superindo_ensure-gold-minuman-serbuk-800g",
+  "product": "ensure-gold-minuman-serbuk-800g",
+  "store": "superindo",
+  "channel": "offline",
+  "city": "Jabodetabek & Palembang",
+  "price": 279900,
+  "claimed_normal_price": 318990,
+  "promo": {
+    "type": "harga-spesial",
+    "member_only": true
+  },
+  "seen_on": "2026-11-06",
+  "valid_from": "2026-11-05",
+  "valid_until": "2026-11-11",
+  "source": {
+    "type": "catalogue",
+    "image": "img/evidence/2026/superindo-2026-45-p08.webp",
+    "contributor": "Kang Nawar"
+  },
+  "notes": "Member Deals; maks. 4"
+}

@@ -1,0 +1,12 @@
+{
+  "id": "ovaltine-minuman-serbuk-cokelat-3-in-1-18x33g",
+  "brand": "Ovaltine",
+  "name": "Minuman Serbuk Cokelat 3 in 1",
+  "size": {
+    "amount": 33,
+    "unit": "g"
+  },
+  "pack_count": 18,
+  "category": "makanan-minuman",
+  "subcategory": "minuman-serbuk"
+}

@@ -1,0 +1,22 @@
+{
+  "id": "2026-11-06_superindo_kahf-eau-de-toilette-35ml-2",
+  "product": "kahf-eau-de-toilette-35ml",
+  "store": "superindo",
+  "channel": "offline",
+  "city": "Jabodetabek & Palembang",
+  "price": 123100,
+  "quantity": 2,
+  "claimed_normal_price": 87890,
+  "promo": {
+    "type": "bundling",
+    "label": "Beli 2, harga satuan 61.550"
+  },
+  "seen_on": "2026-11-06",
+  "valid_from": "2026-11-05",
+  "valid_until": "2026-11-11",
+  "source": {
+    "type": "catalogue",
+    "image": "img/evidence/2026/superindo-2026-45-p06.webp",
+    "contributor": "Kang Nawar"
+  }
+}

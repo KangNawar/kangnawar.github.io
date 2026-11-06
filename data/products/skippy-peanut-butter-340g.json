@@ -1,0 +1,12 @@
+{
+  "id": "skippy-peanut-butter-340g",
+  "brand": "Skippy",
+  "name": "Peanut Butter",
+  "variant": "Creamy, Super Chunk",
+  "size": {
+    "amount": 340,
+    "unit": "g"
+  },
+  "category": "makanan-minuman",
+  "subcategory": "selai-madu"
+}

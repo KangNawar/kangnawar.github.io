@@ -1,0 +1,12 @@
+{
+  "id": "just-fry-french-fries-900g",
+  "brand": "Just Fry",
+  "name": "French Fries",
+  "variant": "Crinkle Cut, Straight Cut, Shoestring",
+  "size": {
+    "amount": 900,
+    "unit": "g"
+  },
+  "category": "makanan-minuman",
+  "subcategory": "makanan-beku"
+}

@@ -1,10 +1,52 @@
 [
-  { "id": "diskon", "name": "Diskon", "description": "Price cut, usually shown as a percentage or a strikethrough price." },
-  { "id": "beli-x-gratis-y", "name": "Beli X Gratis Y", "description": "Buy some, get more free. Record price = total paid and quantity = total packs received." },
-  { "id": "bundling", "name": "Bundling / Paket", "description": "Several packs sold together at one price. Record the bundle price and quantity." },
-  { "id": "tebus-murah", "name": "Tebus Murah (PWP)", "description": "Low price that needs a minimum spend. Record min_purchase." },
-  { "id": "harga-member", "name": "Harga Member", "description": "Only for loyalty-card or app members. Set member_only." },
-  { "id": "cashback", "name": "Cashback", "description": "Money back after paying. Only guaranteed cashback counts toward the effective price." },
-  { "id": "voucher", "name": "Voucher / Kode Promo", "description": "Needs a voucher or code. Record the price after the voucher." },
-  { "id": "flash-sale", "name": "Flash Sale", "description": "Very short window, usually online. Always set valid_until." }
+  {
+    "id": "diskon",
+    "name": "Diskon",
+    "description": "Price cut, usually shown as a percentage or a strikethrough price."
+  },
+  {
+    "id": "harga-spesial",
+    "name": "Harga Spesial",
+    "description": "Special price with a strikethrough but no stated percentage."
+  },
+  {
+    "id": "beli-x-gratis-y",
+    "name": "Beli X Gratis Y",
+    "description": "Buy some, get more free. Record price = total paid and quantity = total packs received."
+  },
+  {
+    "id": "bundling",
+    "name": "Bundling / Paket",
+    "description": "Several packs sold together at one price. Record the bundle price and quantity."
+  },
+  {
+    "id": "tebus-murah",
+    "name": "Tebus Murah (PWP)",
+    "description": "Low price that needs a minimum spend. Record min_purchase."
+  },
+  {
+    "id": "harga-member",
+    "name": "Harga Member",
+    "description": "Only for loyalty-card or app members. Set member_only."
+  },
+  {
+    "id": "cashback",
+    "name": "Cashback",
+    "description": "Money back after paying. Only guaranteed cashback counts toward the effective price."
+  },
+  {
+    "id": "voucher",
+    "name": "Voucher / Kode Promo",
+    "description": "Needs a voucher or code. Record the price after the voucher."
+  },
+  {
+    "id": "flash-sale",
+    "name": "Flash Sale",
+    "description": "Very short window, usually online. Always set valid_until."
+  },
+  {
+    "id": "hadiah",
+    "name": "Gratis Hadiah",
+    "description": "A free gift of a different product. The gift is noted but not counted in the unit price."
+  }
 ]

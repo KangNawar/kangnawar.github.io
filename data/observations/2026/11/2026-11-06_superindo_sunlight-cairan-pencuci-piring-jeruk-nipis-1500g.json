@@ -1,0 +1,22 @@
+{
+  "id": "2026-11-06_superindo_sunlight-cairan-pencuci-piring-jeruk-nipis-1500g",
+  "product": "sunlight-cairan-pencuci-piring-jeruk-nipis-1500g",
+  "store": "superindo",
+  "channel": "offline",
+  "city": "Jabodetabek & Palembang",
+  "price": 18900,
+  "claimed_normal_price": 23590,
+  "promo": {
+    "type": "diskon",
+    "claimed_pct": 15
+  },
+  "seen_on": "2026-11-06",
+  "valid_from": "2026-11-05",
+  "valid_until": "2026-11-11",
+  "source": {
+    "type": "catalogue",
+    "image": "img/evidence/2026/superindo-2026-45-p01.webp",
+    "contributor": "Kang Nawar"
+  },
+  "notes": "Maks. 4 per transaksi"
+}

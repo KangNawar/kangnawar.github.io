@@ -1,0 +1,25 @@
+{
+  "id": "2026-11-06_superindo_buntut-sapi-potong-curah",
+  "product": "buntut-sapi-potong-curah",
+  "store": "superindo",
+  "channel": "offline",
+  "city": "Jabodetabek & Palembang",
+  "price": 24990,
+  "claimed_normal_price": 27990,
+  "price_basis": {
+    "amount": 100,
+    "unit": "g"
+  },
+  "promo": {
+    "type": "harga-spesial",
+    "label": "Fresh Deals"
+  },
+  "seen_on": "2026-11-06",
+  "valid_from": "2026-11-05",
+  "valid_until": "2026-11-11",
+  "source": {
+    "type": "catalogue",
+    "image": "img/evidence/2026/superindo-2026-45-p02.webp",
+    "contributor": "Kang Nawar"
+  }
+}

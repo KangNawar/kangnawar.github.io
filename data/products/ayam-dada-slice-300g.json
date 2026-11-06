@@ -1,0 +1,11 @@
+{
+  "id": "ayam-dada-slice-300g",
+  "brand": "Tanpa Merek",
+  "name": "Ayam Dada Slice",
+  "size": {
+    "amount": 300,
+    "unit": "g"
+  },
+  "category": "produk-segar",
+  "subcategory": "ayam"
+}

@@ -1,0 +1,20 @@
+{
+  "id": "2026-11-06_superindo_betadine-antiseptic-solution-30ml",
+  "product": "betadine-antiseptic-solution-30ml",
+  "store": "superindo",
+  "channel": "offline",
+  "city": "Jabodetabek & Palembang",
+  "price": 35490,
+  "promo": {
+    "type": "hadiah",
+    "label": "Gratis Yakult minuman fermentasi 5x65 ml"
+  },
+  "seen_on": "2026-11-06",
+  "valid_from": "2026-11-05",
+  "valid_until": "2026-11-11",
+  "source": {
+    "type": "catalogue",
+    "image": "img/evidence/2026/superindo-2026-45-p06.webp",
+    "contributor": "Kang Nawar"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "id": "lay-s-potato-chips-105g",
+  "brand": "Lay's",
+  "name": "Potato Chips",
+  "variant": "Semua rasa",
+  "size": {
+    "amount": 105,
+    "unit": "g"
+  },
+  "category": "makanan-minuman",
+  "subcategory": "camilan"
+}

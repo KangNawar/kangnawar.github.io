@@ -1,0 +1,24 @@
+{
+  "id": "2026-11-06_superindo_pear-singo-curah",
+  "product": "pear-singo-curah",
+  "store": "superindo",
+  "channel": "offline",
+  "city": "Jabodetabek & Palembang",
+  "price": 4990,
+  "claimed_normal_price": 5390,
+  "price_basis": {
+    "amount": 100,
+    "unit": "g"
+  },
+  "promo": {
+    "type": "harga-spesial"
+  },
+  "seen_on": "2026-11-06",
+  "valid_from": "2026-11-05",
+  "valid_until": "2026-11-11",
+  "source": {
+    "type": "catalogue",
+    "image": "img/evidence/2026/superindo-2026-45-p08.webp",
+    "contributor": "Kang Nawar"
+  }
+}

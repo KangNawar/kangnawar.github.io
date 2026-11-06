@@ -1,0 +1,11 @@
+{
+  "id": "irin-gula-merah-400g",
+  "brand": "Irin",
+  "name": "Gula Merah",
+  "size": {
+    "amount": 400,
+    "unit": "g"
+  },
+  "category": "sembako",
+  "subcategory": "gula"
+}

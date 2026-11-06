@@ -1,0 +1,11 @@
+{
+  "id": "fiesta-ebi-fry-160g",
+  "brand": "Fiesta",
+  "name": "Ebi Fry",
+  "size": {
+    "amount": 160,
+    "unit": "g"
+  },
+  "category": "makanan-minuman",
+  "subcategory": "makanan-beku"
+}

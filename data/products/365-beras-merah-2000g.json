@@ -1,0 +1,11 @@
+{
+  "id": "365-beras-merah-2000g",
+  "brand": "365",
+  "name": "Beras Merah",
+  "size": {
+    "amount": 2000,
+    "unit": "g"
+  },
+  "category": "sembako",
+  "subcategory": "beras"
+}

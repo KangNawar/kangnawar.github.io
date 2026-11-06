@@ -1,0 +1,12 @@
+{
+  "id": "sunnygold-chicken-nugget-500g",
+  "brand": "SunnyGold",
+  "name": "Chicken Nugget",
+  "variant": "Nugget, Stick, Tempura",
+  "size": {
+    "amount": 500,
+    "unit": "g"
+  },
+  "category": "makanan-minuman",
+  "subcategory": "makanan-beku"
+}

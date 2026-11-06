@@ -1,0 +1,12 @@
+{
+  "id": "wrp-cookies-30g",
+  "brand": "WRP",
+  "name": "Cookies",
+  "variant": "Chocolate, Edam Cheese",
+  "size": {
+    "amount": 30,
+    "unit": "g"
+  },
+  "category": "makanan-minuman",
+  "subcategory": "camilan"
+}

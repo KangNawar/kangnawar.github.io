@@ -1,0 +1,12 @@
+{
+  "id": "milkita-milky-pudding-85g",
+  "brand": "Milkita",
+  "name": "Milky Pudding",
+  "variant": "Milk Yogurt, Strawberry Yogurt",
+  "size": {
+    "amount": 85,
+    "unit": "g"
+  },
+  "category": "makanan-minuman",
+  "subcategory": "yogurt-puding"
+}

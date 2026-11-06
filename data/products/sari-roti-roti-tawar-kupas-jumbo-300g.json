@@ -1,0 +1,11 @@
+{
+  "id": "sari-roti-roti-tawar-kupas-jumbo-300g",
+  "brand": "Sari Roti",
+  "name": "Roti Tawar Kupas Jumbo",
+  "size": {
+    "amount": 300,
+    "unit": "g"
+  },
+  "category": "makanan-minuman",
+  "subcategory": "roti-kue"
+}

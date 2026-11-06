@@ -1,0 +1,12 @@
+{
+  "id": "bebelac-susu-pertumbuhan-1-1800g",
+  "brand": "Bebelac",
+  "name": "Susu Pertumbuhan 1",
+  "variant": "Vanila, Madu",
+  "size": {
+    "amount": 1800,
+    "unit": "g"
+  },
+  "category": "ibu-bayi",
+  "subcategory": "susu-formula"
+}

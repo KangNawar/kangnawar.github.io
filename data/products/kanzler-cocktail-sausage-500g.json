@@ -1,0 +1,12 @@
+{
+  "id": "kanzler-cocktail-sausage-500g",
+  "brand": "Kanzler",
+  "name": "Cocktail Sausage",
+  "variant": "Cheese Cocktail, Frankfurter Cocktail",
+  "size": {
+    "amount": 500,
+    "unit": "g"
+  },
+  "category": "makanan-minuman",
+  "subcategory": "makanan-beku"
+}

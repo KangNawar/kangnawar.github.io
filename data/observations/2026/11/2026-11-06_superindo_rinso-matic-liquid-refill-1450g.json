@@ -1,0 +1,24 @@
+{
+  "id": "2026-11-06_superindo_rinso-matic-liquid-refill-1450g",
+  "product": "rinso-matic-liquid-refill-1450g",
+  "store": "superindo",
+  "channel": "offline",
+  "city": "Jabodetabek & Palembang",
+  "price": 44900,
+  "claimed_normal_price": 63790,
+  "promo": {
+    "type": "tebus-murah",
+    "label": "Purchase with Purchase: min. belanja Rp120.000",
+    "claimed_pct": 25,
+    "min_purchase": 120000
+  },
+  "seen_on": "2026-11-06",
+  "valid_from": "2026-11-05",
+  "valid_until": "2026-11-11",
+  "source": {
+    "type": "catalogue",
+    "image": "img/evidence/2026/superindo-2026-45-p09.webp",
+    "contributor": "Kang Nawar"
+  },
+  "notes": "Harga mulai"
+}

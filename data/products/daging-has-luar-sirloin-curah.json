@@ -1,0 +1,12 @@
+{
+  "id": "daging-has-luar-sirloin-curah",
+  "brand": "Tanpa Merek",
+  "name": "Daging Has Luar Sirloin",
+  "size": {
+    "amount": 1000,
+    "unit": "g"
+  },
+  "loose": true,
+  "category": "produk-segar",
+  "subcategory": "daging-sapi"
+}

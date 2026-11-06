@@ -1,0 +1,25 @@
+{
+  "id": "2026-11-06_superindo_daging-giling-spesial-curah",
+  "product": "daging-giling-spesial-curah",
+  "store": "superindo",
+  "channel": "offline",
+  "city": "Jabodetabek & Palembang",
+  "price": 15990,
+  "claimed_normal_price": 17390,
+  "price_basis": {
+    "amount": 100,
+    "unit": "g"
+  },
+  "promo": {
+    "type": "harga-spesial",
+    "label": "Harga Spesial, periode 5-8 November 2026"
+  },
+  "seen_on": "2026-11-06",
+  "valid_from": "2026-11-05",
+  "valid_until": "2026-11-08",
+  "source": {
+    "type": "catalogue",
+    "image": "img/evidence/2026/superindo-2026-45-p01.webp",
+    "contributor": "Kang Nawar"
+  }
+}

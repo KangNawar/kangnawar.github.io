@@ -156,6 +156,7 @@ def validate(root: Path | str = REPO_ROOT, today: date | None = None) -> Report:
             rep.warn(path, "valid_until is before seen_on")
 
         promo = o.get("promo")
+        claimed = o.get("claimed_normal_price")
         if promo:
             if promo["type"] not in promo_ids:
                 rep.error(path, f"unknown promo type '{promo['type']}'")
@@ -163,9 +164,16 @@ def validate(root: Path | str = REPO_ROOT, today: date | None = None) -> Report:
                 rep.error(path, "cashback is not smaller than the price")
             if not vu:
                 rep.warn(path, f"promo without valid_until: expires {ds.rules.get('default_expiry_days', 14)} days after seen_on")
+        basis = o.get("price_basis")
+        product = ds.products.get(pid, (None, None))[1]
+        if basis and product and basis["unit"] != product["size"]["unit"]:
+            rep.error(path, f"price_basis unit '{basis['unit']}' differs from the product unit '{product['size']['unit']}'")
+        if basis and product and not product.get("loose"):
+            rep.warn(path, "price_basis on a product not marked loose")
+        if promo and promo.get("claimed_pct") and claimed is None:
+            rep.warn(path, "badge % recorded without the strikethrough price: it cannot be checked")
         if o.get("quantity", 1) > 1 and not promo:
             rep.warn(path, "quantity > 1 without a promo: is this a bundle?")
-        claimed = o.get("claimed_normal_price")
         if claimed is not None and claimed * o.get("quantity", 1) <= o["price"]:
             rep.warn(path, "claimed normal price is not higher than the price paid")
         if o["channel"] == "online" and o["source"]["type"] == "photo" and not o["source"].get("image"):
@@ -176,7 +184,8 @@ def validate(root: Path | str = REPO_ROOT, today: date | None = None) -> Report:
         if re.search(r"@|\+?62\d{6,}|\b08\d{7,}", contributor):
             rep.error(path, "contributor looks like an email or phone number: use a name or handle")
         if o["source"].get("image"):
-            img = check_image(ds, o["source"]["image"], path, rep, max_kb)
+            limit = ds.rules.get("max_catalogue_page_kb", max_kb) if o["source"]["type"] == "catalogue" else max_kb
+            img = check_image(ds, o["source"]["image"], path, rep, limit)
             if img:
                 referenced_images.add(img.resolve())
 

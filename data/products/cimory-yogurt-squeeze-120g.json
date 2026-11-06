@@ -1,0 +1,12 @@
+{
+  "id": "cimory-yogurt-squeeze-120g",
+  "brand": "Cimory",
+  "name": "Yogurt Squeeze",
+  "variant": "Semua rasa",
+  "size": {
+    "amount": 120,
+    "unit": "g"
+  },
+  "category": "makanan-minuman",
+  "subcategory": "yogurt-puding"
+}

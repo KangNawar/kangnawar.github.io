@@ -1,0 +1,21 @@
+{
+  "id": "2026-11-06_superindo_nutrive-benecol-yoghurt-6x100ml",
+  "product": "nutrive-benecol-yoghurt-6x100ml",
+  "store": "superindo",
+  "channel": "offline",
+  "city": "Jabodetabek & Palembang",
+  "price": 39900,
+  "claimed_normal_price": 50790,
+  "promo": {
+    "type": "diskon",
+    "claimed_pct": 20
+  },
+  "seen_on": "2026-11-06",
+  "valid_from": "2026-11-05",
+  "valid_until": "2026-11-11",
+  "source": {
+    "type": "catalogue",
+    "image": "img/evidence/2026/superindo-2026-45-p03.webp",
+    "contributor": "Kang Nawar"
+  }
+}

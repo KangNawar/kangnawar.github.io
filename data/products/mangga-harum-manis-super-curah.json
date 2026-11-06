@@ -1,0 +1,12 @@
+{
+  "id": "mangga-harum-manis-super-curah",
+  "brand": "Tanpa Merek",
+  "name": "Mangga Harum Manis Super",
+  "size": {
+    "amount": 1000,
+    "unit": "g"
+  },
+  "loose": true,
+  "category": "produk-segar",
+  "subcategory": "buah"
+}

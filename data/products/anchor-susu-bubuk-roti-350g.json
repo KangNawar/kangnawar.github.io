@@ -1,0 +1,11 @@
+{
+  "id": "anchor-susu-bubuk-roti-350g",
+  "brand": "Anchor",
+  "name": "Susu Bubuk Roti",
+  "size": {
+    "amount": 350,
+    "unit": "g"
+  },
+  "category": "makanan-minuman",
+  "subcategory": "susu-bubuk"
+}

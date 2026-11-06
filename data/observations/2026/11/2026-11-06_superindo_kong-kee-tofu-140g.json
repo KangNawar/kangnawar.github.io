@@ -1,0 +1,21 @@
+{
+  "id": "2026-11-06_superindo_kong-kee-tofu-140g",
+  "product": "kong-kee-tofu-140g",
+  "store": "superindo",
+  "channel": "offline",
+  "city": "Jabodetabek & Palembang",
+  "price": 10550,
+  "claimed_normal_price": 11690,
+  "promo": {
+    "type": "harga-spesial"
+  },
+  "seen_on": "2026-11-06",
+  "valid_from": "2026-11-05",
+  "valid_until": "2026-11-11",
+  "source": {
+    "type": "catalogue",
+    "image": "img/evidence/2026/superindo-2026-45-p03.webp",
+    "contributor": "Kang Nawar"
+  },
+  "notes": "Harga mulai"
+}

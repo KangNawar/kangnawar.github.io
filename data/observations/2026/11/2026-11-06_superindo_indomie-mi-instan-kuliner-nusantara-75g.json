@@ -1,0 +1,22 @@
+{
+  "id": "2026-11-06_superindo_indomie-mi-instan-kuliner-nusantara-75g",
+  "product": "indomie-mi-instan-kuliner-nusantara-75g",
+  "store": "superindo",
+  "channel": "offline",
+  "city": "Jabodetabek & Palembang",
+  "price": 9500,
+  "quantity": 3,
+  "claimed_normal_price": 3290,
+  "promo": {
+    "type": "bundling",
+    "label": "3 Seharga 9.500"
+  },
+  "seen_on": "2026-11-06",
+  "valid_from": "2026-11-05",
+  "valid_until": "2026-11-11",
+  "source": {
+    "type": "catalogue",
+    "image": "img/evidence/2026/superindo-2026-45-p10.webp",
+    "contributor": "Kang Nawar"
+  }
+}

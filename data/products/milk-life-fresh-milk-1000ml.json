@@ -1,0 +1,12 @@
+{
+  "id": "milk-life-fresh-milk-1000ml",
+  "brand": "Milk Life",
+  "name": "Fresh Milk",
+  "variant": "Semua rasa",
+  "size": {
+    "amount": 1000,
+    "unit": "ml"
+  },
+  "category": "makanan-minuman",
+  "subcategory": "susu"
+}

@@ -1,0 +1,13 @@
+{
+  "id": "diamond-uht-milk-24x200ml",
+  "brand": "Diamond",
+  "name": "UHT Milk",
+  "variant": "Semua rasa",
+  "size": {
+    "amount": 200,
+    "unit": "ml"
+  },
+  "pack_count": 24,
+  "category": "makanan-minuman",
+  "subcategory": "susu"
+}

@@ -1,0 +1,12 @@
+{
+  "id": "naturally-fresh-salad-to-go-70g",
+  "brand": "Naturally Fresh",
+  "name": "Salad To Go",
+  "variant": "Mix Veggies, Baby Lettuce",
+  "size": {
+    "amount": 70,
+    "unit": "g"
+  },
+  "category": "produk-segar",
+  "subcategory": "sayur"
+}

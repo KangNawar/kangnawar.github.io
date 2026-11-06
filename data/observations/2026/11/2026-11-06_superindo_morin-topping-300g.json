@@ -1,0 +1,20 @@
+{
+  "id": "2026-11-06_superindo_morin-topping-300g",
+  "product": "morin-topping-300g",
+  "store": "superindo",
+  "channel": "offline",
+  "city": "Jabodetabek & Palembang",
+  "price": 26990,
+  "claimed_normal_price": 30900,
+  "promo": {
+    "type": "harga-spesial"
+  },
+  "seen_on": "2026-11-06",
+  "valid_from": "2026-11-05",
+  "valid_until": "2026-11-11",
+  "source": {
+    "type": "catalogue",
+    "image": "img/evidence/2026/superindo-2026-45-p10.webp",
+    "contributor": "Kang Nawar"
+  }
+}

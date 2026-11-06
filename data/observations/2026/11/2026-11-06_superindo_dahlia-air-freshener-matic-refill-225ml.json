@@ -1,0 +1,22 @@
+{
+  "id": "2026-11-06_superindo_dahlia-air-freshener-matic-refill-225ml",
+  "product": "dahlia-air-freshener-matic-refill-225ml",
+  "store": "superindo",
+  "channel": "offline",
+  "city": "Jabodetabek & Palembang",
+  "price": 32500,
+  "claimed_normal_price": 38790,
+  "promo": {
+    "type": "diskon",
+    "claimed_pct": 15
+  },
+  "seen_on": "2026-11-06",
+  "valid_from": "2026-11-05",
+  "valid_until": "2026-11-11",
+  "source": {
+    "type": "catalogue",
+    "image": "img/evidence/2026/superindo-2026-45-p11.webp",
+    "contributor": "Kang Nawar"
+  },
+  "notes": "Harga mulai"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "2026-11-06_superindo_rasa-masa-bumbu-nasi-goreng-kambing-20g",
+  "product": "rasa-masa-bumbu-nasi-goreng-kambing-20g",
+  "store": "superindo",
+  "channel": "offline",
+  "city": "Jabodetabek & Palembang",
+  "price": 1500,
+  "claimed_normal_price": 2290,
+  "promo": {
+    "type": "diskon",
+    "claimed_pct": 30
+  },
+  "seen_on": "2026-11-06",
+  "valid_from": "2026-11-05",
+  "valid_until": "2026-11-11",
+  "source": {
+    "type": "catalogue",
+    "image": "img/evidence/2026/superindo-2026-45-p04.webp",
+    "contributor": "Kang Nawar"
+  }
+}

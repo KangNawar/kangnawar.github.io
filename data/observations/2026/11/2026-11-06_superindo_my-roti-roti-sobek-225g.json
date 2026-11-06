@@ -1,0 +1,20 @@
+{
+  "id": "2026-11-06_superindo_my-roti-roti-sobek-225g",
+  "product": "my-roti-roti-sobek-225g",
+  "store": "superindo",
+  "channel": "offline",
+  "city": "Jabodetabek & Palembang",
+  "price": 14500,
+  "claimed_normal_price": 17000,
+  "promo": {
+    "type": "harga-spesial"
+  },
+  "seen_on": "2026-11-06",
+  "valid_from": "2026-11-05",
+  "valid_until": "2026-11-11",
+  "source": {
+    "type": "catalogue",
+    "image": "img/evidence/2026/superindo-2026-45-p03.webp",
+    "contributor": "Kang Nawar"
+  }
+}

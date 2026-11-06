@@ -1,0 +1,12 @@
+{
+  "id": "indomie-mi-instan-kuliner-nusantara-75g",
+  "brand": "Indomie",
+  "name": "Mi Instan Kuliner Nusantara",
+  "variant": "Mi Goreng Cakalang, Kocok Bandung, Empal Gentong",
+  "size": {
+    "amount": 75,
+    "unit": "g"
+  },
+  "category": "makanan-minuman",
+  "subcategory": "mi-instan"
+}

@@ -1,0 +1,11 @@
+{
+  "id": "regal-biskuit-marie-120g",
+  "brand": "Regal",
+  "name": "Biskuit Marie",
+  "size": {
+    "amount": 120,
+    "unit": "g"
+  },
+  "category": "makanan-minuman",
+  "subcategory": "camilan"
+}

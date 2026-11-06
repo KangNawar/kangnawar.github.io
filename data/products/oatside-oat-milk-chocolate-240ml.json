@@ -1,0 +1,11 @@
+{
+  "id": "oatside-oat-milk-chocolate-240ml",
+  "brand": "Oatside",
+  "name": "Oat Milk Chocolate",
+  "size": {
+    "amount": 240,
+    "unit": "ml"
+  },
+  "category": "makanan-minuman",
+  "subcategory": "susu"
+}

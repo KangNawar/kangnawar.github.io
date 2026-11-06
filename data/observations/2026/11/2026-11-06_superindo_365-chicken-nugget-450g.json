@@ -1,0 +1,22 @@
+{
+  "id": "2026-11-06_superindo_365-chicken-nugget-450g",
+  "product": "365-chicken-nugget-450g",
+  "store": "superindo",
+  "channel": "offline",
+  "city": "Jabodetabek & Palembang",
+  "price": 37900,
+  "claimed_normal_price": 42900,
+  "promo": {
+    "type": "tebus-murah",
+    "label": "Purchase with Purchase: min. belanja Rp120.000",
+    "min_purchase": 120000
+  },
+  "seen_on": "2026-11-06",
+  "valid_from": "2026-11-05",
+  "valid_until": "2026-11-11",
+  "source": {
+    "type": "catalogue",
+    "image": "img/evidence/2026/superindo-2026-45-p09.webp",
+    "contributor": "Kang Nawar"
+  }
+}

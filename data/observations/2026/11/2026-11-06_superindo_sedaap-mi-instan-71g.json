@@ -1,0 +1,22 @@
+{
+  "id": "2026-11-06_superindo_sedaap-mi-instan-71g",
+  "product": "sedaap-mi-instan-71g",
+  "store": "superindo",
+  "channel": "offline",
+  "city": "Jabodetabek & Palembang",
+  "price": 8500,
+  "quantity": 3,
+  "claimed_normal_price": 3190,
+  "promo": {
+    "type": "bundling",
+    "label": "3 Seharga 8.500 (rasa tertentu)"
+  },
+  "seen_on": "2026-11-06",
+  "valid_from": "2026-11-05",
+  "valid_until": "2026-11-11",
+  "source": {
+    "type": "catalogue",
+    "image": "img/evidence/2026/superindo-2026-45-p04.webp",
+    "contributor": "Kang Nawar"
+  }
+}

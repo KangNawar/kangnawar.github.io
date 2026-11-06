@@ -1,0 +1,12 @@
+{
+  "id": "serena-sandwich-togo-long-128g",
+  "brand": "Serena",
+  "name": "Sandwich Togo Long",
+  "variant": "Coklat, Coklat Peanut",
+  "size": {
+    "amount": 128,
+    "unit": "g"
+  },
+  "category": "makanan-minuman",
+  "subcategory": "camilan"
+}

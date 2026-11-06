@@ -1,0 +1,26 @@
+{
+  "id": "2026-11-06_superindo_kentang-curah",
+  "product": "kentang-curah",
+  "store": "superindo",
+  "channel": "offline",
+  "city": "Jabodetabek & Palembang",
+  "price": 2390,
+  "claimed_normal_price": 2790,
+  "price_basis": {
+    "amount": 100,
+    "unit": "g"
+  },
+  "promo": {
+    "type": "diskon",
+    "label": "Periode 5-8 November 2026",
+    "claimed_pct": 25
+  },
+  "seen_on": "2026-11-06",
+  "valid_from": "2026-11-05",
+  "valid_until": "2026-11-08",
+  "source": {
+    "type": "catalogue",
+    "image": "img/evidence/2026/superindo-2026-45-p01.webp",
+    "contributor": "Kang Nawar"
+  }
+}

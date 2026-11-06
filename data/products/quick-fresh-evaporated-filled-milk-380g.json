@@ -1,0 +1,11 @@
+{
+  "id": "quick-fresh-evaporated-filled-milk-380g",
+  "brand": "Quick Fresh",
+  "name": "Evaporated Filled Milk",
+  "size": {
+    "amount": 380,
+    "unit": "g"
+  },
+  "category": "makanan-minuman",
+  "subcategory": "susu"
+}

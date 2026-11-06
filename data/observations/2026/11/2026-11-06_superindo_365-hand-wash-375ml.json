@@ -1,0 +1,22 @@
+{
+  "id": "2026-11-06_superindo_365-hand-wash-375ml",
+  "product": "365-hand-wash-375ml",
+  "store": "superindo",
+  "channel": "offline",
+  "city": "Jabodetabek & Palembang",
+  "price": 15890,
+  "quantity": 2,
+  "claimed_normal_price": 10990,
+  "promo": {
+    "type": "bundling",
+    "label": "2 Seharga 15.890"
+  },
+  "seen_on": "2026-11-06",
+  "valid_from": "2026-11-05",
+  "valid_until": "2026-11-11",
+  "source": {
+    "type": "catalogue",
+    "image": "img/evidence/2026/superindo-2026-45-p07.webp",
+    "contributor": "Kang Nawar"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "id": "2026-11-06_superindo_frisian-flag-susu-uht-nutribrain-omega-36x110ml",
+  "product": "frisian-flag-susu-uht-nutribrain-omega-36x110ml",
+  "store": "superindo",
+  "channel": "offline",
+  "city": "Jabodetabek & Palembang",
+  "price": 98500,
+  "claimed_normal_price": 118440,
+  "promo": {
+    "type": "diskon",
+    "claimed_pct": 15
+  },
+  "seen_on": "2026-11-06",
+  "valid_from": "2026-11-05",
+  "valid_until": "2026-11-11",
+  "source": {
+    "type": "catalogue",
+    "image": "img/evidence/2026/superindo-2026-45-p05.webp",
+    "contributor": "Kang Nawar"
+  },
+  "notes": "Per karton isi 36"
+}

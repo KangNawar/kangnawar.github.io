@@ -1,0 +1,12 @@
+{
+  "id": "semangka-kuning-curah",
+  "brand": "Tanpa Merek",
+  "name": "Semangka Kuning",
+  "size": {
+    "amount": 1000,
+    "unit": "g"
+  },
+  "loose": true,
+  "category": "produk-segar",
+  "subcategory": "buah"
+}

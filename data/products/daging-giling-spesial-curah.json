@@ -1,0 +1,12 @@
+{
+  "id": "daging-giling-spesial-curah",
+  "brand": "Tanpa Merek",
+  "name": "Daging Giling Spesial",
+  "size": {
+    "amount": 1000,
+    "unit": "g"
+  },
+  "loose": true,
+  "category": "produk-segar",
+  "subcategory": "daging-sapi"
+}

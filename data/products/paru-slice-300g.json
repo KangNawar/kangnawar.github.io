@@ -1,0 +1,11 @@
+{
+  "id": "paru-slice-300g",
+  "brand": "Tanpa Merek",
+  "name": "Paru Slice",
+  "size": {
+    "amount": 300,
+    "unit": "g"
+  },
+  "category": "produk-segar",
+  "subcategory": "daging-sapi"
+}

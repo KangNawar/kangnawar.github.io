@@ -1,0 +1,12 @@
+{
+  "id": "kepala-ikan-kakap-merah-curah",
+  "brand": "Tanpa Merek",
+  "name": "Kepala Ikan Kakap Merah",
+  "size": {
+    "amount": 1000,
+    "unit": "g"
+  },
+  "loose": true,
+  "category": "produk-segar",
+  "subcategory": "ikan-seafood"
+}

@@ -51,6 +51,12 @@ def units_per_pack(product: dict) -> float:
     return product["size"]["amount"] * product.get("pack_count", 1)
 
 
+def units_priced(obs: dict, product: dict) -> float:
+    """Amount the price buys: the pack, or the price_basis for loose goods ('Rp/100gr')."""
+    basis = obs.get("price_basis")
+    return basis["amount"] if basis else units_per_pack(product)
+
+
 def effective_pack_price(obs: dict) -> float:
     """Rupiah per sellable pack after promo and guaranteed cashback."""
     cashback = (obs.get("promo") or {}).get("cashback", 0)
@@ -59,14 +65,14 @@ def effective_pack_price(obs: dict) -> float:
 
 def unit_price(obs: dict, product: dict) -> float:
     basis, _ = unit_basis(product)
-    return effective_pack_price(obs) / units_per_pack(product) * basis
+    return effective_pack_price(obs) / units_priced(obs, product) * basis
 
 
 def claimed_unit_price(obs: dict, product: dict) -> float | None:
     if "claimed_normal_price" not in obs:
         return None
     basis, _ = unit_basis(product)
-    return obs["claimed_normal_price"] / units_per_pack(product) * basis
+    return obs["claimed_normal_price"] / units_priced(obs, product) * basis
 
 
 def is_promo(obs: dict) -> bool:
@@ -106,6 +112,12 @@ def evaluate(obs: dict, product: dict, siblings: list[dict], rules: dict, today:
 
     real_saving = None if reference is None else 1 - up / reference
     claimed_discount = None if claimed_up is None else 1 - up / claimed_up
+    badge_pct = (obs.get("promo") or {}).get("claimed_pct")
+    badge_overstated = None
+    if badge_pct is not None and claimed_discount is not None:
+        gap = badge_pct - claimed_discount * 100
+        if gap > rules.get("badge_tolerance_pct", 3):
+            badge_overstated = round(gap, 1)
     deception_gap = None
     if claimed_discount is not None and real_saving is not None:
         deception_gap = claimed_discount - real_saving
@@ -144,6 +156,8 @@ def evaluate(obs: dict, product: dict, siblings: list[dict], rules: dict, today:
         "real_saving_pct": pct(real_saving),
         "claimed_discount_pct": pct(claimed_discount),
         "deception_gap_pct": pct(deception_gap),
+        "badge_pct": badge_pct,
+        "badge_overstated_pct": badge_overstated,
         "cheaper_elsewhere": None if cheaper is None else {
             "id": cheaper["id"],
             "store": cheaper["store"],
@@ -214,6 +228,9 @@ def main(argv=None) -> int:
     print(f"{len(data['observations'])} observations, {len(data['products'])} products -> {out}")
     for k, v in sorted(counts.items(), key=lambda kv: -kv[1]):
         print(f"  {VERDICT_LABELS[k]:<28} {v}")
+    flagged = [r for r in data["observations"] if r["badge_overstated_pct"]]
+    if flagged:
+        print(f"  Badge % higher than the tag  {len(flagged)}")
     return 0
 
 

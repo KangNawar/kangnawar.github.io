@@ -1,0 +1,12 @@
+{
+  "id": "cumi-fresh-curah",
+  "brand": "Tanpa Merek",
+  "name": "Cumi Fresh",
+  "size": {
+    "amount": 1000,
+    "unit": "g"
+  },
+  "loose": true,
+  "category": "produk-segar",
+  "subcategory": "ikan-seafood"
+}

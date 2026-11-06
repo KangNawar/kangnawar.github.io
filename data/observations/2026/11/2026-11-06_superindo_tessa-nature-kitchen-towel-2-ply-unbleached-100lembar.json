@@ -1,0 +1,22 @@
+{
+  "id": "2026-11-06_superindo_tessa-nature-kitchen-towel-2-ply-unbleached-100lembar",
+  "product": "tessa-nature-kitchen-towel-2-ply-unbleached-100lembar",
+  "store": "superindo",
+  "channel": "offline",
+  "city": "Jabodetabek & Palembang",
+  "price": 15000,
+  "claimed_normal_price": 21890,
+  "promo": {
+    "type": "diskon",
+    "label": "Super Deal 15.000",
+    "claimed_pct": 30
+  },
+  "seen_on": "2026-11-06",
+  "valid_from": "2026-11-05",
+  "valid_until": "2026-11-11",
+  "source": {
+    "type": "catalogue",
+    "image": "img/evidence/2026/superindo-2026-45-p08.webp",
+    "contributor": "Kang Nawar"
+  }
+}

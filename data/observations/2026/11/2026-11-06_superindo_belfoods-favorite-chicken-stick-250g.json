@@ -1,0 +1,22 @@
+{
+  "id": "2026-11-06_superindo_belfoods-favorite-chicken-stick-250g",
+  "product": "belfoods-favorite-chicken-stick-250g",
+  "store": "superindo",
+  "channel": "offline",
+  "city": "Jabodetabek & Palembang",
+  "price": 23190,
+  "quantity": 2,
+  "claimed_normal_price": 23190,
+  "promo": {
+    "type": "beli-x-gratis-y",
+    "label": "Beli 1 Gratis 1 (2 seharga 23.190)"
+  },
+  "seen_on": "2026-11-06",
+  "valid_from": "2026-11-05",
+  "valid_until": "2026-11-11",
+  "source": {
+    "type": "catalogue",
+    "image": "img/evidence/2026/superindo-2026-45-p03.webp",
+    "contributor": "Kang Nawar"
+  }
+}

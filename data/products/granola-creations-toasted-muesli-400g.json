@@ -1,0 +1,12 @@
+{
+  "id": "granola-creations-toasted-muesli-400g",
+  "brand": "Granola Creations",
+  "name": "Toasted Muesli",
+  "variant": "Dark Chocolate & Banana, Fruits & Nuts",
+  "size": {
+    "amount": 400,
+    "unit": "g"
+  },
+  "category": "makanan-minuman",
+  "subcategory": "sereal"
+}

@@ -7,5 +7,7 @@
   "fake_markup_pct": 15,
   "elsewhere_margin_pct": 3,
   "default_expiry_days": 14,
-  "max_image_kb": 60
+  "max_image_kb": 60,
+  "badge_tolerance_pct": 3,
+  "max_catalogue_page_kb": 150
 }

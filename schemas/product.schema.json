@@ -5,7 +5,14 @@
   "description": "One specific product as sold: brand + name + variant + size. The same item in every store is ONE product.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["id", "brand", "name", "size", "category", "subcategory"],
+  "required": [
+    "id",
+    "brand",
+    "name",
+    "size",
+    "category",
+    "subcategory"
+  ],
   "properties": {
     "id": {
       "description": "Slug, also the filename. brand-name-variant-size, e.g. wardah-hydra-rose-gel-cream-50ml",
@@ -13,28 +20,86 @@
       "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
       "maxLength": 120
     },
-    "brand": { "type": "string", "minLength": 1, "maxLength": 60 },
-    "name": { "type": "string", "minLength": 1, "maxLength": 120 },
-    "variant": { "description": "Scent, shade, flavour, SPF...", "type": "string", "maxLength": 80 },
+    "brand": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 60
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 120
+    },
+    "variant": {
+      "description": "Scent, shade, flavour, SPF...",
+      "type": "string",
+      "maxLength": 80
+    },
     "size": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["amount", "unit"],
+      "required": [
+        "amount",
+        "unit"
+      ],
       "properties": {
-        "amount": { "description": "Amount per single item", "type": "number", "exclusiveMinimum": 0 },
-        "unit": { "enum": ["ml", "g", "pcs", "sheet"] }
+        "amount": {
+          "description": "Amount per single item",
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "unit": {
+          "enum": [
+            "ml",
+            "g",
+            "pcs",
+            "sheet"
+          ]
+        }
       }
     },
     "pack_count": {
       "description": "Items in one sellable pack (e.g. 3 for a 3-pack). Default 1.",
-      "type": "integer", "minimum": 1, "default": 1
+      "type": "integer",
+      "minimum": 1,
+      "default": 1
     },
-    "category": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" },
-    "subcategory": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" },
-    "barcode": { "description": "EAN/UPC from the pack", "type": "string", "pattern": "^[0-9]{8,14}$" },
-    "halal": { "type": "boolean" },
-    "image": { "description": "Path under public/, e.g. img/products/<id>.webp", "type": "string", "pattern": "^img/products/[a-z0-9-]+\\.webp$" },
-    "aliases": { "description": "Other names people search for", "type": "array", "items": { "type": "string" }, "uniqueItems": true },
-    "added": { "type": "string", "format": "date" }
+    "category": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "subcategory": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "barcode": {
+      "description": "EAN/UPC from the pack",
+      "type": "string",
+      "pattern": "^[0-9]{8,14}$"
+    },
+    "halal": {
+      "type": "boolean"
+    },
+    "image": {
+      "description": "Path under public/, e.g. img/products/<id>.webp",
+      "type": "string",
+      "pattern": "^img/products/[a-z0-9-]+\\.webp$"
+    },
+    "aliases": {
+      "description": "Other names people search for",
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "added": {
+      "type": "string",
+      "format": "date"
+    },
+    "loose": {
+      "description": "Sold loose/by weight (curah). Size = the reference amount, usually 1000 g.",
+      "type": "boolean"
+    }
   }
 }

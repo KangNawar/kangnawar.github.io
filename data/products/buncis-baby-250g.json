@@ -1,0 +1,11 @@
+{
+  "id": "buncis-baby-250g",
+  "brand": "Tanpa Merek",
+  "name": "Buncis Baby",
+  "size": {
+    "amount": 250,
+    "unit": "g"
+  },
+  "category": "produk-segar",
+  "subcategory": "sayur"
+}

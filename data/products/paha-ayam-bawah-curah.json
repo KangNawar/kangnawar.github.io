@@ -1,0 +1,12 @@
+{
+  "id": "paha-ayam-bawah-curah",
+  "brand": "Tanpa Merek",
+  "name": "Paha Ayam Bawah",
+  "size": {
+    "amount": 1000,
+    "unit": "g"
+  },
+  "loose": true,
+  "category": "produk-segar",
+  "subcategory": "ayam"
+}

@@ -1,0 +1,22 @@
+{
+  "id": "2026-11-06_superindo_cimory-yogurt-squeeze-120g",
+  "product": "cimory-yogurt-squeeze-120g",
+  "store": "superindo",
+  "channel": "offline",
+  "city": "Jabodetabek & Palembang",
+  "price": 14900,
+  "quantity": 2,
+  "claimed_normal_price": 9990,
+  "promo": {
+    "type": "bundling",
+    "label": "2 Seharga 14.900"
+  },
+  "seen_on": "2026-11-06",
+  "valid_from": "2026-11-05",
+  "valid_until": "2026-11-11",
+  "source": {
+    "type": "catalogue",
+    "image": "img/evidence/2026/superindo-2026-45-p01.webp",
+    "contributor": "Kang Nawar"
+  }
+}

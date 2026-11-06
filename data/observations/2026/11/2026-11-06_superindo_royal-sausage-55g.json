@@ -1,0 +1,22 @@
+{
+  "id": "2026-11-06_superindo_royal-sausage-55g",
+  "product": "royal-sausage-55g",
+  "store": "superindo",
+  "channel": "offline",
+  "city": "Jabodetabek & Palembang",
+  "price": 16580,
+  "quantity": 3,
+  "claimed_normal_price": 8290,
+  "promo": {
+    "type": "beli-x-gratis-y",
+    "label": "Beli 2 Gratis 1 (3 seharga 16.580)"
+  },
+  "seen_on": "2026-11-06",
+  "valid_from": "2026-11-05",
+  "valid_until": "2026-11-11",
+  "source": {
+    "type": "catalogue",
+    "image": "img/evidence/2026/superindo-2026-45-p03.webp",
+    "contributor": "Kang Nawar"
+  }
+}

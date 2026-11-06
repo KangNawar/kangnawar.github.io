@@ -1,0 +1,22 @@
+{
+  "id": "2026-11-06_superindo_milo-3-in-1-minuman-serbuk-cokelat-18x34g",
+  "product": "milo-3-in-1-minuman-serbuk-cokelat-18x34g",
+  "store": "superindo",
+  "channel": "offline",
+  "city": "Jabodetabek & Palembang",
+  "price": 57900,
+  "claimed_normal_price": 67990,
+  "promo": {
+    "type": "diskon",
+    "claimed_pct": 15
+  },
+  "seen_on": "2026-11-06",
+  "valid_from": "2026-11-05",
+  "valid_until": "2026-11-11",
+  "source": {
+    "type": "catalogue",
+    "image": "img/evidence/2026/superindo-2026-45-p01.webp",
+    "contributor": "Kang Nawar"
+  },
+  "notes": "Maks. 4 per transaksi"
+}

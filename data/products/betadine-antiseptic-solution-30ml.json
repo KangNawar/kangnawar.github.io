@@ -1,0 +1,11 @@
+{
+  "id": "betadine-antiseptic-solution-30ml",
+  "brand": "Betadine",
+  "name": "Antiseptic Solution",
+  "size": {
+    "amount": 30,
+    "unit": "ml"
+  },
+  "category": "kesehatan",
+  "subcategory": "p3k"
+}

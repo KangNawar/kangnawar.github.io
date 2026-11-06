@@ -1,0 +1,12 @@
+{
+  "id": "crystalin-air-mineral-24x600ml",
+  "brand": "Crystalin",
+  "name": "Air Mineral",
+  "size": {
+    "amount": 600,
+    "unit": "ml"
+  },
+  "pack_count": 24,
+  "category": "makanan-minuman",
+  "subcategory": "air-mineral"
+}

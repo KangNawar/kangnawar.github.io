@@ -1,0 +1,11 @@
+{
+  "id": "bestwok-mi-goreng-85g",
+  "brand": "Bestwok",
+  "name": "Mi Goreng",
+  "size": {
+    "amount": 85,
+    "unit": "g"
+  },
+  "category": "makanan-minuman",
+  "subcategory": "mi-instan"
+}

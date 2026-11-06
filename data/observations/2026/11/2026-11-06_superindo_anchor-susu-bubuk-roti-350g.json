@@ -1,0 +1,20 @@
+{
+  "id": "2026-11-06_superindo_anchor-susu-bubuk-roti-350g",
+  "product": "anchor-susu-bubuk-roti-350g",
+  "store": "superindo",
+  "channel": "offline",
+  "city": "Jabodetabek & Palembang",
+  "price": 40500,
+  "claimed_normal_price": 42900,
+  "promo": {
+    "type": "harga-spesial"
+  },
+  "seen_on": "2026-11-06",
+  "valid_from": "2026-11-05",
+  "valid_until": "2026-11-11",
+  "source": {
+    "type": "catalogue",
+    "image": "img/evidence/2026/superindo-2026-45-p04.webp",
+    "contributor": "Kang Nawar"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "id": "royal-sausage-55g",
+  "brand": "Royal",
+  "name": "Sausage",
+  "variant": "Daegu Original, Jeju Cheezy, Nami Freakin Hot",
+  "size": {
+    "amount": 55,
+    "unit": "g"
+  },
+  "category": "makanan-minuman",
+  "subcategory": "makanan-beku"
+}

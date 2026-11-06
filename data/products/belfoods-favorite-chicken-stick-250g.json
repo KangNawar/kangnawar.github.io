@@ -1,0 +1,11 @@
+{
+  "id": "belfoods-favorite-chicken-stick-250g",
+  "brand": "Belfoods",
+  "name": "Favorite Chicken Stick",
+  "size": {
+    "amount": 250,
+    "unit": "g"
+  },
+  "category": "makanan-minuman",
+  "subcategory": "makanan-beku"
+}

@@ -1,7 +1,7 @@
 # Adding and reviewing data
 
 The friendly version of this guide, in Bahasa Indonesia, is on the site at
-https://kangnawar.github.io/panduan/. The Google Form is specified in `docs/GOOGLE-FORM.md`.
+https://kangnawar.github.io/panduan/. The Google Form and how its responses are imported (by hand, with `tools/form_inbox.py`) is in `docs/GOOGLE-FORM.md`.
 
 ## Recording a price sighting
 
@@ -53,4 +53,4 @@ Catalogue pages and submission photos are evidence and stay out of the repo
 - The photo shows the product, the size and the price claimed.
 - The product is not a duplicate under another id (search brand + size).
 - Nothing personal is visible in the photo.
-- Merge. The site rebuilds once a day.
+- Merge. The site rebuilds on push.

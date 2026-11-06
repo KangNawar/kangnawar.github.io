@@ -3,9 +3,6 @@ name: Deploy site
 on:
   push:
     branches: [main]
-  schedule:
-    # Daily at 00:23 WIB (17:23 UTC) so expired promos drop off the site
-    - cron: "23 17 * * *"
   workflow_dispatch:
 
 permissions:

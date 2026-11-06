@@ -94,11 +94,15 @@ const key = filter === 'subcategory' ? 'sub' : 'cat';
       satuan: (a, b) => (a.dataset.unitlabel!).localeCompare(b.dataset.unitlabel!) || num(a, 'unit') - num(b, 'unit'),
       berakhir: (a, b) => a.dataset.expires!.localeCompare(b.dataset.expires!),
     };
+    // Promos past their end date hide themselves, so the site stays right between rebuilds.
+    const d = new Date();
+    const today = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    const live = (r: HTMLElement) => r.dataset.expires! >= today;
     function apply() {
       const sorted = [...rows].sort(compare[select.value] ?? compare.pasar);
       let shown = 0;
       for (const r of sorted) {
-        const visible = !filter || r.dataset[key] === filter;
+        const visible = live(r) && (!filter || r.dataset[key] === filter);
         r.hidden = !visible;
         if (visible) shown++;
         list.appendChild(r);

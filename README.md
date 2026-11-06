@@ -14,7 +14,7 @@ Live site: https://kangnawar.github.io (static, hosted on GitHub Pages)
 - `data/categories.json`, `data/stores.json`, `data/promo-types.json`, `data/rules.json`:
   reference lists and the verdict thresholds.
 - `schemas/`: JSON Schemas for all of the above.
-- `tools/`: Python tools: `validate.py`, `pricing.py` (verdicts), `image_prep.py`, `batch_import.py`.
+- `tools/`: Python tools: `validate.py`, `pricing.py` (comparisons), `image_prep.py`, `batch_import.py`, `form_inbox.py`.
 - `public/img/`: product images and evidence crops, WebP, max 60 KB each.
 
 Verdict rules are explained in [docs/VERDICTS.md](docs/VERDICTS.md).
@@ -34,7 +34,8 @@ npm run build      # static site in dist/
 The site is Astro + Tailwind (`src/`). Pages read `data/` and `build/computed.json`
 at build time; the browser only downloads HTML, one CSS file, two fonts and a small
 search index. GitHub Actions (`.github/workflows/deploy.yml`) rebuilds on every push
-to `main` and once a day.
+to `main` (or by hand from the Actions tab). There is no timer; expired promos hide
+themselves in the browser.
 
 ## Local checks
 
@@ -47,5 +48,5 @@ python -m unittest discover -s tools/tests
 
 ## Updating
 
-Data changes arrive as pull requests (from the submission form or the batch tools),
-are checked by CI, merged by a maintainer, and the site rebuilds at most once a day.
+Data changes arrive as commits or pull requests (catalogue batches, form responses
+via `tools/form_inbox.py`, GitHub edits), are checked by CI, and the site rebuilds on push.

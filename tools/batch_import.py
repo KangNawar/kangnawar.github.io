@@ -32,6 +32,7 @@ Item keys
   badge         % printed on the badge ("Diskon 25%" -> 25)
   label         promo text as printed
   member, min_purchase, valid_from, valid_until, notes
+  store, channel, seen_on, url, source_type   per-item overrides of the defaults
   pid           use an EXISTING product id. Same brand + line + size = same product,
                 whatever the scent or flavour; check the duplicate hints this tool prints.
 
@@ -138,9 +139,11 @@ def build_observation(item: dict, product: dict, d: dict, document: str | None) 
         value = item.get(key, d.get(key) if is_promo else None)
         if value:
             obs[key] = value
-    source = {"type": d.get("source_type", "catalogue")}
+    source = {"type": item.get("source_type", d.get("source_type", "catalogue"))}
     if document:
         source["document"] = document
+    if item.get("url"):
+        source["url"] = item["url"]
     if d.get("contributor"):
         source["contributor"] = d["contributor"]
     obs["source"] = source

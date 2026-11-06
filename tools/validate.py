@@ -113,7 +113,7 @@ def validate(root: Path | str = REPO_ROOT, today: date | None = None) -> Report:
         elif cat in inactive:
             rep.warn(path, f"category '{cat}' is inactive (hidden on the site)")
         if p.get("image"):
-            img = check_image(ds, p["image"], path, rep, max_kb)
+            img = check_image(ds, p["image"], path, rep, ds.rules.get("max_product_image_kb", 20))
             if img:
                 referenced_images.add(img.resolve())
 
@@ -178,14 +178,15 @@ def validate(root: Path | str = REPO_ROOT, today: date | None = None) -> Report:
             rep.warn(path, "claimed normal price is not higher than the price paid")
         if o["channel"] == "online" and o["source"]["type"] == "photo" and not o["source"].get("image"):
             rep.warn(path, "online sighting with no link or screenshot")
+        if o["source"]["type"] == "report" and not o.get("notes"):
+            rep.warn(path, "report without evidence: add notes saying where the price was seen")
         if o["source"]["type"] == "link" and not o["source"].get("url"):
             rep.error(path, "source type 'link' needs a url")
         contributor = o["source"].get("contributor", "")
         if re.search(r"@|\+?62\d{6,}|\b08\d{7,}", contributor):
             rep.error(path, "contributor looks like an email or phone number: use a name or handle")
         if o["source"].get("image"):
-            limit = ds.rules.get("max_catalogue_page_kb", max_kb) if o["source"]["type"] == "catalogue" else max_kb
-            img = check_image(ds, o["source"]["image"], path, rep, limit)
+            img = check_image(ds, o["source"]["image"], path, rep, max_kb)
             if img:
                 referenced_images.add(img.resolve())
 

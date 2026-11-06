@@ -1,0 +1,128 @@
+---
+import Base from '../layouts/Base.astro';
+import { SUBMIT_FORM_URL, REPO_URL } from '../lib/site';
+const toc = [
+  ['formulir', 'Kirim harga lewat formulir'],
+  ['foto', 'Foto yang berguna'],
+  ['satu-produk', 'Kapan dua barang dianggap satu produk'],
+  ['katalog', 'Memasukkan satu katalog promo sekaligus'],
+  ['foto-produk', 'Menambah foto produk'],
+  ['github', 'Membetulkan data langsung di GitHub'],
+  ['pasang', 'Memasang alat di komputer'],
+  ['periksa', 'Memeriksa kiriman orang lain'],
+];
+const code = 'block rounded-xl bg-mist px-4 py-3 text-[0.875rem] overflow-x-auto font-mono whitespace-pre mt-2';
+const h2 = 'text-[1.5rem] font-bold tracking-tight mt-12 scroll-mt-6';
+---
+<Base title="Cara menambah harga" description="Panduan menambah harga ke Kang Nawar: lewat formulir, foto, katalog promo, atau langsung di GitHub.">
+  <article class="mt-10 max-w-prose">
+    <h1 class="text-[2.25rem] font-extrabold tracking-tight leading-tight">Cara menambah harga</h1>
+    <p class="mt-4 text-[1.125rem]">Kang Nawar hanya sebagus datanya. Setiap harga dari toko lain membuat perbandingan lebih berguna, termasuk harga biasa yang tidak sedang promo.</p>
+    <p class="mt-2 text-slate">Kebanyakan orang cukup pakai formulir. Bagian setelahnya untuk yang mau membantu lebih jauh: memasukkan katalog, menambah foto, atau memeriksa kiriman.</p>
+
+    <nav aria-label="Isi panduan" class="mt-6 rounded-2xl border border-line p-5">
+      <ol class="list-decimal pl-5 space-y-1">
+        {toc.map(([id, label]) => <li><a href={`#${id}`} class="hover:underline">{label}</a></li>)}
+      </ol>
+    </nav>
+
+    <h2 id="formulir" class={h2}>Kirim harga lewat formulir</h2>
+    {SUBMIT_FORM_URL ? (
+      <p class="mt-3"><a href={SUBMIT_FORM_URL} class="inline-block rounded-full bg-ink text-paper px-5 py-2.5 font-semibold">Buka formulir</a></p>
+    ) : (
+      <p class="mt-2 rounded-xl bg-mist px-4 py-3">Formulirnya sedang disiapkan. Sementara ini, kalau punya akun GitHub, kirim lewat <a class="underline" href={`${REPO_URL}/issues/new`}>issue baru</a>.</p>
+    )}
+    <p class="mt-3">Isinya:</p>
+    <ul class="mt-2 list-disc pl-5 space-y-1">
+      <li><strong>Produk</strong>: merek, nama, varian dan ukuran. Untuk sayur, buah dan daging curah, tulis "Tanpa merek".</li>
+      <li><strong>Toko</strong>: di rak toko atau di aplikasi. Kalau online, nama penjualnya.</li>
+      <li><strong>Harga yang dibayar</strong> dan untuk berapa barang. "Beli 2 Gratis 1" = 3 barang.</li>
+      <li><strong>Harga coret</strong> dan tulisan promonya, kalau ada.</li>
+      <li><strong>Foto label harga</strong> atau tangkapan layar.</li>
+    </ul>
+    <p class="mt-3 text-slate">Formulir butuh login Google karena ada unggahan foto. Fotonya tidak dipublikasikan; hanya dipakai pemeriksa untuk mencocokkan harga.</p>
+
+    <h2 id="foto" class={h2}>Foto yang berguna</h2>
+    <ul class="mt-3 list-disc pl-5 space-y-1">
+      <li>Label harga terbaca jelas, termasuk harga coret dan tanggal berlakunya.</li>
+      <li>Ukuran kemasan kelihatan, di label atau di produknya.</li>
+      <li>Di aplikasi: tangkapan layar yang memperlihatkan nama penjual dan ukuran.</li>
+      <li>Jangan ada wajah orang, nomor kartu di struk, atau alamat rumah.</li>
+    </ul>
+
+    <h2 id="satu-produk" class={h2}>Kapan dua barang dianggap satu produk</h2>
+    <p class="mt-2">Kami hemat: satu produk = <strong>merek + jenis + ukuran</strong>. Varian yang harganya sama dari mereknya (aroma, rasa, warna) dianggap satu produk. Pelembap 50 ml aroma mawar dan aroma teh hijau = satu produk. Pelembap 50 ml dan 100 ml = dua produk.</p>
+    <p class="mt-2">Kalau mereknya sendiri memberi harga berbeda untuk varian tertentu, baru dibuat produk terpisah.</p>
+
+    <h2 id="katalog" class={h2}>Memasukkan satu katalog promo sekaligus</h2>
+    <p class="mt-2">Katalog mingguan (Super Indo, Alfamart, Indomaret, Hypermart) bisa berisi ratusan harga. Cara tercepat memasukkannya adalah dengan bantuan Claude dan alat di repositori. Butuh <a href="#pasang" class="underline">alat yang sudah terpasang</a>.</p>
+    <ol class="mt-3 list-decimal pl-5 space-y-4">
+      <li>Simpan PDF atau gambar katalog di folder <code>inbox/&lt;toko&gt;-&lt;tahun&gt;-&lt;edisi&gt;/</code>, misalnya <code>inbox/superindo-2026-46/</code>. Folder <code>inbox</code> tidak pernah ikut diunggah.</li>
+      <li>Minta Claude: <em>"Baca katalog di inbox/superindo-2026-46 dan buat batch.json untuk Kang Nawar."</em> Claude menulis satu baris per produk, plus daftar <code>skipped</code> berisi barang yang dilewati dan alasannya (misalnya satu harga untuk beberapa ukuran).</li>
+      <li>Baca <code>batch.json</code> dan betulkan yang salah. Kolom yang penting:
+        <ul class="mt-2 list-disc pl-5 space-y-1 text-[0.9375rem]">
+          <li><code>brand</code>, <code>name</code>, <code>size</code> (misalnya <code>"1.45kg"</code>, <code>"6x100ml"</code>, <code>"10pcs"</code>), <code>cat</code> (kategori/subkategori)</li>
+          <li><code>price</code>: harga yang dibayar; <code>qty</code>: untuk berapa barang; <code>was</code>: harga coret per barang</li>
+          <li><code>loose: true</code> dan <code>per: "100g"</code> untuk barang curah yang dihargai per 100 g</li>
+          <li><code>pid</code>: pakai produk yang sudah ada, kalau sebenarnya produk yang sama</li>
+        </ul>
+      </li>
+      <li>Coba dulu tanpa menulis apa pun:
+        <code class={code}>python tools/batch_import.py inbox/superindo-2026-46/batch.json --dry-run</code>
+        <span class="block mt-2">Baris <code>CHECK</code> artinya ada produk baru yang mirip produk lama. Kalau memang sama, isi <code>pid</code>.</span>
+      </li>
+      <li>Jalankan sungguhan, lalu periksa:
+        <code class={code}>{`python tools/batch_import.py inbox/superindo-2026-46/batch.json
+python tools/validate.py
+python tools/pricing.py`}</code>
+        <span class="block mt-2"><code>pricing.py</code> menampilkan produk yang ternyata lebih murah di toko lain.</span>
+      </li>
+      <li>Lihat hasilnya di komputer: <code>npm run dev</code>, lalu buka <code>http://localhost:4321</code>.</li>
+      <li>Simpan dan unggah:
+        <code class={code}>{`git add data
+git commit -m "Katalog Super Indo Ed. 46"
+git push`}</code>
+        <span class="block mt-2">Situs diperbarui otomatis beberapa menit kemudian.</span>
+      </li>
+    </ol>
+
+    <h2 id="foto-produk" class={h2}>Menambah foto produk</h2>
+    <p class="mt-2">Pakai foto buatan sendiri, bukan dari katalog atau situs merek. Foto kemasan dengan latar polos paling bagus.</p>
+    <ol class="mt-3 list-decimal pl-5 space-y-4">
+      <li>Kecilkan fotonya. Hasilnya WebP kecil tanpa data lokasi, namanya sama dengan file produk di <code>data/products/</code>:
+        <code class={code}>python tools/image_prep.py foto.jpg --out public/img/products --name rinso-detergen-bubuk-anti-noda-1295g --max-side 400 --max-kb 20</code>
+      </li>
+      <li>Tambahkan satu baris di file produknya:
+        <code class={code}>"image": "img/products/rinso-detergen-bubuk-anti-noda-1295g.webp"</code>
+      </li>
+      <li>Jalankan <code>python tools/validate.py</code>, lalu commit dan push seperti di atas.</li>
+    </ol>
+    <p class="mt-3 text-slate">Tanpa foto, produk tampil dengan inisial merek atau ikon kategori.</p>
+
+    <h2 id="github" class={h2}>Membetulkan data langsung di GitHub</h2>
+    <p class="mt-2">Untuk perbaikan kecil (harga salah ketik, ukuran keliru) tidak perlu memasang apa pun.</p>
+    <ol class="mt-3 list-decimal pl-5 space-y-2">
+      <li>Buka <a class="underline" href={`${REPO_URL}/tree/main/data`}>folder data di GitHub</a> dan cari filenya. Produk ada di <code>data/products/</code>, harga di <code>data/observations/&lt;tahun&gt;/&lt;bulan&gt;/</code>.</li>
+      <li>Klik ikon pensil, ubah, lalu pilih <em>Create a new branch</em> dan <em>Propose changes</em>.</li>
+      <li>GitHub otomatis menjalankan pemeriksaan. Kalau hijau, pengelola tinggal menyetujui.</li>
+    </ol>
+
+    <h2 id="pasang" class={h2}>Memasang alat di komputer</h2>
+    <p class="mt-2">Sekali saja. Butuh <a class="underline" href="https://www.python.org/downloads/">Python 3.10+</a>, <a class="underline" href="https://nodejs.org/">Node 22</a> dan <a class="underline" href="https://git-scm.com/downloads">Git</a>.</p>
+    <code class={code}>{`git clone ${REPO_URL}.git
+cd kangnawar.github.io
+pip install -r tools/requirements.txt
+npm install
+npm run dev`}</code>
+    <p class="mt-3">Di Windows, kalau <code>python</code> tidak dikenali, coba <code>py</code>. Pemeriksaan lengkap: <code>python -m unittest discover -s tools/tests</code>.</p>
+
+    <h2 id="periksa" class={h2}>Memeriksa kiriman orang lain</h2>
+    <ul class="mt-3 list-disc pl-5 space-y-1">
+      <li>Pemeriksaan otomatis di GitHub hijau.</li>
+      <li>Foto memperlihatkan produk, ukuran dan harga yang ditulis.</li>
+      <li>Bukan produk ganda dengan nama lain (cari merek + ukuran).</li>
+      <li>Tidak ada data pribadi di foto atau di nama pengirim.</li>
+    </ul>
+    <p class="mt-3">Setelah disetujui, harga muncul di situs pada pembaruan berikutnya. Aturan perbandingannya ada di <a href="/cara-kerja/" class="underline">Cara menilai</a>.</p>
+  </article>
+</Base>

@@ -117,6 +117,14 @@
     ]
   },
   {
+    "id": "astro",
+    "name": "Astro",
+    "type": "quick-commerce",
+    "channels": [
+      "online"
+    ]
+  },
+  {
     "id": "shopee",
     "name": "Shopee",
     "type": "marketplace",

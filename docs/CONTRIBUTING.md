@@ -1,5 +1,8 @@
 # Adding and reviewing data
 
+The friendly version of this guide, in Bahasa Indonesia, is on the site at
+https://kangnawar.github.io/panduan/. The Google Form is specified in `docs/GOOGLE-FORM.md`.
+
 ## Recording a price sighting
 
 One sighting = one product, one store, one day, one price. Needed:
@@ -27,7 +30,9 @@ photo that shows people, receipts with card numbers, or home addresses.
 2. Ask Claude to read them and write `inbox/<batch>/batch.json`: one entry per product,
    plus a `skipped` list with a reason for anything left out (several sizes under one
    "Harga Mulai" price, no size printed, outside our categories).
-3. Read through `batch.json` and fix anything wrong. It is plain JSON; the format is
+3. Read through `batch.json` and fix anything wrong. One product = brand + line + size;
+   scents and flavours the brand prices the same are merged. Use `pid` to point an item
+   at an existing product. It is plain JSON; the format is
    described at the top of `tools/batch_import.py`.
 4. `python tools/batch_import.py inbox/<batch>/batch.json --dry-run`, then without `--dry-run`.
 5. `python tools/validate.py` and `python tools/pricing.py`. The pricing summary also lists
@@ -36,9 +41,11 @@ photo that shows people, receipts with card numbers, or home addresses.
 
 ## Images
 
-Always run `python tools/image_prep.py <files> --out <folder>` first:
-WebP, max 800 px, max 60 KB, metadata (including GPS) stripped.
-Crop the evidence to the price tag and product; the whole flyer is not needed.
+Product photos: your own photos only, never catalogue or brand images.
+`python tools/image_prep.py photo.jpg --out public/img/products --name <product-id> --max-side 400 --max-kb 20`
+then add `"image": "img/products/<product-id>.webp"` to the product file.
+Catalogue pages and submission photos are evidence and stay out of the repo
+(in `inbox/` or the form's Drive); observations reference them as text in `source.document`.
 
 ## Review checklist (maintainers)
 

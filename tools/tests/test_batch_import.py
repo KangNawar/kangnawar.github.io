@@ -52,6 +52,16 @@ class BatchImportTests(unittest.TestCase):
         files = sorted(p.name for p in (self.repo.root / "data/observations/2026/11").iterdir())
         self.assertEqual(files, ["2026-11-06_superindo_kahf-edt-35ml-2.json", "2026-11-06_superindo_kahf-edt-35ml.json"])
 
+    def test_duplicate_hint(self):
+        import io, contextlib
+        self.repo.product("rinso-detergen-bubuk-anti-noda-1295g", amount=1295, unit="g", brand="Rinso",
+                          name="Detergen Bubuk Anti Noda", category="kebutuhan-rumah", subcategory="deterjen")
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            self.run_batch([{"brand": "Rinso", "name": "Anti Noda Detergen Bubuk Rose", "size": "1295g",
+                             "cat": "kebutuhan-rumah/deterjen", "price": 26900}])
+        self.assertIn("looks like existing 'rinso-detergen-bubuk-anti-noda-1295g'", buf.getvalue())
+
     def test_bad_size_is_reported(self):
         rc = self.run_batch([{"brand": "X", "name": "Y", "size": "sebungkus", "cat": "sembako/garam", "price": 1000}])
         self.assertEqual(rc, 1)

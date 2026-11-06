@@ -11,7 +11,7 @@ interface Props {
   defaultSort?: string;
   id?: string;
 }
-const { items, filter = 'category', showStore = true, defaultSort = 'klaim', id = 'daftar' } = Astro.props;
+const { items, filter = 'category', showStore = true, defaultSort = 'pasar', id = 'daftar' } = Astro.props;
 const { categories } = db();
 
 let chips: { value: string; label: string; count: number }[] = [];
@@ -26,9 +26,8 @@ if (filter === 'category') {
     .filter((c) => c.count > 0);
 }
 const sorts = [
-  { value: 'klaim', label: 'Klaim hemat terbesar' },
-  { value: 'hemat', label: 'Hemat beneran' },
-  { value: 'lebay', label: 'Label paling lebay' },
+  { value: 'pasar', label: 'Paling hemat dari harga pasar' },
+  { value: 'diskon', label: 'Diskon toko terbesar' },
   { value: 'satuan', label: 'Termurah per satuan' },
   { value: 'berakhir', label: 'Segera berakhir' },
 ];
@@ -69,8 +68,8 @@ const key = filter === 'subcategory' ? 'sub' : 'cat';
 <style>
   .chip { white-space: nowrap; text-align: left; border: 1px solid var(--color-line); border-radius: 999px; padding: 0.3rem 0.75rem; font-size: 0.9375rem; }
   .chip:hover { border-color: var(--color-ink); }
-  .chip[aria-pressed='true'] { background: var(--color-ink); color: white; border-color: var(--color-ink); }
-  .chip[aria-pressed='true'] span { color: #c9d0dc; }
+  .chip[aria-pressed='true'] { background: var(--color-ink); color: var(--color-paper); border-color: var(--color-ink); }
+  .chip[aria-pressed='true'] span { color: inherit; opacity: 0.7; }
 </style>
 
 <script>
@@ -90,14 +89,13 @@ const key = filter === 'subcategory' ? 'sub' : 'cat';
     let filter = '';
     const num = (el: HTMLElement, k: string) => Number(el.dataset[k]);
     const compare: Record<string, (a: HTMLElement, b: HTMLElement) => number> = {
-      klaim: (a, b) => num(b, 'claimed') - num(a, 'claimed'),
-      hemat: (a, b) => num(b, 'saving') - num(a, 'saving') || num(b, 'claimed') - num(a, 'claimed'),
-      lebay: (a, b) => num(b, 'gap') - num(a, 'gap') || num(b, 'claimed') - num(a, 'claimed'),
+      pasar: (a, b) => num(b, 'market') - num(a, 'market') || num(b, 'claimed') - num(a, 'claimed'),
+      diskon: (a, b) => num(b, 'claimed') - num(a, 'claimed'),
       satuan: (a, b) => (a.dataset.unitlabel!).localeCompare(b.dataset.unitlabel!) || num(a, 'unit') - num(b, 'unit'),
       berakhir: (a, b) => a.dataset.expires!.localeCompare(b.dataset.expires!),
     };
     function apply() {
-      const sorted = [...rows].sort(compare[select.value] ?? compare.klaim);
+      const sorted = [...rows].sort(compare[select.value] ?? compare.pasar);
       let shown = 0;
       for (const r of sorted) {
         const visible = !filter || r.dataset[key] === filter;

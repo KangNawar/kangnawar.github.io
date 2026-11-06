@@ -7,7 +7,7 @@ const path = Astro.url.pathname;
 const nav = [
   { href: '/kategori/', label: 'Kategori' },
   { href: '/cara-kerja/', label: 'Cara menilai' },
-  { href: '/kirim/', label: 'Kirim harga' },
+  { href: '/panduan/', label: 'Tambah harga' },
 ];
 ---
 <!doctype html>
@@ -22,7 +22,11 @@ const nav = [
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:locale" content="id_ID" />
-    <meta name="theme-color" content="#17233b" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0e1524" media="(prefers-color-scheme: dark)" />
+    <script is:inline>
+      try { const t = localStorage.getItem('kn-tema'); if (t === 'dark' || t === 'light') document.documentElement.dataset.theme = t; } catch (e) {}
+    </script>
   </head>
   <body class="min-h-dvh flex flex-col">
     <a href="#isi" class="sr-only focus:not-sr-only focus:absolute focus:m-2 focus:p-2 focus:bg-tag">Langsung ke isi</a>
@@ -38,6 +42,10 @@ const nav = [
             ))}
           </ul>
         </nav>
+        <button type="button" id="tema" class="order-2 sm:order-none inline-grid place-items-center size-9 rounded-full border border-line hover:border-ink" aria-label="Mode gelap" aria-pressed="false">
+          <svg class="tema-gelap" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+          <svg class="tema-terang hidden" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        </button>
         <a href="/cari/" class="inline-flex items-center gap-1.5 rounded-full border border-line px-3 py-1.5 text-[0.9375rem] hover:border-ink">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
           Cari produk
@@ -56,9 +64,28 @@ const nav = [
         <ul class="flex gap-4 sm:justify-end">
           <li><a class="hover:underline" href="/tentang/">Tentang</a></li>
           <li><a class="hover:underline" href="/cara-kerja/">Cara menilai</a></li>
-          <li><a class="hover:underline" href="/kirim/">Kirim harga</a></li>
+          <li><a class="hover:underline" href="/panduan/">Tambah harga</a></li>
         </ul>
       </div>
     </footer>
+    <script>
+      const btn = document.getElementById('tema')!;
+      const media = matchMedia('(prefers-color-scheme: dark)');
+      const isDark = () => (document.documentElement.dataset.theme ?? (media.matches ? 'dark' : 'light')) === 'dark';
+      function sync() {
+        const dark = isDark();
+        btn.setAttribute('aria-pressed', String(dark));
+        btn.querySelector('.tema-gelap')!.classList.toggle('hidden', dark);
+        btn.querySelector('.tema-terang')!.classList.toggle('hidden', !dark);
+      }
+      btn.addEventListener('click', () => {
+        const next = isDark() ? 'light' : 'dark';
+        document.documentElement.dataset.theme = next;
+        try { localStorage.setItem('kn-tema', next); } catch (e) {}
+        sync();
+      });
+      media.addEventListener('change', sync);
+      sync();
+    </script>
   </body>
 </html>

@@ -1,0 +1,17 @@
+{
+  "id": "2026-11-07_astro_kentang-curah",
+  "product": "kentang-curah",
+  "store": "astro",
+  "channel": "online",
+  "price": 22410,
+  "price_basis": {
+    "amount": 1000,
+    "unit": "g"
+  },
+  "seen_on": "2026-11-07",
+  "source": {
+    "type": "report",
+    "contributor": "Kang Nawar"
+  },
+  "notes": "Harga per kg di aplikasi Astro"
+}

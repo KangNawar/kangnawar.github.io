@@ -1,8 +1,8 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Verdict from '../../components/Verdict.astro';
-import Coret from '../../components/Coret.astro';
 import PriceChart from '../../components/PriceChart.astro';
+import Thumb from '../../components/Thumb.astro';
 import { db, categoryOf } from '../../lib/data';
 import { rupiah, pct, tanggal, rentang, ukuran, satuan, productName } from '../../lib/format';
 
@@ -10,14 +10,22 @@ export function getStaticPaths() {
   return [...db().products.values()].map((p) => ({ params: { id: p.id }, props: { p } }));
 }
 const { p } = Astro.props;
+const { storeMap } = db();
 const sightings = db().byProduct.get(p.id) ?? [];
 const { category, sub } = categoryOf(p);
 const dates = new Set(sightings.map((s) => s.seen_on));
+const storeCount = new Set(sightings.map((s) => s.store)).size;
 const unit = sightings[0] ? satuan(sightings[0].unit_label) : '';
 const lowest = sightings.length ? sightings.reduce((a, b) => (b.unit_price < a.unit_price ? b : a)) : null;
 const title = productName(p);
+const sourceLine = (s: (typeof sightings)[number]) => {
+  const src = s.raw.source;
+  if (src.document) return src.document;
+  if (src.type === 'report') return `Laporan${src.contributor ? ` dari ${src.contributor}` : ''}`;
+  return null;
+};
 ---
-<Base title={`${title} ${ukuran(p)}`} description={`Riwayat harga ${title} ${ukuran(p)} di berbagai toko, dihitung per satuan.`}>
+<Base title={`${title} ${ukuran(p)}`} description={`Harga ${title} ${ukuran(p)} di berbagai toko, dibandingkan per satuan.`}>
   <nav aria-label="Jejak" class="mt-8 text-[0.9375rem] text-slate">
     <ol class="flex flex-wrap gap-x-2">
       <li><a href="/kategori/" class="hover:underline">Kategori</a></li>
@@ -27,27 +35,34 @@ const title = productName(p);
       <li>{sub.name}</li>
     </ol>
   </nav>
-  <h1 class="text-[2rem] sm:text-[2.5rem] font-extrabold tracking-tight leading-tight mt-1">{title}</h1>
-  <p class="text-[1.125rem] text-slate">{ukuran(p)}{p.variant && `, ${p.variant}`}</p>
+  <div class="flex items-center gap-4 mt-3">
+    <Thumb p={p} size={80} />
+    <div class="min-w-0">
+      <h1 class="text-[1.875rem] sm:text-[2.5rem] font-extrabold tracking-tight leading-tight">{title}</h1>
+      <p class="text-[1.125rem] text-slate">{ukuran(p)}{p.variant && `, ${p.variant}`}</p>
+    </div>
+  </div>
 
-  {lowest && (
+  {lowest && storeCount > 1 && (
     <p class="mt-6 text-[1.125rem]">
-      Harga terendah yang tercatat: <strong class="harga">{rupiah(lowest.unit_price)}{unit}</strong>{' '}di {lowest.storeData.name}, {tanggal(lowest.seen_on, true)}.
+      Paling murah yang tercatat: <strong class="harga angka">{rupiah(lowest.unit_price)}{unit}</strong>{' '}di {lowest.storeData.name}{lowest.raw.channel === 'online' && ' (online)'}, {tanggal(lowest.seen_on, true)}.
     </p>
   )}
 
   <section class="mt-10" aria-labelledby="riwayat">
-    <h2 id="riwayat" class="text-[1.375rem] font-bold tracking-tight">Catatan harga</h2>
-    {dates.size >= 2 ? <PriceChart items={sightings} /> : (
+    <h2 id="riwayat" class="text-[1.375rem] font-bold tracking-tight">Harga di berbagai toko</h2>
+    {dates.size >= 2 && <PriceChart items={sightings} />}
+    {storeCount < 2 && (
       <p class="text-slate mt-1 max-w-prose">
-        Baru ada {sightings.length} catatan harga, jadi belum bisa dinilai. Pernah lihat produk ini di toko lain, atau dengan harga biasa?{' '}
-        <a href="/kirim/" class="underline">Kirim harganya</a>; tiga catatan sudah cukup untuk penilaian pertama.
+        Baru tercatat di {sightings[0]?.storeData.name ?? 'satu toko'}, jadi belum bisa dibandingkan. Pernah lihat produk ini di toko lain?{' '}
+        <a href="/panduan/" class="underline">Kirim harganya</a>; satu harga dari toko lain sudah cukup untuk perbandingan pertama.
       </p>
     )}
     <ul class="mt-4 border-t-2 border-ink">
       {sightings.map((s) => {
         const raw = s.raw;
         const qty = raw.quantity ?? 1;
+        const other = s.cheaper_elsewhere ? storeMap.get(s.cheaper_elsewhere.store) : null;
         return (
           <li class="py-4 border-b border-line grid grid-cols-[1fr_auto] gap-x-4 gap-y-1">
             <div>
@@ -55,26 +70,32 @@ const title = productName(p);
               <p class="text-[0.9375rem] text-slate">
                 Dilihat {tanggal(s.seen_on, true)}{raw.valid_until && `, berlaku ${rentang(raw.valid_from, raw.valid_until)}`}
               </p>
-              {raw.promo && (
+              {raw.promo ? (
                 <p class="text-[0.9375rem] mt-1">
                   {s.promoName}{raw.promo.label && raw.promo.label !== s.promoName && `: ${raw.promo.label}`}
                   {raw.promo.member_only && '. Khusus member'}
                   {raw.promo.min_purchase && `. Min. belanja ${rupiah(raw.promo.min_purchase)}`}
                 </p>
+              ) : <p class="text-[0.9375rem] mt-1">Harga biasa</p>}
+              {s.claimed_discount_pct !== null && s.claimed_discount_pct > 0 && (
+                <p class="text-[0.875rem] text-slate mt-1">
+                  Diskon dari harga coret toko: {pct(s.claimed_discount_pct)}{s.badge_gap_pct && ` (label menulis ${s.badge_pct}%)`}.
+                </p>
               )}
-              {s.badge_overstated_pct && (
-                <p class="mt-1 text-[0.9375rem]">Label: <Coret weight={3}>Diskon {s.badge_pct}%</Coret> <span class="font-hand text-coret text-[1.125rem] ml-1 inline-block -rotate-3">aslinya {pct(s.claimed_discount_pct!)}</span></p>
+              {other && (
+                <p class="catatan text-[1.1875rem] mt-1">di {other.name} {rupiah(s.cheaper_elsewhere!.unit_price)}{unit}, hemat {pct(s.cheaper_elsewhere!.saving_pct)}</p>
               )}
               {raw.notes && <p class="text-[0.875rem] text-slate mt-1">{raw.notes}</p>}
               <p class="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1">
-                <Verdict verdict={s.verdict} label={s.verdict_label} />
-                {raw.source.image && <a class="text-[0.875rem] underline" href={`/${raw.source.image}`}>Lihat bukti ({raw.source.type === 'catalogue' ? 'halaman katalog' : 'foto'})</a>}
+                {!['belum-ada-pembanding', 'harga-reguler', 'lebih-murah-di-tempat-lain'].includes(s.verdict) && <Verdict verdict={s.verdict} label={s.verdict_label} />}
+                {sourceLine(s) && <span class="text-[0.875rem] text-slate">Sumber: {sourceLine(s)}</span>}
+                {raw.source.image && <a class="text-[0.875rem] underline" href={`/${raw.source.image}`}>Lihat foto</a>}
                 {raw.source.url && <a class="text-[0.875rem] underline" href={raw.source.url} rel="nofollow noopener">Sumber</a>}
               </p>
             </div>
             <div class="text-right angka">
               <p class="text-[1.25rem] font-bold"><span class="harga">{rupiah(raw.price)}</span></p>
-              {(raw.price_basis || qty > 1) && <p class="text-[0.8125rem] text-slate">{raw.price_basis ? `per ${raw.price_basis.amount} ${raw.price_basis.unit}` : `untuk ${qty}`}</p>}
+              {(raw.price_basis || qty > 1) && <p class="text-[0.8125rem] text-slate">{raw.price_basis ? (raw.price_basis.amount === 1000 ? 'per kg' : `per ${raw.price_basis.amount} ${raw.price_basis.unit}`) : `untuk ${qty}`}</p>}
               {raw.claimed_normal_price && <p class="text-[0.9375rem] text-slate line-through">{rupiah(raw.claimed_normal_price * (raw.price_basis ? 1 : qty))}</p>}
               <p class="text-[0.8125rem] text-slate mt-1">{rupiah(s.unit_price)}{unit}</p>
             </div>
@@ -82,8 +103,5 @@ const title = productName(p);
         );
       })}
     </ul>
-    {sightings.some((s) => s.cheaper_elsewhere) && (
-      <p class="mt-4 text-[0.9375rem]">Ada catatan yang lebih murah di toko lain dalam 14 hari; lihat label "Lebih murah di tempat lain".</p>
-    )}
   </section>
 </Base>

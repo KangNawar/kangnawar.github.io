@@ -150,7 +150,8 @@
             "screenshot",
             "catalogue",
             "receipt",
-            "link"
+            "link",
+            "report"
           ]
         },
         "url": {
@@ -166,6 +167,11 @@
           "description": "Name or handle to credit; never an email or phone number",
           "type": "string",
           "maxLength": 40
+        },
+        "document": {
+          "description": "Human reference to evidence kept outside the repo, e.g. 'Katalog Super Indo Ed. 45, hal. 1'",
+          "type": "string",
+          "maxLength": 120
         }
       }
     },

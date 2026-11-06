@@ -11,8 +11,8 @@ by hand before import. Shape:
   "batch": "superindo-2026-45",
   "defaults": {"store": "superindo", "channel": "offline", "city": "...",
                "seen_on": "2026-11-06", "valid_from": "...", "valid_until": "...",
-               "source_type": "catalogue", "contributor": "Kang Nawar"},
-  "pages": {"1": "pages/p01.jpg", ...},          # evidence, relative to the batch file
+               "source_type": "catalogue", "contributor": "Kang Nawar",
+               "document": "Katalog Super Indo Ed. 45"},   # + ", hal. <page>" per item
   "items": [ {item}, ... ],
   "skipped": [ {"page": 1, "text": "...", "reason": "..."} ]
 }
@@ -31,7 +31,12 @@ Item keys
   promo         promo type id; default: "diskon" if badge, "harga-spesial" if `was`, else none
   badge         % printed on the badge ("Diskon 25%" -> 25)
   label         promo text as printed
-  member, min_purchase, valid_from, valid_until, notes, pid (product id override)
+  member, min_purchase, valid_from, valid_until, notes
+  pid           use an EXISTING product id. Same brand + line + size = same product,
+                whatever the scent or flavour; check the duplicate hints this tool prints.
+
+Catalogue pages stay in inbox/ as private evidence; only a text reference
+("Katalog Super Indo Ed. 45, hal. 3") goes into the data.
 """
 from __future__ import annotations
 
@@ -42,9 +47,8 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from image_prep import encode, flatten, slugify  # noqa: E402
+from image_prep import slugify  # noqa: E402
 from kn_data import REPO_ROOT, read_json  # noqa: E402
-from PIL import Image  # noqa: E402
 
 UNBRANDED = "Tanpa Merek"
 SIZE_RE = re.compile(r"^(?:(\d+)\s*x\s*)?(\d+(?:[.,]\d+)?)\s*(kg|g|gr|l|ml|pcs|s|sheet|lembar)$", re.I)
@@ -101,7 +105,7 @@ def build_product(item: dict) -> dict:
     return product
 
 
-def build_observation(item: dict, product: dict, d: dict, evidence: str | None) -> dict:
+def build_observation(item: dict, product: dict, d: dict, document: str | None) -> dict:
     obs = {"id": None, "product": product["id"], "store": item.get("store", d["store"]),
            "channel": item.get("channel", d["channel"])}
     city = item.get("city", d.get("city"))
@@ -135,8 +139,8 @@ def build_observation(item: dict, product: dict, d: dict, evidence: str | None) 
         if value:
             obs[key] = value
     source = {"type": d.get("source_type", "catalogue")}
-    if evidence:
-        source["image"] = evidence
+    if document:
+        source["document"] = document
     if d.get("contributor"):
         source["contributor"] = d["contributor"]
     obs["source"] = source
@@ -144,6 +148,28 @@ def build_observation(item: dict, product: dict, d: dict, evidence: str | None) 
     if notes:
         obs["notes"] = notes[:280]
     return obs
+
+
+def _words(text: str) -> set[str]:
+    return {w for w in slugify(text).split("-") if len(w) > 2}
+
+
+def similar_products(new: dict, existing: dict) -> list[str]:
+    """Existing products that are probably the same thing (frugal rule: one product per
+    brand + line + size, variants merged). Same brand, same size and half the name words."""
+    out = []
+    nw = _words(new["name"])
+    for pid, old in existing.items():
+        if old.get("brand", "").lower() != new["brand"].lower():
+            continue
+        same_size = (old["size"] == new["size"] and old.get("pack_count", 1) == new.get("pack_count", 1)) \
+            or (old.get("loose") and new.get("loose"))
+        if not same_size:
+            continue
+        ow = _words(old["name"])
+        if nw and ow and len(nw & ow) / min(len(nw), len(ow)) >= 0.5:
+            out.append(pid)
+    return out
 
 
 def write_json(path: Path, rec: dict):
@@ -154,21 +180,14 @@ def write_json(path: Path, rec: dict):
 def run(batch_path: Path, root: Path, dry_run: bool) -> int:
     batch = read_json(batch_path)
     d = batch["defaults"]
-    year = d["seen_on"][:4]
-    rules = read_json(root / "data" / "rules.json")
+    existing_products = {p.stem: read_json(p) for p in (root / "data" / "products").glob("*.json")}
+    hints = []
 
-    # Evidence pages
-    evidence: dict[str, str] = {}
-    for page, rel in batch.get("pages", {}).items():
-        target_rel = f"img/evidence/{year}/{batch['batch']}-p{int(page):02d}.webp"
-        evidence[str(page)] = target_rel
-        if not dry_run:
-            with Image.open(batch_path.parent / rel) as im:
-                data, q, size = encode(flatten(im), 1200, rules.get("max_catalogue_page_kb", 150))
-            target = root / "public" / target_rel
-            target.parent.mkdir(parents=True, exist_ok=True)
-            target.write_bytes(data)
-            print(f"page {page}: {target_rel} {len(data)/1024:.0f} KB q{q}")
+    def document_for(item):
+        doc = d.get("document")
+        if doc and item.get("page"):
+            return f"{doc}, hal. {item['page']}"
+        return doc
 
     products_dir = root / "data" / "products"
     new_products = reused = 0
@@ -190,11 +209,14 @@ def run(batch_path: Path, root: Path, dry_run: bool) -> int:
             reused += 1
         elif product["id"] not in used_ids:
             new_products += 1
+            for other in similar_products(product, existing_products):
+                hints.append(f"item {n}: new '{product['id']}' looks like existing '{other}'. "
+                             f"Same product? Set \"pid\": \"{other}\" in the batch.")
             if not dry_run:
                 write_json(ppath, product)
         used_ids.add(product["id"])
 
-        obs = build_observation(item, product, d, evidence.get(str(item.get("page"))))
+        obs = build_observation(item, product, d, document_for(item))
         base = f"{obs['seen_on']}_{obs['store']}_{product['id']}"
         oid, k = base, 1
         obs_dir = root / "data" / "observations" / obs["seen_on"][:4] / obs["seen_on"][5:7]
@@ -208,6 +230,8 @@ def run(batch_path: Path, root: Path, dry_run: bool) -> int:
 
     print(f"\n{batch['batch']}: {len(observations)} observations, {new_products} new products, "
           f"{reused} existing products, {len(batch.get('skipped', []))} skipped in extraction")
+    for h in hints:
+        print(f"CHECK   {h}")
     for p in problems:
         print(f"PROBLEM {p}")
     if dry_run:

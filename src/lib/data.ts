@@ -20,10 +20,9 @@ export interface RawObs {
 export interface Computed {
   id: string; product: string; store: string; channel: string; seen_on: string; is_promo: boolean;
   effective_pack_price: number; unit_price: number; unit_label: string;
-  reference_unit_price: number | null; reference_count: number;
-  real_saving_pct: number | null; claimed_discount_pct: number | null; deception_gap_pct: number | null;
-  badge_pct: number | null; badge_overstated_pct: number | null;
-  cheaper_elsewhere: { id: string; store: string; channel: string; unit_price: number } | null;
+  market_unit_price: number | null; market_stores: string[]; market_count: number; vs_market_pct: number | null;
+  claimed_discount_pct: number | null; badge_pct: number | null; badge_gap_pct: number | null;
+  cheaper_elsewhere: { id: string; store: string; channel: string; seen_on: string; unit_price: number; saving_pct: number } | null;
   verdict: string; verdict_label: string; expires_on: string | null; expired: boolean;
 }
 export interface Store { id: string; name: string; type: string; channels: string[] }

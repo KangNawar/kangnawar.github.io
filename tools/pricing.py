@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
-"""Unit prices and verdicts for every price observation.
+"""Unit prices and market comparisons for every price observation.
 
 Run:  python tools/pricing.py [--root DIR] [--today YYYY-MM-DD] [--out build/computed.json]
 
-The site build runs this first and reads build/computed.json, so the verdict
-logic lives in exactly one place. Rules and thresholds: docs/VERDICTS.md and
-data/rules.json.
+The question Kang Nawar answers is "is this cheaper than elsewhere?", so a promo
+is compared with the MARKET PRICE: what OTHER stores charged for the same product
+recently, per unit. The store's own strikethrough price is shown as the store's
+claim, never as the yardstick. Rules: docs/VERDICTS.md, thresholds: data/rules.json.
 """
 from __future__ import annotations
 
@@ -19,29 +20,28 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from kn_data import REPO_ROOT, load  # noqa: E402
 
-# Verdict ids (the site maps these to labels and colours)
-FAKE = "diskon-palsu"
 ELSEWHERE = "lebih-murah-di-tempat-lain"
 REAL = "hemat-beneran"
-NORMAL = "biasa-aja"
-PRICIER = "lebih-mahal"
-NO_DATA = "belum-cukup-data"
-REGULAR = "harga-reguler"  # not a promo: no verdict, but it feeds every reference price
+MARKET = "sesuai-harga-pasar"
+ABOVE = "di-atas-harga-pasar"
+NO_COMPARE = "belum-ada-pembanding"
+REGULAR = "harga-reguler"  # not a promo: no verdict, but it is part of other products' market price
 
 VERDICT_LABELS = {
-    FAKE: "Diskon palsu",
     ELSEWHERE: "Lebih murah di tempat lain",
     REAL: "Hemat beneran",
-    NORMAL: "Biasa aja",
-    PRICIER: "Lebih mahal dari biasanya",
-    NO_DATA: "Belum cukup data",
+    MARKET: "Sesuai harga pasar",
+    ABOVE: "Di atas harga pasar",
+    NO_COMPARE: "Belum ada pembanding",
     REGULAR: "Harga reguler",
 }
 
 
 def unit_basis(product: dict) -> tuple[float, str]:
-    """(multiplier, label). Liquids and weights compare per 100 ml/g, counts per item."""
+    """(multiplier, label). Loose goods per kg, other weights/volumes per 100, counts per item."""
     unit = product["size"]["unit"]
+    if product.get("loose") and unit == "g":
+        return 1000.0, "per kg"
     if unit in ("ml", "g"):
         return 100.0, f"per 100 {unit}"
     return 1.0, "per pcs" if unit == "pcs" else "per lembar"
@@ -84,58 +84,50 @@ def pct(x: float | None) -> float | None:
 
 
 def evaluate(obs: dict, product: dict, siblings: list[dict], rules: dict, today: date) -> dict:
-    """Verdict for one observation. `siblings` = all OTHER observations of the same product."""
+    """Comparison for one observation. `siblings` = all OTHER observations of the same product."""
     seen = date.fromisoformat(obs["seen_on"])
     up = unit_price(obs, product)
     claimed_up = claimed_unit_price(obs, product)
     _, unit_label = unit_basis(product)
 
-    # Reference: other sightings from 90 days before up to 14 days after this one.
-    lo = seen - timedelta(days=rules["reference_window_days"])
+    # Market: other stores, from `market_window_days` before to `elsewhere_window_days` after.
+    lo = seen - timedelta(days=rules["market_window_days"])
     hi = seen + timedelta(days=rules["elsewhere_window_days"])
-    ref = [s for s in siblings if lo <= date.fromisoformat(s["seen_on"]) <= hi]
-    ref_prices = [unit_price(s, product) for s in ref]
-    reference = statistics.median(ref_prices) if ref_prices else None
-    max_seen = max(ref_prices) if ref_prices else None
+    market_obs = [s for s in siblings
+                  if s["store"] != obs["store"] and lo <= date.fromisoformat(s["seen_on"]) <= hi]
+    market_prices = [unit_price(s, product) for s in market_obs]
+    market = statistics.median(market_prices) if market_prices else None
 
-    # Cheaper elsewhere: another store or channel within +-14 days, lower by more than the margin.
-    near = [
-        s for s in ref
-        if abs((date.fromisoformat(s["seen_on"]) - seen).days) <= rules["elsewhere_window_days"]
-        and (s["store"], s["channel"]) != (obs["store"], obs["channel"])
-    ]
+    near = [s for s in market_obs
+            if abs((date.fromisoformat(s["seen_on"]) - seen).days) <= rules["elsewhere_window_days"]]
     cheaper = None
     if near:
         best = min(near, key=lambda s: unit_price(s, product))
         if unit_price(best, product) < up * (1 - rules["elsewhere_margin_pct"] / 100):
             cheaper = best
 
-    real_saving = None if reference is None else 1 - up / reference
+    vs_market = None if market is None else 1 - up / market
     claimed_discount = None if claimed_up is None else 1 - up / claimed_up
+
     badge_pct = (obs.get("promo") or {}).get("claimed_pct")
-    badge_overstated = None
+    badge_gap = None
     if badge_pct is not None and claimed_discount is not None:
         gap = badge_pct - claimed_discount * 100
         if gap > rules.get("badge_tolerance_pct", 3):
-            badge_overstated = round(gap, 1)
-    deception_gap = None
-    if claimed_discount is not None and real_saving is not None:
-        deception_gap = claimed_discount - real_saving
+            badge_gap = round(gap, 1)
 
     if not is_promo(obs):
         verdict = REGULAR
-    elif len(ref) + 1 < rules["min_observations"]:
-        verdict = NO_DATA
-    elif claimed_up is not None and claimed_up > max_seen * (1 + rules["fake_markup_pct"] / 100):
-        verdict = FAKE
     elif cheaper is not None:
         verdict = ELSEWHERE
-    elif real_saving >= rules["real_deal_pct"] / 100:
+    elif market is None or len(market_obs) < rules["min_market_sightings"]:
+        verdict = NO_COMPARE
+    elif vs_market >= rules["real_deal_pct"] / 100:
         verdict = REAL
-    elif real_saving <= -rules["pricier_pct"] / 100:
-        verdict = PRICIER
+    elif vs_market <= -rules["pricier_pct"] / 100:
+        verdict = ABOVE
     else:
-        verdict = NORMAL
+        verdict = MARKET
 
     expires_on = None
     if is_promo(obs):
@@ -151,18 +143,20 @@ def evaluate(obs: dict, product: dict, siblings: list[dict], rules: dict, today:
         "effective_pack_price": round(effective_pack_price(obs)),
         "unit_price": round(up, 2),
         "unit_label": unit_label,
-        "reference_unit_price": None if reference is None else round(reference, 2),
-        "reference_count": len(ref),
-        "real_saving_pct": pct(real_saving),
+        "market_unit_price": None if market is None else round(market, 2),
+        "market_stores": sorted({s["store"] for s in market_obs}),
+        "market_count": len(market_obs),
+        "vs_market_pct": pct(vs_market),
         "claimed_discount_pct": pct(claimed_discount),
-        "deception_gap_pct": pct(deception_gap),
         "badge_pct": badge_pct,
-        "badge_overstated_pct": badge_overstated,
+        "badge_gap_pct": badge_gap,
         "cheaper_elsewhere": None if cheaper is None else {
             "id": cheaper["id"],
             "store": cheaper["store"],
             "channel": cheaper["channel"],
+            "seen_on": cheaper["seen_on"],
             "unit_price": round(unit_price(cheaper, product), 2),
+            "saving_pct": pct(1 - unit_price(cheaper, product) / up),
         },
         "verdict": verdict,
         "verdict_label": VERDICT_LABELS[verdict],
@@ -187,14 +181,14 @@ def compute(ds, today: date | None = None) -> dict:
             siblings = [o for o in items if o is not obs]
             results.append(evaluate(obs, product, siblings, rules, today))
 
-        recent_cut = today - timedelta(days=rules["reference_window_days"])
+        recent_cut = today - timedelta(days=rules["market_window_days"])
         recent = [o for o in items if date.fromisoformat(o["seen_on"]) >= recent_cut]
         prices = [unit_price(o, product) for o in recent]
         summaries[pid] = {
             "observations": len(items),
+            "stores": sorted({o["store"] for o in items}),
             "last_seen": max(o["seen_on"] for o in items),
-            "lowest_unit_price_90d": round(min(prices), 2) if prices else None,
-            "median_unit_price_90d": round(statistics.median(prices), 2) if prices else None,
+            "lowest_unit_price_recent": round(min(prices), 2) if prices else None,
             "unit_label": unit_basis(product)[1],
         }
 
@@ -228,9 +222,10 @@ def main(argv=None) -> int:
     print(f"{len(data['observations'])} observations, {len(data['products'])} products -> {out}")
     for k, v in sorted(counts.items(), key=lambda kv: -kv[1]):
         print(f"  {VERDICT_LABELS[k]:<28} {v}")
-    flagged = [r for r in data["observations"] if r["badge_overstated_pct"]]
-    if flagged:
-        print(f"  Badge % higher than the tag  {len(flagged)}")
+    for r in data["observations"]:
+        if r["cheaper_elsewhere"]:
+            c = r["cheaper_elsewhere"]
+            print(f"  cheaper elsewhere: {r['product']} at {r['store']} -> {c['store']} ({c['saving_pct']}% less)")
     return 0
 
 

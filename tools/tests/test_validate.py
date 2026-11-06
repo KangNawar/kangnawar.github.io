@@ -97,7 +97,7 @@ class ValidateTests(unittest.TestCase):
         Image.frombytes("RGB", (900, 900), os.urandom(900 * 900 * 3)).save(
             img_dir / "p-big.webp", "WEBP", quality=100)
         self.repo.product("p-big", image="img/products/p-big.webp")
-        self.assertErrorLike("limit 60 KB")
+        self.assertErrorLike("limit 20 KB")
 
 
 if __name__ == "__main__":

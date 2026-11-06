@@ -1,0 +1,49 @@
+---
+// Product photo if we have one; otherwise a brand monogram, or a category icon for unbranded food.
+import type { Product } from '../lib/data';
+interface Props { p: Product; size?: number }
+const { p, size = 48 } = Astro.props;
+
+const ICONS: Record<string, string> = {
+  'produk-segar': 'M12 8c-3-3-8-1-8 4 0 5 4 9 8 9s8-4 8-9c0-5-5-7-8-4zM12 8c0-2 1-4 3-5',
+  'perawatan-wajah': 'M12 3c3 4 6 7 6 11a6 6 0 0 1-12 0c0-4 3-7 6-11z',
+  'perawatan-tubuh-rambut': 'M8.5 9h7v11a1 1 0 0 1-1 1h-5a1 1 0 0 1-1-1zM10 9V6h4v3M12 6V3.5h3.5',
+  'kosmetik': 'M9 21h6v-8H9zM10 13V7.5L14 4v9',
+  'kesehatan': 'M4 12a8 8 0 1 0 16 0a8 8 0 1 0-16 0M12 8v8M8 12h8',
+  'ibu-bayi': 'M9 10h6v9a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2zM10 10V7h4v3M11 7c0-2 .5-4 1-4s1 2 1 4',
+  'makanan-minuman': 'M5 9h11v5a5.5 5.5 0 0 1-11 0zM16 10.5h1.5a2 2 0 0 1 0 4H16M8 3.5v2.5M11 3.5v2.5M14 3.5v2.5',
+  'sembako': 'M7 8h10l2 12.5H5zM9 8V4.5h6V8M9.5 13h5',
+  'kebutuhan-rumah': 'M8 10h7v10a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1zM9 10V7h4.5l3-2v3.5h-3M18.5 5.5h2M18.5 8.5h2',
+  'elektronik': 'M8 3h8v18H8zM11 18h2',
+  'hewan-peliharaan': 'M7 19c0-3 2.2-5.5 5-5.5s5 2.5 5 5.5zM6 11a1.6 1.6 0 1 0 3.2 0a1.6 1.6 0 1 0-3.2 0M14.8 11a1.6 1.6 0 1 0 3.2 0a1.6 1.6 0 1 0-3.2 0M9 7a1.6 1.6 0 1 0 3.2 0a1.6 1.6 0 1 0-3.2 0M11.8 7a1.6 1.6 0 1 0 3.2 0a1.6 1.6 0 1 0-3.2 0',
+};
+
+function initials(brand: string) {
+  const words = brand.replace(/[^\p{L}\p{N}\s&]/gu, '').split(/[\s&]+/).filter(Boolean);
+  if (/^\d+$/.test(words[0] ?? '')) return words[0].slice(0, 3);
+  if (words.length >= 2) return (words[0][0] + words[1][0]).toUpperCase();
+  const w = words[0] ?? '?';
+  return w[0].toUpperCase() + (w[1] ?? '').toLowerCase();
+}
+function hue(s: string) {
+  let h = 0;
+  for (const c of s) h = (h * 31 + c.charCodeAt(0)) % 360;
+  return h;
+}
+const unbranded = p.brand === 'Tanpa Merek';
+const radius = Math.round(size / 4.5);
+---
+{p.image ? (
+  <img src={`/${p.image}`} alt="" width={size} height={size} loading="lazy" decoding="async"
+    class="shrink-0 object-cover bg-mist" style={`width:${size}px;height:${size}px;border-radius:${radius}px`} />
+) : unbranded ? (
+  <span class="shrink-0 grid place-items-center bg-mist text-slate" style={`width:${size}px;height:${size}px;border-radius:${radius}px`} aria-hidden="true">
+    <svg width={size * 0.5} height={size * 0.5} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d={ICONS[p.category] ?? ICONS['sembako']} />
+    </svg>
+  </span>
+) : (
+  <span class="mono shrink-0 grid place-items-center font-extrabold tracking-tight"
+    style={`--h:${hue(p.brand)};width:${size}px;height:${size}px;border-radius:${radius}px;font-size:${size * (initials(p.brand).length > 2 ? 0.3 : 0.38)}px`}
+    aria-hidden="true">{initials(p.brand)}</span>
+)}

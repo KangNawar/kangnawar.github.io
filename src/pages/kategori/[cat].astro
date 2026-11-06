@@ -17,6 +17,6 @@ const allProducts = [...db().products.values()].filter((p) => p.category === cat
   {items.length > 0 ? (
     <PromoList items={items} filter="subcategory" />
   ) : (
-    <p class="py-8 max-w-prose">Belum ada promo yang tercatat di kategori ini. Lihat harga {cat.name.toLowerCase()} di toko? <a href="/kirim/" class="underline">Kirim harganya</a>.</p>
+    <p class="py-8 max-w-prose">Belum ada promo yang tercatat di kategori ini. Lihat harga {cat.name.toLowerCase()} di toko? <a href="/panduan/" class="underline">Kirim harganya</a>.</p>
   )}
 </Base>

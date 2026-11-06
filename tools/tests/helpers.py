@@ -28,7 +28,8 @@ class TempRepo:
     def product(self, pid, amount=50, unit="ml", pack_count=1, **extra):
         rec = {"id": pid, "brand": "Contoh", "name": f"Produk {pid}",
                "size": {"amount": amount, "unit": unit},
-               "category": "perawatan-wajah", "subcategory": "pelembap", **extra}
+               "category": "perawatan-wajah", "subcategory": "pelembap"}
+        rec.update(extra)
         if pack_count != 1:
             rec["pack_count"] = pack_count
         self._write(self.root / "data" / "products" / f"{pid}.json", rec)

@@ -9,39 +9,61 @@
   --color-line: #e3e6ec;
   --color-mist: #f3f5f8;
   --color-tag: #ffe14d;
-  --color-coret: #d7261e;
+  --color-on-tag: #17233b;
+  --color-pen: #1f4fbf;
+  --color-coret: #c8321f;
   --color-hemat: #13795b;
   --font-sans: "Schibsted Grotesk Variable", ui-sans-serif, system-ui, sans-serif;
   --font-hand: "Kalam", "Comic Sans MS", cursive;
 }
 
+/* Dark: follows the phone/computer setting unless the visitor picked one */
 @layer base {
+  :root { color-scheme: light; --shadow: #17233b; --mono-l: 34%; }
+  :root[data-theme="dark"] {
+    color-scheme: dark; --shadow: #000000; --mono-l: 78%;
+    --color-paper: #0e1524; --color-ink: #e8ecf3; --color-slate: #9aa6ba; --color-line: #263149;
+    --color-mist: #172036; --color-pen: #93b2ff; --color-coret: #ff7a69; --color-hemat: #45c995;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark; --shadow: #000000; --mono-l: 78%;
+      --color-paper: #0e1524; --color-ink: #e8ecf3; --color-slate: #9aa6ba; --color-line: #263149;
+      --color-mist: #172036; --color-pen: #93b2ff; --color-coret: #ff7a69; --color-hemat: #45c995;
+    }
+  }
   html { color: var(--color-ink); background: var(--color-paper); -webkit-text-size-adjust: 100%; }
   body { font-family: var(--font-sans); line-height: 1.5; }
   .angka { font-variant-numeric: lining-nums; }
-  :focus-visible { outline: 3px solid var(--color-ink); outline-offset: 2px; border-radius: 4px; }
-  ::selection { background: var(--color-tag); }
+  :focus-visible { outline: 3px solid var(--color-pen); outline-offset: 2px; border-radius: 4px; }
+  ::selection { background: var(--color-tag); color: var(--color-on-tag); }
   a { text-underline-offset: 3px; }
 }
 
 /* The shelf-tag highlighter behind a price */
 .harga {
   background: linear-gradient(transparent 12%, var(--color-tag) 12%, var(--color-tag) 88%, transparent 88%);
+  color: var(--color-on-tag);
   padding: 0 0.15em;
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
 }
 
-/* Hand-drawn strike: only ever used where the data shows a false claim */
-.coret { position: relative; display: inline-block; white-space: nowrap; }
-.coret > svg { position: absolute; inset: -10% -6%; width: 112%; height: 120%; overflow: visible; pointer-events: none; }
-.coret path { stroke: var(--color-coret); fill: none; stroke-linecap: round; stroke-linejoin: round; }
+/* A friend's pen note: "di Astro lebih murah" */
+.catatan { font-family: var(--font-hand); color: var(--color-pen); display: inline-block; transform: rotate(-2deg); }
 
-.coret-draw path { stroke-dasharray: 400; stroke-dashoffset: 400; animation: draw 0.55s 0.5s cubic-bezier(.6,.1,.3,1) forwards; }
-.tulis-draw { opacity: 0; animation: muncul 0.35s 1.05s ease-out forwards; }
+/* Brand monogram tile: hue per brand, readable in both themes */
+.mono {
+  background: color-mix(in oklab, hsl(var(--h) 65% 50%) 16%, var(--color-paper));
+  color: hsl(var(--h) 60% var(--mono-l));
+}
+
+.panah path { stroke: var(--color-pen); fill: none; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.panah-draw path { stroke-dasharray: 300; stroke-dashoffset: 300; animation: draw 0.6s 0.4s cubic-bezier(.6,.1,.3,1) forwards; }
+.tulis-draw { opacity: 0; animation: muncul 0.35s 0.95s ease-out forwards; }
 @keyframes draw { to { stroke-dashoffset: 0; } }
-@keyframes muncul { from { opacity: 0; transform: translateY(4px) rotate(-4deg); } to { opacity: 1; transform: rotate(-4deg); } }
+@keyframes muncul { from { opacity: 0; translate: 0 4px; } to { opacity: 1; translate: 0 0; } }
 @media (prefers-reduced-motion: reduce) {
-  .coret-draw path { animation: none; stroke-dashoffset: 0; }
-  .tulis-draw { animation: none; opacity: 1; transform: rotate(-4deg); }
+  .panah-draw path { animation: none; stroke-dashoffset: 0; }
+  .tulis-draw { animation: none; opacity: 1; }
 }

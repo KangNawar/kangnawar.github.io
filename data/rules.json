@@ -1,13 +1,12 @@
 {
-  "reference_window_days": 90,
+  "market_window_days": 30,
   "elsewhere_window_days": 14,
-  "min_observations": 3,
+  "min_market_sightings": 1,
   "real_deal_pct": 10,
   "pricier_pct": 10,
-  "fake_markup_pct": 15,
   "elsewhere_margin_pct": 3,
   "default_expiry_days": 14,
-  "max_image_kb": 60,
   "badge_tolerance_pct": 3,
-  "max_catalogue_page_kb": 150
+  "max_image_kb": 60,
+  "max_product_image_kb": 20
 }

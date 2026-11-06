@@ -1,61 +1,59 @@
-# How verdicts work
+# How comparisons work
 
-Every promo on Kang Nawar gets one verdict. It is computed from real price sightings
-by `tools/pricing.py`; nobody picks it by hand. Thresholds live in `data/rules.json`
-so they can be tuned without touching code.
+Kang Nawar answers one question: **is this cheaper than elsewhere?**
+Every promo is compared with the **market price**: what *other* stores charged for
+the same product recently. The store's own strikethrough price is shown as the
+store's claim, but it is never the yardstick. The tone is a friendly tip
+("di Astro lebih murah"), not an accusation.
 
-## 1. Everything is compared per unit
+Computed by `tools/pricing.py`; thresholds in `data/rules.json`.
 
-Packs differ, so every price becomes **Rp per 100 ml**, **Rp per 100 g**, or **Rp per item/sheet**.
+## 1. One product, many variants
+
+A product is **brand + line + size**. Scents, flavours and colours that the brand
+prices the same are the same product (Rinso Anti Noda 1,295 g is one product whatever
+the fragrance). A different size is a different product. When importing, the tools
+warn when a new item looks like an existing one.
+
+## 2. Everything is compared per unit
 
 ```
 effective pack price = (price paid - guaranteed cashback) / packs received
-unit price           = effective pack price / (size x pack_count) x 100   (ml, g)
-                     = effective pack price / (size x pack_count)         (pcs, sheet)
+unit price           = effective pack price / amount bought x basis
 ```
 
-Example: *Beli 2 Gratis 1* on a 50 ml tube for Rp 100.000 is 3 tubes,
-so Rp 33.333 a tube, so **Rp 66.667 per 100 ml**.
+Basis: **per kg** for loose goods (curah), **per 100 ml / 100 g** for packaged goods,
+**per item / sheet** for counts. Super Indo's kentang at Rp2.390 per 100 g is
+Rp23.900 per kg, so it can be compared with Astro's Rp22.410 per kg.
 
-## 2. The reference price
+## 3. Market price
 
-For each promo sighting we look at every *other* sighting of the same product,
-at any store, online or offline, from **90 days before** to **14 days after** it.
-The **reference price** is the median unit price of those sightings.
+The market price of a sighting is the median unit price of the same product at
+**other stores**, online or offline, from **30 days before to 14 days after** it.
+The same store's own earlier prices do not count as "market".
 
-Regular-price sightings (no promo) are what make this work. Recording "I saw it at
-the normal price today" is as useful as recording a sale.
-
-## 3. The verdict
+## 4. The verdict
 
 Checked in this order; the first that applies wins.
 
 | Verdict | When |
 | --- | --- |
-| **Belum cukup data** | Fewer than 3 sightings in the window (including this one). We show the price, no judgement. |
-| **Diskon palsu** | The store's claimed "normal" price is more than **15%** above the *highest* price anyone saw in the window. The price was inflated so the discount looks bigger. |
-| **Lebih murah di tempat lain** | Another store or channel had it more than **3%** cheaper per unit within **14 days**. |
-| **Hemat beneran** | At least **10%** below the reference price. |
-| **Lebih mahal dari biasanya** | At least **10%** *above* the reference price, even though it is labelled a promo. |
-| **Biasa aja** | Anything else: within 10% of the usual price. |
+| **Lebih murah di tempat lain** | Another store had it more than **3%** cheaper per unit within **14 days**. The site names the store and its price. |
+| **Belum ada pembanding** | No other store's price in the window yet. |
+| **Hemat beneran** | At least **10%** below the market price. |
+| **Di atas harga pasar** | At least **10%** above the market price. |
+| **Sesuai harga pasar** | Within 10% of the market price, whatever the label says. |
 
-Sightings without a promo get no verdict ("Harga reguler"); they feed the reference.
+Regular sightings (no promo) get no verdict ("Harga reguler"), but they are part of
+other stores' market price and they also show "lebih murah di ..." when relevant.
 
-## 4. Numbers shown next to a verdict
+## 5. The store's own label
 
-- **Real saving** = 1 - unit price / reference price. Used for the default sort, *Hemat beneran*.
-- **Claimed discount** = 1 - unit price / claimed normal unit price. What the shelf tag says.
-- **Deception gap** = claimed discount - real saving. Used for the *Paling menipu* sort.
-  A tag saying "30%" on something that is really 12% *more* expensive has a gap of 42 points.
+Shown quietly on the product page only: the discount the store claims against its
+strikethrough price, and, if the printed badge % is more than 3 points higher than
+that arithmetic, a neutral note. It does not affect the verdict.
 
-## 5. Expiry
+## 6. Expiry
 
-A promo expires on its `valid_until` date, or **14 days** after it was seen if no
-end date is known. Expired promos leave the home page but stay in price history.
-
-## 6. Fairness
-
-A verdict is a statement about a store, so every verdict must link to the sightings
-it was computed from (date, store, price, photo). Wording on the site is
-"menurut data kami" (according to our data). Anyone can report a wrong sighting,
-and corrected data changes the verdict on the next daily build.
+A promo expires on its `valid_until`, or 14 days after it was seen. Expired promos
+leave the home page but stay in price history and keep counting as market prices.

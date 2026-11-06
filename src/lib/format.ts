@@ -23,7 +23,7 @@ export function ukuran(p: { size: { amount: number; unit: string }; pack_count?:
   return p.pack_count && p.pack_count > 1 ? `${p.pack_count} × ${one}` : one;
 }
 export function satuan(label: string) {
-  return label.replace('per 100 ', '/100 ').replace('per pcs', '/pcs').replace('per lembar', '/lembar');
+  return label.replace('per 100 ', '/100 ').replace('per kg', '/kg').replace('per pcs', '/pcs').replace('per lembar', '/lembar');
 }
 export const productName = (p: { brand: string; name: string }) =>
   p.brand === 'Tanpa Merek' ? p.name : `${p.brand} ${p.name}`;

@@ -4,62 +4,57 @@
   "type": "object",
   "additionalProperties": false,
   "required": [
-    "reference_window_days",
+    "market_window_days",
     "elsewhere_window_days",
-    "min_observations",
+    "min_market_sightings",
     "real_deal_pct",
     "pricier_pct",
-    "fake_markup_pct",
     "elsewhere_margin_pct",
     "default_expiry_days",
-    "max_image_kb",
     "badge_tolerance_pct",
-    "max_catalogue_page_kb"
+    "max_image_kb",
+    "max_product_image_kb"
   ],
   "properties": {
-    "reference_window_days": {
+    "market_window_days": {
       "type": "integer",
-      "minimum": 7
+      "minimum": 1
     },
     "elsewhere_window_days": {
       "type": "integer",
       "minimum": 1
     },
-    "min_observations": {
+    "min_market_sightings": {
       "type": "integer",
-      "minimum": 2
+      "minimum": 1
     },
     "real_deal_pct": {
-      "type": "number",
-      "exclusiveMinimum": 0
+      "type": "integer",
+      "minimum": 1
     },
     "pricier_pct": {
-      "type": "number",
-      "exclusiveMinimum": 0
-    },
-    "fake_markup_pct": {
-      "type": "number",
-      "exclusiveMinimum": 0
+      "type": "integer",
+      "minimum": 1
     },
     "elsewhere_margin_pct": {
-      "type": "number",
-      "minimum": 0
+      "type": "integer",
+      "minimum": 1
     },
     "default_expiry_days": {
       "type": "integer",
       "minimum": 1
     },
+    "badge_tolerance_pct": {
+      "type": "integer",
+      "minimum": 1
+    },
     "max_image_kb": {
       "type": "integer",
-      "minimum": 10
+      "minimum": 1
     },
-    "badge_tolerance_pct": {
-      "type": "number",
-      "minimum": 0
-    },
-    "max_catalogue_page_kb": {
+    "max_product_image_kb": {
       "type": "integer",
-      "minimum": 10
+      "minimum": 1
     }
   }
 }
